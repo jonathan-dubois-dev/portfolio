@@ -1,0 +1,26 @@
+{
+  "name": "portfolio-jonathan-dubois",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "dev": "astro dev --port 4322",
+    "build": "astro build",
+    "preview": "astro preview --host 127.0.0.1 --port 4322",
+    "test": "vitest run",
+    "e2e": "astro build && playwright test",
+    "og": "node scripts/capturer-og.mjs",
+    "polices": "node scripts/rapatrier-polices.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^6.4.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "typescript": "^5.6.0",
+    "vitest": "^3.2.0",
+    "yaml": "^2.6.0"
+  }
+}
