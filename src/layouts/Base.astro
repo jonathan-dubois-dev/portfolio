@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/polices.css";
 
 interface Props {
   title: string;
@@ -28,9 +29,6 @@ const ogImage = new URL(image, Astro.site).toString();
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta name="theme-color" content="#f7f5f2" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" />
   </head>
   <body>
     <a class="evitement" href="#contenu">Aller au contenu</a>
