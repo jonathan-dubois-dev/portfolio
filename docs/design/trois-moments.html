@@ -1,0 +1,352 @@
+<title>Trois moments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --fond:#f7f5f2; --encre:#14161c; --doux:#5d6270; --trait:#dcd7d0; --trait-fort:#a39d94;
+    --accent:#2447e0;
+    --p1:#14161c; --p2:#2447e0; --p3:#c8506e; --p4:#1f8a7a;
+    --display:'Archivo',system-ui,sans-serif;
+    --texte:'IBM Plex Sans',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--fond);color:var(--encre);font-family:var(--texte);font-size:16px;line-height:1.5;
+       padding-inline:clamp(16px,4vw,48px);padding-block:0 6rem}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  /* ---- en-tête de planche ---- */
+  .planche-tete{padding-block:2rem 1rem;border-bottom:1px solid var(--trait);display:flex;flex-wrap:wrap;gap:1rem 2.5rem;align-items:end}
+  .planche-tete h1{font-family:var(--display);font-variation-settings:'wdth' 112;font-weight:800;font-size:clamp(1.6rem,3vw,2.4rem);margin:0;letter-spacing:-.01em}
+  .planche-tete p{margin:0;max-width:62ch;color:var(--doux)}
+  .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-left:auto}
+  .chips a{font-family:var(--mono);font-size:.8rem;text-decoration:none;color:var(--encre);border:1px solid var(--trait-fort);border-radius:999px;padding:.35rem .8rem}
+  .chips a:hover{border-color:var(--encre)}
+  .chips a b{color:var(--accent);font-weight:500;margin-right:.4em}
+
+  /* ---- une variante ---- */
+  .variante{padding-block:3.5rem 0;scroll-margin-top:1rem}
+  .etiquette{font-family:var(--mono);font-size:.8rem;color:var(--doux);display:flex;gap:.8rem;align-items:baseline;margin-bottom:1rem}
+  .etiquette b{color:var(--accent);font-weight:500}
+  .etiquette span.nom{font-family:var(--display);font-variation-settings:'wdth' 108;font-weight:700;font-size:1.15rem;color:var(--encre)}
+
+  .hero{position:relative;border:1px solid var(--trait);background:var(--fond);overflow:hidden;min-height:78vh;display:grid}
+  .hero .toile{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hero .texte{position:relative;z-index:1;padding:clamp(1.5rem,4vw,3.5rem);align-self:center;max-width:36rem}
+  .hero .nom{font-family:var(--display);font-variation-settings:'wdth' 118;font-weight:800;font-size:clamp(2.6rem,6vw,4.6rem);line-height:.95;letter-spacing:-.02em;margin:0 0 1rem;text-wrap:balance}
+  .hero .titres{font-family:var(--display);font-variation-settings:'wdth' 100;font-weight:600;font-size:clamp(1.05rem,1.8vw,1.35rem);margin:0 0 1rem;line-height:1.25}
+  .hero .titres .sep{color:var(--accent);padding-inline:.35em}
+  .hero .ligne{margin:0 0 1.4rem;color:var(--doux);max-width:44ch}
+  .hero .meta{font-family:var(--mono);font-size:.8rem;color:var(--doux);margin:0 0 1.6rem}
+  .hero .meta i{font-style:normal;color:var(--accent)}
+  .hero .ctas{display:flex;gap:.6rem;flex-wrap:wrap}
+  .hero .ctas a{font-family:var(--texte);font-weight:500;font-size:.95rem;text-decoration:none;padding:.7rem 1.1rem;border-radius:4px;min-height:44px;display:inline-flex;align-items:center}
+  .hero .ctas .plein{background:var(--encre);color:var(--fond)}
+  .hero .ctas .creux{border:1px solid var(--trait-fort);color:var(--encre)}
+
+  /* A — le flux : texte à gauche, graphe à droite sur bureau ; graphe dessous sur téléphone */
+  .hero-a{grid-template-columns:minmax(0,1fr)}
+  @media (max-width:760px){ .hero-a{min-height:auto} .hero-a .texte{padding-bottom:0} .hero-a .toile{position:relative;height:52vh;inset:auto} }
+
+  /* B — la séparation : texte en haut, onde dessous */
+  .hero-b{grid-template-rows:auto minmax(280px,42vh);min-height:auto}
+  .hero-b .toile{position:relative;inset:auto;height:100%}
+  .hero-b .texte{padding-bottom:.5rem}
+
+  /* C — le titre découpé */
+  .hero-c{min-height:auto}
+  .hero-c .texte{max-width:none;width:100%}
+  .hero-c .prenom{font-family:var(--display);font-variation-settings:'wdth' 100;font-weight:500;font-size:clamp(1.3rem,2.6vw,2rem);margin:0;color:var(--doux);letter-spacing:.02em}
+  .hero-c .decoupe{font-family:var(--display);font-variation-settings:'wdth' 125;font-weight:900;font-size:clamp(4.2rem,19vw,16rem);line-height:.86;letter-spacing:-.035em;margin:0 0 1.2rem;color:var(--encre)}
+  @supports ((background-clip:text) or (-webkit-background-clip:text)){
+    .hero-c .decoupe.prete{
+      color:transparent;-webkit-text-fill-color:transparent;
+      background-image:var(--matiere);background-size:140% auto;background-position:0% 50%;
+      -webkit-background-clip:text;background-clip:text;
+      animation:derive 42s linear infinite alternate;
+    }
+  }
+  @keyframes derive{from{background-position:0% 50%}to{background-position:100% 50%}}
+  .hero-c .bas{display:grid;grid-template-columns:1fr auto;gap:1.5rem;align-items:end}
+  @media (max-width:760px){ .hero-c .bas{grid-template-columns:1fr} }
+
+  /* ---- fiche sous chaque hero ---- */
+  .fiche{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.4rem 2rem;margin:1.4rem 0 0;padding:0}
+  .fiche dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);margin-bottom:.35rem}
+  .fiche dd{margin:0;font-size:.95rem;max-width:44ch}
+  .fiche dd a{word-break:break-all}
+
+  .pied{margin-top:4rem;border-top:1px solid var(--trait);padding-top:1.2rem;font-family:var(--mono);font-size:.78rem;color:var(--doux);max-width:70ch}
+
+  @media (prefers-reduced-motion:reduce){
+    .hero-c .decoupe.prete{animation:none}
+  }
+</style>
+
+<header class="planche-tete">
+  <div>
+    <h1>Trois moments</h1>
+    <p>Le hero du portfolio, en trois versions vivantes. Même nom, même texte, même typographie dans les trois — seul le <strong>moment</strong> change. Présentées à égalité, dans l'ordre alphabétique.</p>
+  </div>
+  <nav class="chips" aria-label="Aller à une variante">
+    <a href="#a"><b>A</b>Le flux</a>
+    <a href="#b"><b>B</b>La séparation</a>
+    <a href="#c"><b>C</b>Le titre découpé</a>
+  </nav>
+</header>
+
+<!-- ============ A — LE FLUX ============ -->
+<section class="variante" id="a">
+  <div class="etiquette"><b>A</b><span class="nom">Le flux</span><span>le pipeline de l'estimateur BTP s'assemble, puis pulse</span></div>
+  <div class="hero hero-a" data-variante="flux">
+    <canvas class="toile" aria-hidden="true"></canvas>
+    <div class="texte">
+      <h2 class="nom">Jonathan Dubois</h2>
+      <p class="titres">Ingénieur automatisation IA<span class="sep">·</span>Creative technologist</p>
+      <p class="ligne">Je construis des systèmes IA qui tournent en production : agents, workflows, applications, génératif.</p>
+      <p class="meta">Toulouse <i>·</i> Disponible en mission ou en poste</p>
+      <div class="ctas"><a class="plein" href="#">Voir les réalisations</a><a class="creux" href="#">Me contacter</a></div>
+    </div>
+  </div>
+  <dl class="fiche">
+    <dt>Ressenti</dt><dd>On voit un système qui tourne : les briques réelles de ton estimateur BTP apparaissent une à une, les liens se tirent, puis une impulsion y circule sans fin.</dd>
+    <dt>Coût</dt><dd>0 ko de librairie — canvas 2D, ~150 lignes. Charge GPU nulle. La boucle s'arrête dès que le hero sort de l'écran.</dd>
+    <dt>Repli</dt><dd>Mouvement réduit : le graphe fini, immobile, sans impulsion. Canvas indisponible : le texte seul.</dd>
+    <dt>Ce que ça fait subir</dt><dd>Le motif « graphe de workflow animé » est devenu un bloc de composant sur les sites de templates : sans libellés réels et sans typographie forte, il se lit comme générique. Sur téléphone, le graphe passe sous le texte et perd la moitié de sa largeur.</dd>
+  </dl>
+</section>
+
+<!-- ============ B — LA SÉPARATION ============ -->
+<section class="variante" id="b">
+  <div class="etiquette"><b>B</b><span class="nom">La séparation</span><span>une onde se déchire en quatre pistes nommées</span></div>
+  <div class="hero hero-b" data-variante="separation">
+    <div class="texte">
+      <h2 class="nom">Jonathan Dubois</h2>
+      <p class="titres">Ingénieur automatisation IA<span class="sep">·</span>Creative technologist</p>
+      <p class="ligne">Je construis des systèmes IA qui tournent en production : agents, workflows, applications, génératif.</p>
+      <p class="meta">Toulouse <i>·</i> Disponible en mission ou en poste</p>
+      <div class="ctas"><a class="plein" href="#">Voir les réalisations</a><a class="creux" href="#">Me contacter</a></div>
+    </div>
+    <canvas class="toile" aria-hidden="true"></canvas>
+  </div>
+  <dl class="fiche">
+    <dt>Ressenti</dt><dd>Une onde d'encre pleine largeur se déchire en quatre pistes — batterie, basse, voix, autre — chacune avec son nom. Le geste de ton studio, joué en deux secondes.</dd>
+    <dt>Coût</dt><dd>0 ko de librairie — canvas 2D, ~170 lignes. Contours synthétiques ici ; en production, les contours réels d'un de tes morceaux (<code>/api/pics</code>). Charge GPU nulle.</dd>
+    <dt>Repli</dt><dd>Mouvement réduit : les quatre pistes déjà séparées, immobiles, sans tête de lecture.</dd>
+    <dt>Ce que ça fait subir</dt><dd>Dit « audio » avant de dire « IA » : un recruteur qui ne lit pas la ligne de titre peut y voir un site de musicien. La tonalité (Am) sur trois pistes et pas sur la batterie est vraie de ton système — un initié le remarque, personne d'autre.</dd>
+  </dl>
+</section>
+
+<!-- ============ C — LE TITRE DÉCOUPÉ ============ -->
+<section class="variante" id="c">
+  <div class="etiquette"><b>C</b><span class="nom">Le titre découpé</span><span>ton nom en pochoir sur la matière de ton travail</span></div>
+  <div class="hero hero-c" data-variante="decoupe">
+    <div class="texte">
+      <p class="prenom">Jonathan</p>
+      <h2 class="decoupe" aria-label="Dubois">DUBOIS</h2>
+      <div class="bas">
+        <div>
+          <p class="titres">Ingénieur automatisation IA<span class="sep">·</span>Creative technologist</p>
+          <p class="ligne">Je construis des systèmes IA qui tournent en production : agents, workflows, applications, génératif.</p>
+          <p class="meta">Toulouse <i>·</i> Disponible en mission ou en poste</p>
+        </div>
+        <div class="ctas"><a class="plein" href="#">Voir les réalisations</a><a class="creux" href="#">Me contacter</a></div>
+      </div>
+    </div>
+  </div>
+  <dl class="fiche">
+    <dt>Ressenti</dt><dd>Le nom ne porte pas de couleur à lui : il laisse voir la matière à travers ses lettres, et cette matière dérive lentement dedans.</dd>
+    <dt>Coût</dt><dd>0 ko de JavaScript pour l'effet (<code>background-clip: text</code> + animation CSS). Ici une matière générée à la volée ; en production, une photo ≤ 300 ko <strong>à fournir</strong>. Effet de la bibliothèque : <a href="https://lab-effets.expertia059.workers.dev/#titre-fenetre-sur-image">voir la fiche</a>.</dd>
+    <dt>Repli</dt><dd>Titre en couleur pleine si la découpe n'est pas supportée ; découpe immobile en mouvement réduit.</dd>
+    <dt>Ce que ça fait subir</dt><dd>Ne montre pas le métier par lui-même : tout repose sur la photo, qui n'existe pas encore. « DUBOIS » tient (6 lettres) ; « JONATHAN » serait à la limite (8).</dd>
+  </dl>
+</section>
+
+<p class="pied">Trois variantes du moment signature. Aucune recommandation : les conséquences sont dans « ce que ça fait subir », le choix t'appartient. Textes, typographie (Archivo · IBM Plex Sans · IBM Plex Mono) et couleurs sont ceux que le portfolio utiliserait.</p>
+
+<script>
+(function(){
+  const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ENCRE='#14161c', DOUX='#5d6270', TRAIT='#a39d94', FOND='#f7f5f2', ACCENT='#2447e0';
+  const P = ['#14161c','#2447e0','#c8506e','#1f8a7a'];
+
+  function dpr(){ return Math.min(window.devicePixelRatio||1, 2); }
+  function ajuster(cv){
+    const r = cv.getBoundingClientRect(), d = dpr();
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if (cv.width!==w || cv.height!==h){ cv.width=w; cv.height=h; }
+    const ctx = cv.getContext('2d'); ctx.setTransform(d,0,0,d,0,0);
+    return {ctx, W:r.width, H:r.height};
+  }
+  const ease = t => t<0?0:t>1?1:1-Math.pow(1-t,3);
+  // une boucle par hero, arrêtée hors écran
+  function boucle(section, dessiner){
+    let actif=false, t0=null, raf=0;
+    const tick = (now)=>{ if(!actif) return; if(t0===null) t0=now; dessiner(now-t0); raf=requestAnimationFrame(tick); };
+    const io = new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting && !actif){ actif=true; raf=requestAnimationFrame(tick);} else if(!e.isIntersecting && actif){ actif=false; cancelAnimationFrame(raf);} }); },{threshold:0.05});
+    io.observe(section);
+    if (reduit){ actif=false; dessiner(1e9); io.disconnect(); }
+    window.addEventListener('resize', ()=>{ if(reduit) dessiner(1e9); }, {passive:true});
+  }
+
+  /* ---------- A · LE FLUX ---------- */
+  (function(){
+    const hero = document.querySelector('[data-variante="flux"]');
+    const cv = hero.querySelector('canvas');
+    const noeuds = [
+      {l:'Webhook  /btp-estimation', x:.04, y:.50},
+      {l:'Catalogue Notion · 53 prestations', x:.22, y:.18},
+      {l:'Compactage', x:.40, y:.50},
+      {l:'LLM · T = 0,2', x:.55, y:.18},
+      {l:'Garde-fous G1–G4', x:.70, y:.50},
+      {l:'Notion · Telegram', x:.88, y:.22},
+      {l:'Réponse au client', x:.88, y:.78},
+    ];
+    const aretes = [[0,1],[1,2],[2,3],[3,4],[4,5],[4,6]];
+    const trajets = [[0,1,2,3,4,5],[0,1,2,3,4,6]];
+    const PAS=190, DUREE_ARETE=320, DEBUT_PULSE=1700, PERIODE=3400;
+
+    function region(W,H){
+      const etroit = W<760;
+      return etroit ? {x:10,y:12,w:W-20,h:H-24} : {x:W*0.44,y:H*0.10,w:W*0.53,h:H*0.80};
+    }
+    function boite(ctx,n,R){
+      ctx.font = '500 12.5px "IBM Plex Mono", ui-monospace, monospace';
+      const tw = ctx.measureText(n.l).width, w = Math.min(tw+26, R.w*0.5), h=34;
+      const cx = R.x + n.x*R.w, cy = R.y + n.y*R.h;
+      return {cx,cy,w,h,x:cx-w/2,y:cy-h/2};
+    }
+    function pointBezier(a,b,t){
+      const dx = Math.abs(b.cx-a.cx)*0.5;
+      const p0={x:a.cx+a.w/2,y:a.cy}, p1={x:p0.x+dx,y:a.cy}, p3={x:b.cx-b.w/2,y:b.cy}, p2={x:p3.x-dx,y:b.cy};
+      const u=1-t;
+      return {x:u*u*u*p0.x+3*u*u*t*p1.x+3*u*t*t*p2.x+t*t*t*p3.x, y:u*u*u*p0.y+3*u*u*t*p1.y+3*u*t*t*p2.y+t*t*t*p3.y, p0,p1,p2,p3};
+    }
+    function dessiner(t){
+      const {ctx,W,H} = ajuster(cv); ctx.clearRect(0,0,W,H);
+      const R = region(W,H);
+      const B = noeuds.map(n=>boite(ctx,n,R));
+      // arêtes
+      aretes.forEach(([i,j])=>{
+        const tj = j*PAS - 120, k = ease((t-tj)/DUREE_ARETE); if(k<=0) return;
+        const a=B[i], b=B[j], q=pointBezier(a,b,1);
+        ctx.save(); ctx.beginPath(); ctx.moveTo(q.p0.x,q.p0.y);
+        // tracé progressif par échantillonnage
+        const N=40; for(let s=1;s<=N*k;s++){ const p=pointBezier(a,b,s/N); ctx.lineTo(p.x,p.y); }
+        ctx.strokeStyle=TRAIT; ctx.lineWidth=1.25; ctx.stroke(); ctx.restore();
+      });
+      // nœuds
+      B.forEach((b,i)=>{
+        const k = ease((t - i*PAS)/380); if(k<=0) return;
+        ctx.save(); ctx.translate(b.cx,b.cy); ctx.scale(0.85+0.15*k,0.85+0.15*k); ctx.globalAlpha=k;
+        ctx.beginPath(); ctx.roundRect(-b.w/2,-b.h/2,b.w,b.h,5);
+        ctx.fillStyle=FOND; ctx.fill(); ctx.strokeStyle=ENCRE; ctx.lineWidth=1.25; ctx.stroke();
+        ctx.fillStyle=ENCRE; ctx.font='500 12.5px "IBM Plex Mono", ui-monospace, monospace'; ctx.textBaseline='middle'; ctx.textAlign='center';
+        // libellé tronqué si la boîte est contrainte
+        let l=noeuds[i].l; while(ctx.measureText(l).width>b.w-16 && l.length>4) l=l.slice(0,-2)+'…';
+        ctx.fillText(l,0,1); ctx.restore();
+      });
+      // impulsion
+      if (!reduit && t>DEBUT_PULSE){
+        const cycle = Math.floor((t-DEBUT_PULSE)/PERIODE), ph = ((t-DEBUT_PULSE)%PERIODE)/PERIODE;
+        const traj = trajets[cycle%2], seg = traj.length-1, s = Math.min(seg-1e-6, ph*seg), i=Math.floor(s), f=s-i;
+        const p = pointBezier(B[traj[i]],B[traj[i+1]],f);
+        ctx.save(); ctx.shadowColor=ACCENT; ctx.shadowBlur=10; ctx.fillStyle=ACCENT;
+        ctx.beginPath(); ctx.arc(p.x,p.y,4.2,0,Math.PI*2); ctx.fill(); ctx.restore();
+      }
+    }
+    boucle(hero, dessiner);
+  })();
+
+  /* ---------- B · LA SÉPARATION ---------- */
+  (function(){
+    const hero = document.querySelector('[data-variante="separation"]');
+    const cv = hero.querySelector('canvas');
+    // graine fixe : même onde à chaque visite
+    let g=20260919; const rnd=()=>{ g=(g*1664525+1013904223)>>>0; return g/4294967296; };
+    const N=520;
+    const pistes = [
+      {nom:'batterie', c:P[0]}, {nom:'basse  Am', c:P[1]}, {nom:'voix  Am', c:P[2]}, {nom:'autre  Am', c:P[3]}
+    ];
+    const enveloppes = pistes.map(()=>new Float32Array(N));
+    for(let i=0;i<N;i++){
+      const u=i/N;
+      // batterie : transitoires régulières
+      const beat = Math.pow(Math.max(0,Math.sin(u*Math.PI*64)),18) * (0.6+0.4*rnd()) + 0.05*rnd();
+      // basse : lente, pleine
+      const basse = 0.45 + 0.25*Math.sin(u*Math.PI*9+1.3) + 0.08*rnd();
+      // voix : phrases avec silences
+      const phrase = Math.max(0, Math.sin(u*Math.PI*5.2+0.4)); const voix = phrase>0.15 ? 0.35+0.35*Math.sin(u*Math.PI*90)*phrase + 0.1*rnd() : 0.03*rnd();
+      // autre : dense, moyenne
+      const autre = 0.3 + 0.15*Math.sin(u*Math.PI*27) + 0.12*rnd();
+      enveloppes[0][i]=beat; enveloppes[1][i]=basse; enveloppes[2][i]=Math.abs(voix); enveloppes[3][i]=autre;
+    }
+    const mix = new Float32Array(N); let mx=0;
+    for(let i=0;i<N;i++){ mix[i]=(enveloppes[0][i]*0.9+enveloppes[1][i]*0.8+enveloppes[2][i]*0.7+enveloppes[3][i]*0.6); if(mix[i]>mx) mx=mix[i]; }
+    for(let i=0;i<N;i++) mix[i]/=mx;
+
+    const T0=900, T1=2500;
+    function barres(ctx, env, x0, w, cy, amp, couleur, alpha){
+      ctx.save(); ctx.globalAlpha=alpha; ctx.strokeStyle=couleur; ctx.lineWidth=Math.max(1, w/N*0.62); ctx.lineCap='round';
+      ctx.beginPath();
+      for(let i=0;i<N;i++){ const x=x0+(i+0.5)/N*w, a=env[i]*amp; ctx.moveTo(x,cy-a); ctx.lineTo(x,cy+a); }
+      ctx.stroke(); ctx.restore();
+    }
+    function dessiner(t){
+      const {ctx,W,H} = ajuster(cv); ctx.clearRect(0,0,W,H);
+      const marge = 24 + (W<760?0:Math.min(120,W*0.06));
+      const x0=marge, w=W-2*marge, k=ease((t-T0)/(T1-T0));
+      const cyMix=H*0.5, ampMix=H*0.36;
+      // le mix s'efface pendant la séparation
+      if (k<1) barres(ctx, mix, x0, w, cyMix, ampMix, ENCRE, 1-k);
+      // les quatre pistes se déploient
+      const lanes = pistes.length, pas = H/(lanes+0.4), ampL = pas*0.36;
+      pistes.forEach((p,j)=>{
+        const cyL = pas*(j+0.7);
+        const cy = cyMix + (cyL-cyMix)*k, amp = ampMix*(1-k)+ampL*k;
+        if (k>0) barres(ctx, enveloppes[j], x0, w, cy, amp, p.c, Math.min(1, k*1.4));
+        // libellé
+        const kl = ease((t-(T0+600+j*120))/400);
+        if (kl>0){ ctx.save(); ctx.globalAlpha=kl; ctx.fillStyle=p.c; ctx.font='500 12px "IBM Plex Mono", ui-monospace, monospace'; ctx.textBaseline='middle';
+          ctx.fillText(p.nom, x0, cyL - ampL - 10 + (1-kl)*6); ctx.restore(); }
+      });
+      // tête de lecture, très lente, après la séparation
+      if (!reduit && k>=1){
+        const ph = ((t-T1)%9000)/9000, x = x0 + ph*w;
+        ctx.save(); ctx.strokeStyle=ENCRE; ctx.globalAlpha=.55; ctx.lineWidth=1; ctx.setLineDash([3,4]);
+        ctx.beginPath(); ctx.moveTo(x,pas*0.25); ctx.lineTo(x,H-pas*0.15); ctx.stroke(); ctx.restore();
+      }
+    }
+    boucle(hero, dessiner);
+  })();
+
+  /* ---------- C · LE TITRE DÉCOUPÉ (matière générée) ---------- */
+  (function(){
+    const hero = document.querySelector('[data-variante="decoupe"]');
+    const titre = hero.querySelector('.decoupe');
+    const cv = document.createElement('canvas'); cv.width=1600; cv.height=700;
+    const ctx = cv.getContext('2d');
+    let g=19; const rnd=()=>{ g=(g*1664525+1013904223)>>>0; return g/4294967296; };
+    // fond : encre profonde, pour que le pochoir tranche sur la page claire
+    const grad = ctx.createLinearGradient(0,0,1600,700); grad.addColorStop(0,'#14161c'); grad.addColorStop(1,'#232a3f');
+    ctx.fillStyle=grad; ctx.fillRect(0,0,1600,700);
+    // ondes fines
+    for(let k=0;k<26;k++){
+      const y=30+k*26, teinte = k%5===0 ? ACCENT : 'rgba(247,245,242,'+(0.18+0.2*rnd())+')';
+      ctx.beginPath(); ctx.strokeStyle=teinte; ctx.lineWidth = k%5===0?1.6:1;
+      let ph=rnd()*10, f=0.02+rnd()*0.05;
+      for(let x=0;x<=1600;x+=4){ const a = 6+10*Math.abs(Math.sin(x*0.004+ph)); const yy=y+Math.sin(x*f+ph)*a; if(x===0) ctx.moveTo(x,yy); else ctx.lineTo(x,yy); }
+      ctx.stroke();
+    }
+    // nœuds et liens, comme des points de pipeline
+    const pts=[]; for(let i=0;i<34;i++) pts.push({x:rnd()*1600,y:rnd()*700});
+    ctx.strokeStyle='rgba(247,245,242,0.28)'; ctx.lineWidth=1;
+    pts.forEach((p,i)=>{ const q=pts[(i*7+3)%pts.length]; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.bezierCurveTo(p.x+120,p.y,q.x-120,q.y,q.x,q.y); ctx.stroke(); });
+    pts.forEach((p,i)=>{ ctx.beginPath(); ctx.arc(p.x,p.y,i%6===0?5:3,0,Math.PI*2); ctx.fillStyle = i%6===0?ACCENT:'#f7f5f2'; ctx.fill(); });
+    titre.style.setProperty('--matiere','url('+cv.toDataURL('image/png')+')');
+    titre.classList.add('prete');
+  })();
+})();
+</script>
