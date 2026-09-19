@@ -31,7 +31,7 @@ export function regleClient(texte: string): string[] {
     const debut = texte.slice(Math.max(0, m.index! - 16), m.index!).toLowerCase();
     if (apres.startsWith(" de") && /\bde démonstration/i.test(texte.slice(m.index!, m.index! + 40))) continue;
     if (/\baucun\s*$/.test(avant) || /pas encore de\s*$/.test(debut + avant)) continue;
-    fautes.push(m[0].trim());
+    fautes.push(m[0].trim().replace(/[.,;:!?…»)]+$/, ""));
   }
   return fautes;
 }
