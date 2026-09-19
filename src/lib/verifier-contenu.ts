@@ -25,12 +25,12 @@ export const PERSONAS: string[] = ["Marc", "Camille"];
 /** Occurrences de « client(e) » qui ne sont ni « client de démonstration » ni précédées de « aucun » / « pas encore de ». */
 export function regleClient(texte: string): string[] {
   const fautes: string[] = [];
-  const re = /(\S+\s+)?\bclient(e?s?)\b(\s+\S+)?/gi;
+  const re = /(\S+\s+)?(?<!\p{L})client(e?s?)(?!\p{L})(\s+\S+)?/giu;
   for (const m of texte.matchAll(re)) {
     const avant = (m[1] ?? "").toLowerCase(), apres = (m[3] ?? "").toLowerCase();
     const debut = texte.slice(Math.max(0, m.index! - 16), m.index!).toLowerCase();
     if (apres.startsWith(" de") && /\bde démonstration/i.test(texte.slice(m.index!, m.index! + 40))) continue;
-    if (/\baucun\s*$/.test(avant) || /pas encore de\s*$/.test(debut + avant)) continue;
+    if (/\baucune?\s*$/i.test(avant) || /pas encore de\s*$/.test(debut + avant)) continue;
     fautes.push(m[0].trim().replace(/[.,;:!?…»)]+$/, ""));
   }
   return fautes;

@@ -28,4 +28,10 @@ describe("regleClient", () => {
   it("est insensible à la casse et voit « cliente »", () => {
     expect(regleClient("La Cliente confirme.")).toEqual(["La Cliente confirme"]);
   });
+  it("ne confond pas « clientèle » avec « client »", () => {
+    expect(regleClient("Notre clientèle est satisfaite.")).toEqual([]);
+  });
+  it("exempte « aucune cliente » comme « aucun client »", () => {
+    expect(regleClient("Aucune cliente n'a été contactée. Aucun client réel.")).toEqual([]);
+  });
 });
