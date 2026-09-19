@@ -51,6 +51,28 @@ Archivo, IBM Plex Sans, IBM Plex Mono — SIL Open Font License 1.1, auto-héber
 
 `npm run og` après `npm run build` : capture du hero en 1200 × 630 → `public/og.png`. Le script lance son propre `astro preview` puis le termine (sur Windows, l'arbre de processus entier) une fois la capture faite.
 
+## Sécurité des dépendances
+
+`npm audit` (19/09/2026) signale 5 vulnérabilités — 1 critique, 1 haute, 2 modérées, 1 basse —
+réparties sur quatre paquets :
+
+| Paquet | Sévérité | Nature |
+|---|---|---|
+| `astro` ≤ 7.2.7 | critique | XSS (attributs spread, directives `transition:*`, View Transitions), exécution de code via l'optimisation d'images AVIF, contournement d'autorisation sur `base` |
+| `sharp` ≤ 0.35.4-rc.0 | haute | vulnérabilités héritées de libvips et libheif |
+| `@vitest/mocker` / `vitest` | modérée | traversée de chemin via le mock de redirection |
+| `esbuild` 0.27.3 – 0.28.0 | basse | lecture de fichier arbitraire via le serveur de développement, sous Windows |
+
+Aucune n'est atteignable ici : le site est **entièrement prérendu** (aucune route serveur, aucune
+île hydratée — donc ni attribut spread ni directive `transition:*` au moment de l'exécution),
+**aucune image n'est optimisée par Astro** (les seules images sont `public/og.png`, produite par une
+capture Playwright, et les polices), `base` n'est pas configuré, et `esbuild` comme `vitest` ne
+tournent qu'en développement — jamais sur la machine qui sert les pages.
+
+La montée vers Astro 7 est prévue **sur une branche dédiée**, avec rejeu des deux suites : c'est un
+changement de version majeur (`npm audit fix --force` installerait `astro@7.3.3` et `vitest@5.0.1`)
+qui n'a pas sa place dans une vague de correction.
+
 ## Reste à faire par Jonathan (spec § 10)
 
 photo · domaine perso + Email Routing · profil LinkedIn · compte GitHub puis `git remote add origin … && git push -u origin main` · relire les chiffres · extrait audio Moonkura (ou aucun)
