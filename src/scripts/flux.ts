@@ -1,8 +1,8 @@
-import { NOEUDS, ARETES, PAS, DUREE_ARETE, HAUTEUR, SEUIL_ETROIT, ease, region, disposer, pointBezier, impulsion, type Boite, type Mode } from "./flux-geometrie";
+import { NOEUDS, ARETES, PAS, DUREE_ARETE, HAUTEUR, ease, region, disposer, pointBezier, impulsion, type Boite } from "./flux-geometrie";
 
 const ENCRE = "#14161c", TRAIT = "#8c857a", FOND = "#f7f5f2", ACCENT = "#2447e0";
 const POLICE = '500 12.5px "IBM Plex Mono", ui-monospace, monospace';
-const ETROIT = matchMedia(`(max-width:${SEUIL_ETROIT}px)`);
+const ETROIT = matchMedia("(max-width:900px)");
 
 declare global { interface Window { __fluxImages?: number; __fluxTronques?: number } }
 
@@ -16,8 +16,8 @@ function ajuster(cv: HTMLCanvasElement) {
 }
 
 /** Tête de flèche de 6 px à l'entrée de b, orientée par la tangente de fin de courbe. */
-function fleche(ctx: CanvasRenderingContext2D, a: Boite, b: Boite, mode: Mode) {
-  const q = pointBezier(a, b, 0.96, mode), p = pointBezier(a, b, 1, mode);
+function fleche(ctx: CanvasRenderingContext2D, a: Boite, b: Boite) {
+  const q = pointBezier(a, b, 0.96), p = pointBezier(a, b, 1);
   const ang = Math.atan2(p.y - q.y, p.x - q.x), T = 6;
   ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(ang);
   ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-T, T * 0.45); ctx.lineTo(-T, -T * 0.45); ctx.closePath();
@@ -30,7 +30,7 @@ function dessiner(cv: HTMLCanvasElement, t: number, reduit: boolean, xMin: numbe
   const etroit = ETROIT.matches;
   const R = region(W, H, etroit, etroit ? undefined : xMin);
   ctx.font = POLICE;
-  const { boites: B, mode } = disposer(NOEUDS.map((l) => ctx.measureText(l).width), R);
+  const B: Boite[] = disposer(NOEUDS.map((l) => ctx.measureText(l).width), R);
 
   // Arêtes, tracées progressivement par échantillonnage ; la flèche apparaît une fois l'arête finie.
   for (const [i, j] of ARETES) {
@@ -38,10 +38,10 @@ function dessiner(cv: HTMLCanvasElement, t: number, reduit: boolean, xMin: numbe
     if (k <= 0) continue;
     const a = B[i], b = B[j], N = 40;
     ctx.beginPath();
-    const p0 = pointBezier(a, b, 0, mode); ctx.moveTo(p0.x, p0.y);
-    for (let s = 1; s <= N * k; s++) { const p = pointBezier(a, b, s / N, mode); ctx.lineTo(p.x, p.y); }
+    const p0 = pointBezier(a, b, 0); ctx.moveTo(p0.x, p0.y);
+    for (let s = 1; s <= N * k; s++) { const p = pointBezier(a, b, s / N); ctx.lineTo(p.x, p.y); }
     ctx.strokeStyle = TRAIT; ctx.lineWidth = 1.25; ctx.stroke();
-    if (k >= 1) fleche(ctx, a, b, mode);
+    if (k >= 1) fleche(ctx, a, b);
   }
 
   // Nœuds : boîte à coins arrondis, libellé mono, tronqué seulement si la boîte est contrainte.
@@ -65,7 +65,7 @@ function dessiner(cv: HTMLCanvasElement, t: number, reduit: boolean, xMin: numbe
 
   // Impulsion cobalt — jamais en mouvement réduit.
   if (!reduit) {
-    const p = impulsion(t, B, mode);
+    const p = impulsion(t, B);
     if (p) {
       ctx.save(); ctx.shadowColor = ACCENT; ctx.shadowBlur = 10; ctx.fillStyle = ACCENT;
       ctx.beginPath(); ctx.arc(p.x, p.y, 4.2, 0, Math.PI * 2); ctx.fill(); ctx.restore();

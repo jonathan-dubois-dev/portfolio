@@ -81,16 +81,11 @@ test("téléphone : le graphe passe sous le texte", async ({ page }) => {
   expect(toile!.y).toBeGreaterThanOrEqual(texte!.y + texte!.height - 1);
 });
 
-const LARGEURS = [390, 800, 1024, 1280, 1440];
+const SEUIL = 900;
+const LARGEURS = [390, 800, SEUIL, 1024, 1280, 1440];
 
 for (const w of LARGEURS) {
   test(`${w} px : aucun libellé du graphe n'est tronqué`, async ({ page }) => {
-    // 800 px tombe dans la bande morte 761–818 px : sous 760 px le CSS empile le graphe sous le
-    // texte, au-dessus la colonne de texte occupe 536 px fixes et il ne reste que R.w = 177,9 px
-    // pour une boîte qui en demande 198,5. Deux libellés se tronquent donc, et c'est la troncature
-    // prévue par l'invariant de `disposer` (w = R.w). Le remède — déplacer le seuil de 760 à 900 px
-    // dans Hero.astro ET SEUIL_ETROIT — sort de cette vague : voir vague-finale-report.md.
-    test.fail(w === 800, "bande morte 761–818 px, mesurée : R.w = 177,9 px < boîte la plus large 198,5 px");
     await page.setViewportSize({ width: w, height: 900 });
     await page.goto("/");
     await heroPose(page);
@@ -98,7 +93,22 @@ for (const w of LARGEURS) {
   });
 }
 
-for (const w of LARGEURS.filter((x) => x > 760)) {
+// Sous le seuil, le CSS empile le graphe sous le texte : le JS doit être d'accord, sinon il
+// dessine dans une colonne de droite qui n'existe plus et les libellés se tronquent.
+for (const w of [800, SEUIL]) {
+  test(`${w} px : CSS et JS s'accordent — le graphe est sous le texte`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: 900 });
+    await page.goto("/");
+    await heroPose(page);
+    const etroitJs = await page.evaluate((s) => matchMedia(`(max-width:${s}px)`).matches, SEUIL);
+    expect(etroitJs, "le JS se croit en colonne de droite").toBe(true);
+    const texte = await page.locator("[data-hero] .texte").boundingBox();
+    const toile = await page.locator("canvas[data-flux]").boundingBox();
+    expect(toile!.y, "la toile chevauche le texte").toBeGreaterThanOrEqual(texte!.y + texte!.height - 1);
+  });
+}
+
+for (const w of LARGEURS.filter((x) => x > SEUIL)) {
   test(`${w} px : le graphe ne mord jamais sur la colonne de texte`, async ({ page }) => {
     await page.setViewportSize({ width: w, height: 900 });
     await page.goto("/");

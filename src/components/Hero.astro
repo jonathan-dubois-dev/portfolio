@@ -29,8 +29,9 @@ const [t1, t2] = identite.titres;
   .meta{font-family:var(--mono);font-size:.8rem;color:var(--doux);margin:0 0 1.6rem}
   .meta .sep-point{color:var(--accent)}
   .ctas{display:flex;gap:.6rem;flex-wrap:wrap}
-  /* Téléphone : le graphe passe SOUS le texte (spec § 5). */
-  @media (max-width:760px){
+  /* Sous le seuil : le graphe passe SOUS le texte (spec § 5). Même valeur que SEUIL_ETROIT
+     et que le matchMedia de flux.ts — un seul signal, vérifié par tests/seuil-hero.test.ts. */
+  @media (max-width:900px){
     .hero{min-height:auto}
     .texte{padding-bottom:0;order:1}
     .toile{position:relative;inset:auto;height:52vh;order:2}
