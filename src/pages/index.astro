@@ -1,14 +1,30 @@
 ---
+import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
+import Chiffres from "../components/Chiffres.astro";
+import CarteRealisation from "../components/CarteRealisation.astro";
+import Vignettes from "../components/Vignettes.astro";
 import { identite } from "../data/identite";
+
+const realisations = (await getCollection("realisations")).sort((a, b) => a.data.ordre - b.data.ordre);
 ---
 <Base title={`${identite.nom} — ${identite.titres[0]} · ${identite.titres[1]}`} description={identite.descriptionSite}>
   <Hero />
   <main id="contenu" class="colonne">
-    <section class="section" id="realisations"><h2>Réalisations</h2></section>
+    <Chiffres />
+    <section class="section" id="realisations">
+      <h2>Trois réalisations</h2>
+      <div class="cartes">
+        {realisations.map((r) => <CarteRealisation slug={r.id} d={r.data} />)}
+      </div>
+    </section>
+    <Vignettes />
     <section class="section" id="contact"><h2>Contact</h2></section>
   </main>
   <div style="height:120vh"></div>
   <footer class="pied colonne">{identite.nom} · {identite.ville}</footer>
 </Base>
+<style>
+  .cartes{display:grid;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr));gap:1.2rem}
+</style>

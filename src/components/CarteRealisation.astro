@@ -1,0 +1,25 @@
+---
+import type { Realisation } from "../lib/schema-realisation";
+interface Props { slug: string; d: Realisation }
+const { slug, d } = Astro.props;
+const url = `/realisations/${slug}/`;
+---
+<article class="carte" data-carte>
+  {d.badge && <p class="badge" data-badge>{d.badge}</p>}
+  <h3><a href={url}>{d.titre}</a></h3>
+  <p class="resume">{d.resume}</p>
+  <p class="prouve"><span class="etiquette">Ce que ça prouve</span><br />{d.prouve}</p>
+  <p class="mono stack">{d.stack.slice(0, 4).join(" · ")}</p>
+</article>
+<style>
+  /* Le lien du titre est étendu à toute la carte par le pseudo-élément — posé sur l'ANCRE, pas sur la carte. */
+  .carte{position:relative;border:1px solid var(--trait-fort);border-radius:6px;padding:1.4rem;display:grid;gap:.8rem;align-content:start}
+  .carte:hover{border-color:var(--encre)}
+  .badge{margin:0;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  h3{font-family:var(--display);font-variation-settings:'wdth' 106;font-weight:700;font-size:1.25rem;line-height:1.2;margin:0;text-wrap:balance}
+  h3 a{color:var(--encre);text-decoration:none}
+  h3 a::after{content:"";position:absolute;inset:0}
+  .resume,.prouve{margin:0;font-size:.95rem}
+  .prouve{color:var(--doux)}
+  .stack{margin:0;font-size:.75rem;color:var(--doux)}
+</style>
