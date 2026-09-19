@@ -1,0 +1,12 @@
+---
+import { STATUTS, type Statut } from "../lib/verifier-contenu";
+interface Props { statut: Statut }
+const { statut } = Astro.props;
+---
+<p class={`badge badge-${statut}`} data-badge data-statut={statut}>{STATUTS[statut]}</p>
+<style>
+  .badge{display:inline-block;margin:0;font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:.3rem .7rem}
+  .badge-usage{color:#1f7a4f}
+  .badge-demo{color:var(--accent)}
+  .badge-demonstrateur{color:var(--doux)}
+</style>

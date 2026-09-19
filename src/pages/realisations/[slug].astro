@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Schema from "../../components/Schema.astro";
+import Badge from "../../components/Badge.astro";
 import { identite } from "../../data/identite";
 
 export async function getStaticPaths() {
@@ -14,10 +15,10 @@ const d = r.data;
 <Base title={`${d.titre} — ${identite.nom}`} description={d.prouve}>
   <header class="colonne entete">
     <p><a href="/" class="mono retour">← {identite.nom}</a></p>
-    {d.badge && <p class="badge" data-badge>{d.badge}</p>}
+    <Badge statut={d.statut} />
     <h1>{d.titre}</h1>
     <p class="prouve" data-prouve>{d.prouve}</p>
-    {d.statutLigne && <p class="statut-ligne" data-statut-ligne>{d.statutLigne}</p>}
+    <p class="statut-ligne" data-statut-ligne>{d.statutLigne}</p>
   </header>
   <main id="contenu" class="colonne" tabindex="-1">
     <section class="section"><h2>Contexte</h2><p>{d.contexte}</p></section>
@@ -51,7 +52,6 @@ const d = r.data;
 <style>
   .entete{padding-block:2rem 1rem}
   .retour{font-size:.8rem;text-decoration:none;color:var(--doux)}
-  .badge{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:.3rem .7rem;margin:1rem 0 0}
   h1{font-family:var(--display);font-variation-settings:'wdth' 112;font-weight:800;font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.05;letter-spacing:-.02em;margin:.8rem 0 1rem;text-wrap:balance;max-width:26ch}
   .prouve{font-size:1.15rem;max-width:60ch;margin:0}
   .statut-ligne{color:var(--doux);max-width:60ch;margin:.8rem 0 0;font-size:.95rem}

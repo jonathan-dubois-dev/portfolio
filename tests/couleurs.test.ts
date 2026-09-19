@@ -25,6 +25,9 @@ describe("les jetons du site", () => {
     // Bordure du bouton creux et trait du graphe : ce sont des éléments d'interface, pas du texte.
     expect(contraste(JETONS.traitFort, JETONS.fond)).toBeGreaterThanOrEqual(3);
   });
+  it("le vert du badge « en usage » passe AA sur le fond (≥ 4,5)", () => {
+    expect(contraste("#1f7a4f", JETONS.fond)).toBeGreaterThanOrEqual(4.5);
+  });
   it("global.css porte exactement les mêmes valeurs", () => {
     const css = readFileSync("src/styles/global.css", "utf8");
     for (const [nom, hex] of Object.entries(JETONS)) expect(css, nom).toContain(hex);

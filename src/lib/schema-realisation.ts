@@ -4,10 +4,9 @@ export const schemaRealisation = z.object({
   titre: z.string().min(10),
   /** Une ligne « ce que ça prouve », affichée sous le titre et sur la carte. */
   prouve: z.string().min(20),
-  statut: z.enum(["production", "demonstrateur"]),
-  badge: z.string().optional(),
-  /** Phrase de statut honnête, affichée sous le badge (hub uniquement). */
-  statutLigne: z.string().optional(),
+  statut: z.enum(["usage", "demo", "demonstrateur"]),
+  /** Phrase de statut honnête, affichée sous le badge. */
+  statutLigne: z.string().min(20),
   ordre: z.number().int().min(1),
   /** Résumé de la carte de l'accueil. */
   resume: z.string().min(40).max(240),

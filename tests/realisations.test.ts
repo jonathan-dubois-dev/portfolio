@@ -3,7 +3,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "yaml";
 import { schemaRealisation } from "../src/lib/schema-realisation";
-import { INTERDITS, INTERDITS_HUB, motsInterdits } from "../src/lib/verifier-contenu";
+import { INTERDITS, INTERDITS_HUB, motsInterdits, regleClient } from "../src/lib/verifier-contenu";
 
 const DOSSIER = join(process.cwd(), "src/content/realisations");
 const fichiers = readdirSync(DOSSIER).filter((f) => f.endsWith(".md"));
@@ -35,10 +35,24 @@ describe("les études de cas", () => {
     expect(motsInterdits(texte, INTERDITS_HUB)).toEqual([]);
   });
 
-  it("le hub porte le badge de démonstrateur", () => {
-    const fm = frontmatter(readFileSync(join(DOSSIER, "hub-sante.md"), "utf8")) as { statut: string; badge?: string };
-    expect(fm.statut).toBe("demonstrateur");
-    expect(fm.badge).toBe("Démonstrateur, en construction");
+  it("chaque étude porte un statut et une ligne de statut", () => {
+    for (const f of fichiers) {
+      const fm = frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { statut: string; statutLigne?: string; badge?: string };
+      expect(["usage", "demo", "demonstrateur"], f).toContain(fm.statut);
+      expect(fm.statutLigne?.length ?? 0, f).toBeGreaterThanOrEqual(20);
+      expect(fm.badge, `${f} : badge est dérivé, plus écrit`).toBeUndefined();
+    }
+  });
+  it("le hub est un démonstrateur, le studio est en usage, le BTP une démo", () => {
+    const statut = (f: string) => (frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { statut: string }).statut;
+    expect(statut("hub-sante.md")).toBe("demonstrateur");
+    expect(statut("studio-moonkura.md")).toBe("usage");
+    expect(statut("pack-btp.md")).toBe("demo");
+  });
+  it("la règle « client » tient sur BTP, hub et l'inventaire", () => {
+    for (const f of ["pack-btp.md", "hub-sante.md"]) {
+      expect(regleClient(readFileSync(join(DOSSIER, f), "utf8")), f).toEqual([]);
+    }
   });
 
   it("les ordres sont 1, 2, 3 sans doublon", () => {

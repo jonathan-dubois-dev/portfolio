@@ -2,7 +2,6 @@
 titre: "Plateforme de coordination pour maison de santé — compte-rendu de réunion automatique"
 prouve: "Une application IA complète, de l'authentification aux automatisations, sous une contrainte réglementaire forte : zéro donnée patient."
 statut: demonstrateur
-badge: "Démonstrateur, en construction"
 statutLigne: "Construit pour un projet réel de maison de santé pluriprofessionnelle ; resté au stade du démonstrateur — les outils déjà en place chez les praticiens couvraient une partie du besoin."
 ordre: 2
 resume: "Une quarantaine de praticiens à coordonner — réunions, documents, fournitures, forum — sans jamais toucher une donnée patient. Le compte-rendu de réunion s'écrit tout seul."

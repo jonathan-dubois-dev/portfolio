@@ -32,10 +32,16 @@ for (const slug of ["pack-btp", "hub-sante", "studio-moonkura"]) {
   });
 }
 
-test("le hub porte son badge et sa ligne de statut ; le BTP n'en a pas", async ({ page }) => {
-  await page.goto("/realisations/hub-sante/");
-  await expect(page.locator("[data-badge]")).toHaveText("Démonstrateur, en construction");
-  await expect(page.locator("[data-statut-ligne]")).toBeVisible();
-  await page.goto("/realisations/pack-btp/");
-  await expect(page.locator("[data-badge]")).toHaveCount(0);
+test("chaque page d'étude porte un badge", async ({ page }) => {
+  const attendus: Record<string, string> = {
+    "pack-btp": "Pack de démonstration, en service",
+    "hub-sante": "Démonstrateur, en construction",
+    "studio-moonkura": "En usage quotidien",
+  };
+  for (const [slug, texte] of Object.entries(attendus)) {
+    await page.goto(`/realisations/${slug}/`);
+    await expect(page.locator("[data-badge]")).toHaveCount(1);
+    await expect(page.locator("[data-badge]")).toHaveText(texte);
+    await expect(page.locator("[data-statut-ligne]")).toBeVisible();
+  }
 });

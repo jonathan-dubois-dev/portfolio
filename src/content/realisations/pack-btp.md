@@ -1,7 +1,8 @@
 ---
 titre: "Agent d'estimation de devis pour artisans — LLM + garde-fous déterministes"
 prouve: "Un LLM en production, encadré par des règles déterministes, testé à chaque modification et corrigé sur incident réel."
-statut: production
+statut: demo
+statutLigne: "Pack complet en service depuis juin 2026 sur un artisan de démonstration : le pipeline tourne pour de vrai, les données sont de démo — aucun client réel à ce jour."
 ordre: 1
 resume: "Un artisan reçoit une demande floue ; en quelques minutes il a une fourchette crédible — ou un refus honnête. Jamais un prix inventé."
 contexte: "Un artisan du bâtiment reçoit des demandes imprécises — « il y a une fuite », « refaire la salle de bain ». Répondre vite avec un ordre de grandeur crédible fait la différence commerciale ; répondre faux la détruit. Il fallait une estimation automatique qui sache aussi dire « je ne peux pas chiffrer ça sans venir voir »."
@@ -15,7 +16,7 @@ construit:
   - "Le prompt est versionné (v1.6) ; une batterie de dix cas — cinq nets, cinq replis — est rejouée après chaque modification, parce qu'un LLM varie d'une exécution à l'autre."
 schema: ["Webhook", "Catalogue Notion", "Compactage", "LLM", "Garde-fous G1–G4", "Notion + Telegram", "E-mail"]
 preuves:
-  - "En production depuis juin 2026, branché sur un formulaire de démonstration (accès sur demande)."
+  - "En service depuis juin 2026 sur un client de démonstration (accès sur demande)."
   - "Batterie de dix cas rejouée après chaque modification du prompt."
   - "Incident A-007 détecté par un contrôle qualité hebdomadaire automatique, corrigé, puis vérifié contre le code réellement déployé."
 incident:
