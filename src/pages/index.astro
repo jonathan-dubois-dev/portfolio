@@ -1,8 +1,13 @@
 ---
 import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import { identite } from "../data/identite";
 ---
-<Base title="Jonathan Dubois — Ingénieur automatisation IA · Creative technologist" description="Ingénieur automatisation IA et creative technologist à Toulouse.">
+<Base title={`${identite.nom} — ${identite.titres[0]} · ${identite.titres[1]}`} description={identite.descriptionSite}>
+  <Hero />
   <main id="contenu" class="colonne">
-    <h1>Jonathan Dubois</h1>
+    <section class="section" id="realisations"><h2>Réalisations</h2></section>
+    <section class="section" id="contact"><h2>Contact</h2></section>
   </main>
+  <footer class="pied colonne">{identite.nom} · {identite.ville}</footer>
 </Base>
