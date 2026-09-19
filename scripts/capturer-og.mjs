@@ -1,10 +1,10 @@
 // Capture le hero à l'état final en 1200 × 630 → public/og.png.
 // Prérequis : `npm run build` fait. Lance lui-même `astro preview` sur 4322 et l'arrête.
-import { spawn } from "node:child_process";
+import { spawn, execSync } from "node:child_process";
 import { chromium } from "@playwright/test";
 
 const URL = "http://127.0.0.1:4322/";
-const serveur = spawn("npx", ["astro", "preview", "--host", "127.0.0.1", "--port", "4322"], { shell: true, stdio: "ignore" });
+const serveur = spawn("npx astro preview --host 127.0.0.1 --port 4322", { shell: true, stdio: "ignore" });
 const attendre = async () => { for (let i = 0; i < 60; i++) { try { if ((await fetch(URL)).ok) return; } catch {} await new Promise((r) => setTimeout(r, 500)); } throw new Error("preview injoignable"); };
 
 try {
@@ -18,5 +18,10 @@ try {
   await navigateur.close();
   console.log("public/og.png écrit");
 } finally {
-  serveur.kill();
+  if (process.platform === "win32") {
+    // `kill()` ne tue que l'enveloppe cmd : on abat l'arbre entier.
+    try { execSync(`taskkill /pid ${serveur.pid} /t /f`, { stdio: "ignore" }); } catch {}
+  } else {
+    serveur.kill();
+  }
 }

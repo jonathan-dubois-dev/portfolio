@@ -1,4 +1,4 @@
-import { NOEUDS, ARETES, PAS, DUREE_ARETE, ease, region, boite, pointBezier, impulsion, type Boite } from "./flux-geometrie";
+import { NOEUDS, ARETES, PAS, DUREE_ARETE, SEUIL_ETROIT, ease, region, disposer, pointBezier, impulsion, type Boite } from "./flux-geometrie";
 
 const ENCRE = "#14161c", TRAIT = "#a39d94", FOND = "#f7f5f2", ACCENT = "#2447e0";
 const POLICE = '500 12.5px "IBM Plex Mono", ui-monospace, monospace';
@@ -14,12 +14,12 @@ function ajuster(cv: HTMLCanvasElement) {
   return { ctx, W: r.width, H: r.height };
 }
 
-function dessiner(cv: HTMLCanvasElement, t: number, reduit: boolean) {
+function dessiner(cv: HTMLCanvasElement, t: number, reduit: boolean, xMin: number | undefined) {
   const { ctx, W, H } = ajuster(cv);
   ctx.clearRect(0, 0, W, H);
-  const R = region(W, H);
+  const R = region(W, H, xMin);
   ctx.font = POLICE;
-  const B: Boite[] = NOEUDS.map((n) => boite(n, R, ctx.measureText(n.l).width));
+  const B: Boite[] = disposer(NOEUDS.map((n) => ctx.measureText(n.l).width), R);
 
   // Arêtes, tracées progressivement par échantillonnage.
   for (const [i, j] of ARETES) {
@@ -60,16 +60,22 @@ function dessiner(cv: HTMLCanvasElement, t: number, reduit: boolean) {
 
 /** Démarre le hero : une boucle rAF arrêtée hors écran ; en mouvement réduit, une seule image finale. */
 export function demarrerFlux(cv: HTMLCanvasElement, section: Element, reduit = matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const texte = section.querySelector<HTMLElement>(".texte");
+  const xMin = () => {
+    const c = cv.getBoundingClientRect();
+    if (!texte || c.width < SEUIL_ETROIT) return undefined;
+    return texte.getBoundingClientRect().right - c.left + 24;
+  };
   if (reduit) {
-    dessiner(cv, 1e9, true);
-    window.addEventListener("resize", () => dessiner(cv, 1e9, true), { passive: true });
+    dessiner(cv, 1e9, true, xMin());
+    window.addEventListener("resize", () => dessiner(cv, 1e9, true, xMin()), { passive: true });
     return;
   }
   let actif = false, t0: number | null = null, raf = 0;
   const tick = (now: number) => {
     if (!actif) return;
     if (t0 === null) t0 = now;
-    dessiner(cv, now - t0, false);
+    dessiner(cv, now - t0, false, xMin());
     raf = requestAnimationFrame(tick);
   };
   const io = new IntersectionObserver((es) => {
