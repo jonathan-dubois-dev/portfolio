@@ -6,6 +6,7 @@ Site personnel statique — Astro 6, Cloudflare Pages. Spec : `docs/superpowers/
 
 ```bash
 npm install
+npx playwright install chromium   # une fois : le navigateur des tests
 npm test          # vitest : contenu, chiffres sourcés, mots interdits, géométrie du hero, contrastes
 npm run e2e       # build + Playwright (Chromium, port 4322) : pages, hero, accueil, SEO, mobile, poids
 npm run dev       # http://127.0.0.1:4322/
@@ -16,6 +17,8 @@ Première vue de l'accueil mesurée le 19/09/2026 : 174 180 octets (budget 1 000
 ## Déployer
 
 Sur cette machine, wrangler a besoin de `NODE_OPTIONS=--use-system-ca`.
+
+Au premier usage, wrangler demande une connexion au compte Cloudflare (`npx wrangler login`, dans un vrai terminal).
 
 ```bash
 # une seule fois
