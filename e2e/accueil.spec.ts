@@ -34,3 +34,16 @@ test("méthode en quatre lignes, stack, contact avec mailto et disponibilité", 
   // Les liens LinkedIn/GitHub n'apparaissent que s'ils sont renseignés.
   await expect(contact.locator('a[href=""]')).toHaveCount(0);
 });
+
+test("six tuiles par métier avec leurs comptes, et le lien vers l'inventaire", async ({ page }) => {
+  await page.goto("/");
+  const tuiles = page.locator("#tourne [data-tuile]");
+  await expect(tuiles).toHaveCount(6);
+  await expect(tuiles.nth(0)).toContainText("29");
+  await expect(tuiles.nth(0).locator("a")).toHaveAttribute("href", "/automatisations/#btp");
+  await expect(page.locator("#tourne a[href='/automatisations/']")).toHaveText(/Voir les 100/);
+});
+test("l'atelier est annoté « accès sur invitation »", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("#aussi [data-vignette]").nth(0)).toContainText("accès sur invitation");
+});

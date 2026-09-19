@@ -4,6 +4,7 @@ import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import Chiffres from "../components/Chiffres.astro";
 import CarteRealisation from "../components/CarteRealisation.astro";
+import Tuiles from "../components/Tuiles.astro";
 import Vignettes from "../components/Vignettes.astro";
 import Methode from "../components/Methode.astro";
 import Stack from "../components/Stack.astro";
@@ -17,11 +18,12 @@ const realisations = (await getCollection("realisations")).sort((a, b) => a.data
   <main id="contenu" class="colonne" tabindex="-1">
     <Chiffres />
     <section class="section" id="realisations">
-      <h2>Trois réalisations</h2>
+      <h2>Cinq réalisations</h2>
       <div class="cartes">
         {realisations.map((r) => <CarteRealisation slug={r.id} d={r.data} />)}
       </div>
     </section>
+    <Tuiles />
     <Vignettes />
     <Methode />
     <Stack />

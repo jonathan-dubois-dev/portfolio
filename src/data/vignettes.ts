@@ -1,7 +1,7 @@
 export type Vignette = { titre: string; texte: string; url?: string };
 export const vignettes: Vignette[] = [
   {
-    titre: "L'Atelier — images et vidéos générées en local",
+    titre: "L'Atelier — images et vidéos générées en local (accès sur invitation)",
     texte: "ComfyUI sur une RTX 3060, exposé en service web. Démarrage à froid et à chaud mesurés, pièges de la vidéo locale documentés (le verbe d'action est obligatoire, la qualité vient de l'image de départ).",
     url: "https://atelier.aelto.fr",
   },

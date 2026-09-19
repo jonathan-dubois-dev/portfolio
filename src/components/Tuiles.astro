@@ -1,0 +1,28 @@
+---
+import { METIERS, parMetier, comptes, type Metier } from "../data/automatisations";
+const g = parMetier(), c = comptes();
+const metiers = (Object.keys(METIERS) as Metier[]).sort((a, b) => METIERS[a].ordre - METIERS[b].ordre);
+---
+<section class="section" id="tourne">
+  <h2>Ce qui tourne</h2>
+  <p>{c.total} workflows n8n construits, {c.actifs} actifs — sur des données de démonstration pour les packs, en usage réel pour le reste.</p>
+  <ul class="tuiles">
+    {metiers.map((m) => (
+      <li data-tuile>
+        <a href={`/automatisations/#${m}`}>
+          <strong>{g[m].length}</strong>
+          <span>{METIERS[m].titre}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="voir"><a href="/automatisations/">Voir les {c.total} →</a></p>
+</section>
+<style>
+  .tuiles{list-style:none;padding:0;margin:1.5rem 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.8rem}
+  .tuiles a{display:grid;gap:.3rem;border:1px solid var(--trait-fort);border-radius:6px;padding:1rem 1.1rem;text-decoration:none;color:var(--encre);min-height:44px}
+  .tuiles a:hover{border-color:var(--encre)}
+  strong{font-family:var(--display);font-variation-settings:'wdth' 112;font-weight:800;font-size:1.9rem;line-height:1;font-variant-numeric:tabular-nums}
+  span{font-size:.9rem;color:var(--doux)}
+  .voir{margin:1.2rem 0 0}
+</style>
