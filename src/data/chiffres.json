@@ -1,0 +1,17 @@
+[
+  {
+    "valeur": "une dizaine",
+    "libelle": "de workflows IA en production",
+    "source": "n8n.aelto.fr, workflows actifs relevés le 19/09/2026 : estimation BTP (A, B, B'), feeder Notion, digest IA, et les cinq automatisations du hub (relais mail, entretien, sauvegarde, digest, rappels)"
+  },
+  {
+    "valeur": "1 500+",
+    "libelle": "tests automatisés",
+    "source": "journaux des dépôts au 19/09/2026 : studio 1 256 pytest, moteur de séparation 97, hub 174 vitest + 55 e2e, vitrine 61 + 70 e2e, Troisième Étage 93 + 116"
+  },
+  {
+    "valeur": "7",
+    "libelle": "applications déployées",
+    "source": "aelto.fr · demo.aelto.fr · studio.aelto.fr · atelier.aelto.fr · hub (vitrine Pages + hub Workers) · a-chaque-etape.fr · troisieme-etage-v2.pages.dev — relevé le 19/09/2026"
+  }
+]
