@@ -12,6 +12,7 @@ body{margin:0;background:var(--fond);color:var(--encre);font-family:var(--texte)
      padding-inline:clamp(16px,4vw,48px)}
 a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+#contenu:focus{outline:none}
 img,svg,canvas{max-width:100%}
 code{font-family:var(--mono);font-size:.92em}
 

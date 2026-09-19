@@ -14,7 +14,7 @@ const realisations = (await getCollection("realisations")).sort((a, b) => a.data
 ---
 <Base title={`${identite.nom} — ${identite.titres[0]} · ${identite.titres[1]}`} description={identite.descriptionSite}>
   <Hero />
-  <main id="contenu" class="colonne">
+  <main id="contenu" class="colonne" tabindex="-1">
     <Chiffres />
     <section class="section" id="realisations">
       <h2>Trois réalisations</h2>

@@ -33,6 +33,7 @@ test("le lien d'évitement mène au contenu", async ({ page }) => {
   await expect(page.locator("a.evitement")).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#contenu$/);
+  expect(await page.evaluate(() => document.activeElement?.id)).toBe("contenu");
 });
 
 test("bureau : le graphe ne mord jamais sur la colonne de texte", async ({ page }) => {
@@ -47,7 +48,12 @@ test("bureau : le graphe ne mord jamais sur la colonne de texte", async ({ page 
     let premiere = c.width;
     for (let x = 0; x < c.width && premiere === c.width; x++)
       for (let y = 0; y < c.height; y++) if (d[(y * c.width + x) * 4 + 3] > 0) { premiere = x; break; }
-    return { premiere: premiere / dpr, bord: t.getBoundingClientRect().right - c.getBoundingClientRect().left };
+    return {
+      premiere: premiere / dpr,
+      bord: t.getBoundingClientRect().right - c.getBoundingClientRect().left,
+      largeur: c.getBoundingClientRect().width,
+    };
   });
+  expect(limite.premiere).toBeLessThan(limite.largeur);
   expect(limite.premiere).toBeGreaterThanOrEqual(limite.bord);
 });
