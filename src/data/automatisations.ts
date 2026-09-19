@@ -31,7 +31,7 @@ export const automatisations: Automatisation[] = [
   { id: "2NR3eW31fL7xq7MS", nom: "SMS entrant routé vers Telegram", metier: "btp", declencheur: "webhook", action: "Relaie un SMS reçu du demandeur vers Telegram pour une réponse manuelle de l'artisan.", actif: false },
   { id: "5i6jUXwHvyqmJNmN", nom: "Relance de devis", metier: "btp", declencheur: "cockpit", action: "Depuis le cockpit, l'artisan relance un devis resté sans réponse.", actif: true },
   { id: "ln235pqSOOU9ybbS", nom: "Rappel hebdomadaire des relances", metier: "btp", declencheur: "cron", action: "Chaque semaine, liste les relances dues et les envoie à l'artisan sur Telegram.", actif: true },
-  { id: "PrttffsZ3tq5PWDZ", nom: "Bascule des factures en retard", metier: "btp", declencheur: "webhook", action: "Détecte les factures impayées arrivées à échéance et alerte l'artisan.", actif: true },
+  { id: "PrttffsZ3tq5PWDZ", nom: "Bascule des factures en retard", metier: "btp", declencheur: "cron", action: "Chaque jour à 8h, bascule en retard les factures échues dans Notion et alerte l'artisan sur Telegram.", actif: true },
   { id: "02BO0kw7lGSY36MJ", nom: "Demande d'avis Google", metier: "btp", declencheur: "cockpit", action: "Un bouton du cockpit déclenche l'envoi d'une demande d'avis Google au demandeur.", actif: true },
   { id: "8NbAMwmfqQvk8iUf", nom: "Réponse vocale d'accueil", metier: "btp", declencheur: "webhook", action: "Décroche l'appel entrant et diffuse le message d'accueil vocal de l'artisan.", actif: false },
   { id: "DHJtiDhsWsfF6WSD", nom: "Validation de la visite par l'artisan", metier: "btp", declencheur: "telegram", action: "L'artisan valide la visite proposée depuis Telegram et le rendez-vous est confirmé.", actif: true },
@@ -48,10 +48,10 @@ export const automatisations: Automatisation[] = [
   { id: "1TALYtQzodiUdDIy", nom: "Briefing matinal de l'artisan", metier: "btp", declencheur: "cron", action: "Chaque matin, envoie à l'artisan le résumé Telegram des visites et relances du jour.", actif: true },
 
   // --- therapeutes (37) ---
-  { id: "7vphGP54wGCAEJM3", nom: "Routeur de validation Telegram", metier: "therapeutes", declencheur: "telegram", action: "Cinquante-six nœuds : chaque bouton de la praticienne déclenche la bonne branche et confirme in-app.", actif: true },
-  { id: "PN1vKhDBUXnustFA", nom: "Report de rendez-vous en libre-service", metier: "therapeutes", declencheur: "cron", action: "Le patient reporte lui-même son rendez-vous jusqu'à la veille, sans repasser par la praticienne.", actif: true },
+  { id: "7vphGP54wGCAEJM3", nom: "Routeur de validation Telegram", metier: "therapeutes", declencheur: "telegram", action: "Cinquante-six nœuds : chaque bouton de la praticienne déclenche la bonne branche et confirme sans quitter Telegram.", actif: true },
+  { id: "PN1vKhDBUXnustFA", nom: "Report de rendez-vous en libre-service", metier: "therapeutes", declencheur: "webhook", action: "Le patient reporte lui-même son rendez-vous jusqu'à la veille, sans repasser par la praticienne.", actif: true },
   { id: "P5cLvqxqUOooxKNX", nom: "Confirmation d'un créneau libéré", metier: "therapeutes", declencheur: "webhook", action: "Confirme au patient concerné qu'un créneau vient de se libérer dans l'agenda.", actif: true },
-  { id: "ML5CQ0kKhfXa60h0", nom: "Mot d'anniversaire", metier: "therapeutes", declencheur: "webhook", action: "Envoie un petit message d'anniversaire personnalisé à chaque patient, le jour J.", actif: true },
+  { id: "ML5CQ0kKhfXa60h0", nom: "Mot d'anniversaire", metier: "therapeutes", declencheur: "cron", action: "Chaque jour à 9h, envoie par e-mail un petit mot d'anniversaire aux patients dont c'est le jour J.", actif: true },
   { id: "IsRPMweVDDCR7Nqh", nom: "Briefing matinal de la praticienne", metier: "therapeutes", declencheur: "cron", action: "Chaque matin, envoie à la praticienne le résumé des rendez-vous et relances du jour.", actif: true },
   { id: "YLtcysOWHnzAEezc", nom: "Annulation d'un rendez-vous", metier: "therapeutes", declencheur: "webhook", action: "Traite l'annulation d'un rendez-vous par le patient et libère le créneau dans l'agenda.", actif: true },
   { id: "0C4h7dG69gbRqsBo", nom: "Agent terrain de la praticienne", metier: "therapeutes", declencheur: "webhook", action: "Assistant conversationnel qui renseigne la praticienne sur son planning et ses patients.", actif: true },
@@ -83,7 +83,7 @@ export const automatisations: Automatisation[] = [
   { id: "IwX3K3mJGo7TtzYC", nom: "Filleul inscrit via parrainage", metier: "therapeutes", declencheur: "webhook", action: "Confirme l'inscription d'un filleul arrivé par le programme de parrainage.", actif: true },
   { id: "PZYPl4cX4EI1o5Md", nom: "Relance d'impayés", metier: "therapeutes", declencheur: "webhook", action: "Envoie une relance au patient dont le paiement d'une consultation reste en attente.", actif: true },
   { id: "cZDNW94IoZYGI622", nom: "Demande d'avis Google", metier: "therapeutes", declencheur: "cockpit", action: "Depuis le cockpit, la praticienne déclenche une demande d'avis Google auprès d'un patient.", actif: true },
-  { id: "cW0hkRylH0O8Yks0", nom: "Traitement d'une absence de la praticienne", metier: "therapeutes", declencheur: "webhook", action: "Prévient par e-mail les patients concernés et propose un report de rendez-vous.", actif: true },
+  { id: "cW0hkRylH0O8Yks0", nom: "Traitement d'une absence de la praticienne", metier: "therapeutes", declencheur: "webhook", action: "Prévient par e-mail les patients dont le rendez-vous est impacté et déclenche leur report automatique.", actif: true },
   { id: "DpzF4RvaoTwaQkFm", nom: "Détection d'impayés", metier: "therapeutes", declencheur: "cron", action: "Repère les paiements de consultation en retard et prépare la relance.", actif: true },
 
   // --- immo (12) ---
@@ -118,10 +118,10 @@ export const automatisations: Automatisation[] = [
   // --- interne (11) ---
   { id: "CKygNi1uzQRwyjAf", nom: "Sentinelle d'erreurs", metier: "interne", declencheur: "sous-workflow", action: "Attrape toute erreur d'un workflow et l'envoie en alerte temps réel.", actif: true },
   { id: "R32J5nLj6hc2qB0H", nom: "Digest IA quotidien", metier: "interne", declencheur: "cron", action: "Chaque jour, génère un résumé audio de l'actualité choisie et l'envoie par e-mail.", actif: false },
-  { id: "ogBwErcxpDCizFDb", nom: "Rappel demandé depuis le site", metier: "interne", declencheur: "formulaire", action: "Reçoit une demande de rappel depuis le formulaire du site et prévient l'opérateur.", actif: true },
-  { id: "aqjrEe8zshI3KZ7q", nom: "Validations diverses", metier: "interne", declencheur: "webhook", action: "Point d'entrée générique qui reçoit et route les validations manuelles ponctuelles.", actif: true },
+  { id: "ogBwErcxpDCizFDb", nom: "Rappel depuis le formulaire de contact", metier: "interne", declencheur: "formulaire", action: "Le formulaire de contact d'aelto.fr vérifie le téléphone, alerte l'opérateur sur Telegram et trace le contact dans Notion.", actif: true },
+  { id: "aqjrEe8zshI3KZ7q", nom: "Validations diverses", metier: "interne", declencheur: "webhook", action: "Enregistre par bouton Telegram la décision de l'opérateur sur une proposition d'agent, et l'expose via une API interne.", actif: true },
   { id: "rWPQFoRALm7gsG8r", nom: "Réception d'une demande de devis", metier: "interne", declencheur: "formulaire", action: "Reçoit le formulaire de demande de devis du site et le route vers le bon pack.", actif: true },
-  { id: "cU70z4cT5esxmVoB", nom: "Rappel d'un prospect", metier: "interne", declencheur: "webhook", action: "Reçoit une demande de rappel déposée sur aelto.fr et notifie l'opérateur.", actif: true },
+  { id: "cU70z4cT5esxmVoB", nom: "Rappel depuis la page dédiée /rappel", metier: "interne", declencheur: "webhook", action: "La page aelto.fr/rappel confirme la demande au visiteur en direct, puis alerte l'opérateur et trace le contact.", actif: true },
   { id: "JfhlVJTF05zT7NJx", nom: "Envoi d'e-mail manuel", metier: "interne", declencheur: "webhook", action: "Outil déclenché à la main pour envoyer un e-mail ponctuel depuis un agent.", actif: false },
   { id: "0FzTNdVJLSfaoGcz", nom: "Veille agent cloud vers Telegram", metier: "interne", declencheur: "webhook", action: "Relaie vers Telegram les notifications d'un agent cloud en cours d'exécution.", actif: false },
   { id: "2e3VzCLoLyjWADRk", nom: "Opérations Notion mutualisées", metier: "interne", declencheur: "sous-workflow", action: "Sous-workflow qui centralise les écritures Notion utilisées par plusieurs automatisations.", actif: true },
