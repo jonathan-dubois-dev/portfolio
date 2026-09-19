@@ -5,9 +5,9 @@
     "source": "n8n.aelto.fr, workflows actifs relevés le 19/09/2026 : estimation BTP (A, B, B'), feeder Notion, digest IA, et les cinq automatisations du hub (relais mail, entretien, sauvegarde, digest, rappels)"
   },
   {
-    "valeur": "1 500+",
+    "valeur": "1 900+",
     "libelle": "tests automatisés",
-    "source": "journaux des dépôts au 19/09/2026 : studio 1 256 pytest, moteur de séparation 97, hub 174 vitest + 55 e2e, vitrine 61 + 70 e2e, Troisième Étage 93 + 116"
+    "source": "suites relancées le 19/09/2026 : hub 177 vitest + 56 e2e, vitrine 61 + 70 e2e, moteur de séparation 97 pytest, Troisième Étage 93 vitest + 116 e2e ; studio 1 256 pytest (journal du dépôt) — somme 1 926"
   },
   {
     "valeur": "7",

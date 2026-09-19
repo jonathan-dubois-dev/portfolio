@@ -17,7 +17,7 @@ construit:
   - "Une charte visuelle propre au lieu — plaques émaillées, onglets de carnet — avec un plancher de taille de texte pour les lecteurs de 75 ans."
 schema: ["Enregistrement", "Whisper (Workers AI)", "Llama 3.3", "Détecteur patient", "Validation présidence", "Courriel sans contenu"]
 preuves:
-  - "174 tests unitaires et 55 tests navigateur sur le hub ; 61 et 70 sur le site public (relevés le 19/09/2026, à recopier avant publication)."
+  - "177 tests unitaires et 56 tests navigateur sur le hub ; 61 et 70 sur le site public."
   - "Transcription vérifiée en conditions réelles sur Workers AI : treize secondes pour un enregistrement d'une minute, brouillon structuré, aucun texte dans les journaux."
   - "Sauvegarde R2 et relais mail vérifiés en production : courriel d'invitation réellement reçu."
 incident:
