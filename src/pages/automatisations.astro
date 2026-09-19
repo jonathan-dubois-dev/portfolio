@@ -1,0 +1,50 @@
+---
+import Base from "../layouts/Base.astro";
+import Badge from "../components/Badge.astro";
+import { automatisations, METIERS, parMetier, comptes, type Metier } from "../data/automatisations";
+import { identite } from "../data/identite";
+const g = parMetier(), c = comptes();
+const metiers = (Object.keys(METIERS) as Metier[]).sort((a, b) => METIERS[a].ordre - METIERS[b].ordre);
+---
+<Base title={`Ce qui tourne — ${identite.nom}`} description={`${c.total} workflows n8n construits, ${c.actifs} actifs, classés par métier avec leur statut réel.`}>
+  <header class="colonne entete">
+    <p><a href="/" class="mono retour">← {identite.nom}</a></p>
+    <h1>Ce qui tourne</h1>
+    <p class="chapo">{c.total} workflows n8n construits depuis mai 2026, {c.actifs} actifs. Les packs tournent sur des données de démonstration, l'outillage interne et le site sages-femmes sont en usage réel — le statut est indiqué sur chaque bloc.</p>
+  </header>
+  <main id="contenu" class="colonne" tabindex="-1">
+    {metiers.map((m) => (
+      <section class="section" id={m}>
+        <div class="tete"><h2>{METIERS[m].titre} <span class="mono compte">{g[m].length}</span></h2><Badge statut={METIERS[m].statut} /></div>
+        <ul class="lignes">
+          {g[m].map((a) => (
+            <li data-ligne>
+              <span class="mono decl">{a.declencheur}</span>
+              <span class="nom">{a.nom}{!a.actif && <span class="mono inactif"> — inactif</span>}</span>
+              <span class="action">{a.action}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <p class="retour-liste"><a class="bouton creux" href="/#tourne">← Retour à l'accueil</a></p>
+  </main>
+  <footer class="pied colonne">{identite.nom} · {identite.ville}</footer>
+</Base>
+<style>
+  .entete{padding-block:2rem 1rem}
+  .retour{font-size:.8rem;text-decoration:none;color:var(--doux)}
+  h1{font-family:var(--display);font-variation-settings:'wdth' 112;font-weight:800;font-size:clamp(1.9rem,4vw,3.2rem);letter-spacing:-.02em;margin:.8rem 0 1rem}
+  .chapo{max-width:65ch;font-size:1.05rem;margin:0}
+  .tete{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+  .tete h2{margin:0}
+  .compte{font-size:1rem;color:var(--doux);font-weight:400;margin-left:.4em}
+  .lignes{list-style:none;padding:0;margin:0;display:grid;gap:.55rem}
+  .lignes li{display:grid;grid-template-columns:7.5rem minmax(12rem,20rem) 1fr;gap:.5rem 1rem;align-items:baseline;border-top:1px solid var(--trait);padding-top:.55rem}
+  .decl{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--doux)}
+  .nom{font-weight:600}
+  .inactif{font-weight:400;color:var(--doux);font-size:.8rem}
+  .action{color:var(--doux);font-size:.95rem}
+  @media (max-width:760px){ .lignes li{grid-template-columns:1fr} }
+  .retour-liste{padding-block:2rem 0;margin:0}
+</style>

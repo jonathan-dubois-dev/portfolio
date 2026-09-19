@@ -6,7 +6,7 @@ test("sitemap : l'accueil et les trois réalisations", async ({ request }) => {
   const index = await (await request.get("/sitemap-index.xml")).text();
   const m = /<loc>([^<]+)<\/loc>/.exec(index)!;
   const sitemap = await (await request.get(m[1].replace(SITE, ""))).text();
-  for (const u of ["/", "/realisations/pack-btp/", "/realisations/hub-sante/", "/realisations/studio-moonkura/"])
+  for (const u of ["/", "/realisations/pack-btp/", "/realisations/hub-sante/", "/realisations/studio-moonkura/", "/automatisations/"])
     expect(sitemap, u).toContain(`${SITE}${u}`);
 });
 
