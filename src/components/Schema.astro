@@ -1,0 +1,30 @@
+---
+/** Un enchaînement linéaire d'étapes, en SVG, dans un conteneur qui défile horizontalement si l'écran est étroit. */
+interface Props { etapes: string[] }
+const { etapes } = Astro.props;
+const H = 64, PAD = 14, GAP = 34, CH = 7.6;
+let x = 2;
+const pos = etapes.map((l) => { const w = Math.round(l.length * CH + PAD * 2); const p = { l, w, x }; x += w + GAP; return p; });
+const W = x - GAP + 2;
+---
+<figure class="schema">
+  <div class="defile">
+    <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} role="img" aria-label={"Enchaînement : " + etapes.join(" → ")}>
+      <defs>
+        <marker id="fleche" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--trait-fort)" /></marker>
+      </defs>
+      {pos.map((p, i) => (
+        <Fragment>
+          <rect x={p.x} y={16} width={p.w} height={34} rx="5" fill="var(--fond)" stroke="var(--encre)" stroke-width="1.25" />
+          <text x={p.x + p.w / 2} y={38} text-anchor="middle" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="12.5" font-weight="500" fill="var(--encre)">{p.l}</text>
+          {i < pos.length - 1 && <line x1={p.x + p.w} y1={33} x2={p.x + p.w + GAP - 2} y2={33} stroke="var(--trait-fort)" stroke-width="1.25" marker-end="url(#fleche)" />}
+        </Fragment>
+      ))}
+    </svg>
+  </div>
+</figure>
+<style>
+  .schema{margin:1.5rem 0 0}
+  .defile{overflow-x:auto;padding-block:.25rem}
+  svg{display:block;max-width:none}
+</style>

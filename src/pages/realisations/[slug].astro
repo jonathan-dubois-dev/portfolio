@@ -1,0 +1,66 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Schema from "../../components/Schema.astro";
+import { identite } from "../../data/identite";
+
+export async function getStaticPaths() {
+  const toutes = await getCollection("realisations");
+  return toutes.map((r) => ({ params: { slug: r.id }, props: { r } }));
+}
+const { r } = Astro.props;
+const d = r.data;
+---
+<Base title={`${d.titre} — ${identite.nom}`} description={d.prouve}>
+  <header class="colonne entete">
+    <p><a href="/" class="mono retour">← {identite.nom}</a></p>
+    {d.badge && <p class="badge" data-badge>{d.badge}</p>}
+    <h1>{d.titre}</h1>
+    <p class="prouve" data-prouve>{d.prouve}</p>
+    {d.statutLigne && <p class="statut-ligne" data-statut-ligne>{d.statutLigne}</p>}
+  </header>
+  <main id="contenu" class="colonne">
+    <section class="section"><h2>Contexte</h2><p>{d.contexte}</p></section>
+    <section class="section">
+      <h2>Ce que j'ai construit</h2>
+      <ul class="puces">{d.construit.map((c) => <li>{c}</li>)}</ul>
+      <Schema etapes={d.schema} />
+    </section>
+    <section class="section">
+      <h2>Preuves</h2>
+      <ul class="puces">{d.preuves.map((p) => <li>{p}</li>)}</ul>
+      {d.liens.length > 0 && <p class="liens">{d.liens.map((l) => <a href={l.url} rel="noopener">{l.libelle} ↗</a>)}</p>}
+    </section>
+    <section class="section">
+      <h2>Un incident réel, et comment je l'ai réglé</h2>
+      <h3>{d.incident.titre}</h3>
+      <dl class="incident">
+        <dt>Constat</dt><dd>{d.incident.constat}</dd>
+        <dt>Cause</dt><dd>{d.incident.cause}</dd>
+        <dt>Correctif</dt><dd>{d.incident.correctif}</dd>
+      </dl>
+    </section>
+    <section class="section">
+      <h2>Stack</h2>
+      <p class="mono stack">{d.stack.join(" · ")}</p>
+    </section>
+    <p class="section"><a class="bouton creux" href="/#realisations">← Toutes les réalisations</a></p>
+  </main>
+  <footer class="pied colonne">{identite.nom} · {identite.ville}</footer>
+</Base>
+<style>
+  .entete{padding-block:2rem 1rem}
+  .retour{font-size:.8rem;text-decoration:none;color:var(--doux)}
+  .badge{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:.3rem .7rem;margin:1rem 0 0}
+  h1{font-family:var(--display);font-variation-settings:'wdth' 112;font-weight:800;font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.05;letter-spacing:-.02em;margin:.8rem 0 1rem;text-wrap:balance;max-width:26ch}
+  .prouve{font-size:1.15rem;max-width:60ch;margin:0}
+  .statut-ligne{color:var(--doux);max-width:60ch;margin:.8rem 0 0;font-size:.95rem}
+  .puces{padding-left:1.2rem;max-width:65ch;display:grid;gap:.6rem;margin:0}
+  .liens{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.2rem}
+  h3{font-family:var(--display);font-variation-settings:'wdth' 104;font-weight:700;font-size:1.2rem;margin:0 0 1rem}
+  .incident{display:grid;grid-template-columns:auto 1fr;gap:.8rem 1.5rem;max-width:70ch;margin:0}
+  .incident dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--doux);padding-top:.3rem}
+  .incident dd{margin:0}
+  @media (max-width:600px){ .incident{grid-template-columns:1fr;gap:.2rem .8rem} .incident dd{margin-bottom:.8rem} }
+  .stack{color:var(--doux);font-size:.9rem}
+</style>
