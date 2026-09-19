@@ -27,4 +27,12 @@ const W = x - GAP + 2;
   .schema{margin:1.5rem 0 0}
   .defile{overflow-x:auto;padding-block:.25rem}
   svg{display:block;max-width:none}
+  /* Téléphone : le schéma déborde à droite sans rien qui le dise. Le dégradé de fin
+     signale qu'il y a une suite, au lieu d'une étape coupée net au bord de l'écran. */
+  @media (max-width:760px){
+    .defile{
+      -webkit-mask-image:linear-gradient(to right,#000 88%,transparent);
+      mask-image:linear-gradient(to right,#000 88%,transparent);
+    }
+  }
 </style>

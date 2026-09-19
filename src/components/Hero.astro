@@ -8,7 +8,7 @@ const [t1, t2] = identite.titres;
     <h1 class="nom">{identite.nom}</h1>
     <p class="titres" data-titres>{t1}<span class="sep">·</span>{t2}</p>
     <p class="ligne">{identite.ligne}</p>
-    <p class="meta" data-meta>{identite.ville} <i>·</i> {identite.disponibilite}</p>
+    <p class="meta" data-meta>{identite.ville} <span class="sep-point" aria-hidden="true">·</span> {identite.disponibilite}</p>
     <div class="ctas">
       <a class="bouton plein" href="#realisations">Voir les réalisations</a>
       <a class="bouton creux" href="#contact">Me contacter</a>
@@ -27,7 +27,7 @@ const [t1, t2] = identite.titres;
   .sep{color:var(--accent);padding-inline:.35em}
   .ligne{margin:0 0 1.4rem;color:var(--doux);max-width:44ch}
   .meta{font-family:var(--mono);font-size:.8rem;color:var(--doux);margin:0 0 1.6rem}
-  .meta i{font-style:normal;color:var(--accent)}
+  .meta .sep-point{color:var(--accent)}
   .ctas{display:flex;gap:.6rem;flex-wrap:wrap}
   /* Téléphone : le graphe passe SOUS le texte (spec § 5). */
   @media (max-width:760px){

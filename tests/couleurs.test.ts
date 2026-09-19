@@ -21,8 +21,16 @@ describe("les jetons du site", () => {
     expect(contraste(JETONS.accent, JETONS.fond)).toBeGreaterThanOrEqual(4.5);
     expect(contraste(JETONS.fond, JETONS.encre)).toBeGreaterThanOrEqual(7); // texte clair sur bouton plein
   });
+  it("le trait fort passe le contraste des éléments non textuels (WCAG 1.4.11, ≥ 3)", () => {
+    // Bordure du bouton creux et trait du graphe : ce sont des éléments d'interface, pas du texte.
+    expect(contraste(JETONS.traitFort, JETONS.fond)).toBeGreaterThanOrEqual(3);
+  });
   it("global.css porte exactement les mêmes valeurs", () => {
     const css = readFileSync("src/styles/global.css", "utf8");
     for (const [nom, hex] of Object.entries(JETONS)) expect(css, nom).toContain(hex);
+  });
+  it("Base.astro déclare la couleur de barre du navigateur = le fond du site", () => {
+    const base = readFileSync("src/layouts/Base.astro", "utf8");
+    expect(base).toContain(`name="theme-color" content="${JETONS.fond}"`);
   });
 });

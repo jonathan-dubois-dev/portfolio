@@ -38,6 +38,17 @@ test("le lien d'évitement mène au contenu", async ({ page }) => {
   expect(await page.evaluate(() => document.activeElement?.id)).toBe("contenu");
 });
 
+test("tout lien externe s'ouvre dans un onglet neuf, sans donner la main à la page ouverte", async ({ page }) => {
+  await page.goto("/");
+  const fautifs = await page.evaluate(() =>
+    [...document.querySelectorAll<HTMLAnchorElement>('a[href^="http"]')]
+      .filter((a) => !a.href.startsWith("mailto:") && !a.href.startsWith(location.origin))
+      .filter((a) => a.target !== "_blank" || !a.rel.split(/\s+/).includes("noopener"))
+      .map((a) => `${a.href} (target=${a.target || "∅"} rel=${a.rel || "∅"})`),
+  );
+  expect(fautifs).toEqual([]);
+});
+
 test("bureau : le graphe ne mord jamais sur la colonne de texte", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");

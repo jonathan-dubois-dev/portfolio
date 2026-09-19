@@ -29,7 +29,7 @@ const d = r.data;
     <section class="section">
       <h2>Preuves</h2>
       <ul class="puces">{d.preuves.map((p) => <li>{p}</li>)}</ul>
-      {d.liens.length > 0 && <p class="liens">{d.liens.map((l) => <a href={l.url} rel="noopener">{l.libelle} ↗</a>)}</p>}
+      {d.liens.length > 0 && <p class="liens">{d.liens.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.libelle} ↗</a>)}</p>}
     </section>
     <section class="section">
       <h2>Un incident réel, et comment je l'ai réglé</h2>
@@ -44,7 +44,7 @@ const d = r.data;
       <h2>Stack</h2>
       <p class="mono stack">{d.stack.join(" · ")}</p>
     </section>
-    <p class="section"><a class="bouton creux" href="/#realisations">← Toutes les réalisations</a></p>
+    <p class="retour-liste"><a class="bouton creux" href="/#realisations">← Toutes les réalisations</a></p>
   </main>
   <footer class="pied colonne">{identite.nom} · {identite.ville}</footer>
 </Base>
@@ -63,4 +63,6 @@ const d = r.data;
   .incident dd{margin:0}
   @media (max-width:600px){ .incident{grid-template-columns:1fr;gap:.2rem .8rem} .incident dd{margin-bottom:.8rem} }
   .stack{color:var(--doux);font-size:.9rem}
+  /* Un paragraphe-bouton n'est pas une section : il n'en prend pas l'espacement complet. */
+  .retour-liste{padding-block:2rem 0;margin:0}
 </style>

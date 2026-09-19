@@ -8,13 +8,13 @@ const liens = [
 <section class="section" id="contact">
   <h2>Contact</h2>
   <p class="grand"><a href={`mailto:${identite.email}`}>{identite.email}</a></p>
-  <p class="mono meta">{identite.ville} <i>·</i> {identite.disponibilite}</p>
-  {liens.length > 0 && <p class="liens">{liens.map((l) => <a href={l.url} rel="noopener">{l.libelle} ↗</a>)}</p>}
+  <p class="mono meta">{identite.ville} <span class="sep-point" aria-hidden="true">·</span> {identite.disponibilite}</p>
+  {liens.length > 0 && <p class="liens">{liens.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.libelle} ↗</a>)}</p>}
 </section>
 <style>
   .grand{font-family:var(--display);font-variation-settings:'wdth' 108;font-weight:700;font-size:clamp(1.3rem,3vw,2rem);margin:0 0 .8rem;word-break:break-all}
   .grand a{color:var(--encre);text-decoration:none;border-bottom:2px solid var(--accent)}
   .meta{margin:0 0 1rem;font-size:.85rem;color:var(--doux)}
-  .meta i{font-style:normal;color:var(--accent)}
+  .meta .sep-point{color:var(--accent)}
   .liens{display:flex;gap:1.2rem;margin:0}
 </style>

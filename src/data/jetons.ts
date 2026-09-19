@@ -3,6 +3,6 @@ export const JETONS = {
   encre: "#14161c",
   doux: "#5d6270",
   trait: "#dcd7d0",
-  traitFort: "#a39d94",
+  traitFort: "#8c857a",
   accent: "#2447e0",
 } as const;

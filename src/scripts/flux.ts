@@ -1,6 +1,6 @@
 import { NOEUDS, ARETES, PAS, DUREE_ARETE, HAUTEUR, SEUIL_ETROIT, ease, region, disposer, pointBezier, impulsion, type Boite, type Mode } from "./flux-geometrie";
 
-const ENCRE = "#14161c", TRAIT = "#a39d94", FOND = "#f7f5f2", ACCENT = "#2447e0";
+const ENCRE = "#14161c", TRAIT = "#8c857a", FOND = "#f7f5f2", ACCENT = "#2447e0";
 const POLICE = '500 12.5px "IBM Plex Mono", ui-monospace, monospace';
 const ETROIT = matchMedia(`(max-width:${SEUIL_ETROIT}px)`);
 

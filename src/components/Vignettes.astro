@@ -6,7 +6,7 @@ import { vignettes } from "../data/vignettes";
   <div class="grille">
     {vignettes.map((v) => (
       <article data-vignette>
-        <h3>{v.url ? <a href={v.url} rel="noopener">{v.titre} ↗</a> : v.titre}</h3>
+        <h3>{v.url ? <a href={v.url} target="_blank" rel="noopener">{v.titre} ↗</a> : v.titre}</h3>
         <p>{v.texte}</p>
       </article>
     ))}
