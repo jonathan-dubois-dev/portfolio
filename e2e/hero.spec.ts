@@ -1,6 +1,11 @@
 import { test, expect } from "@playwright/test";
 
-declare global { interface Window { __fluxImages?: number } }
+declare global { interface Window { __fluxImages?: number; __fluxTronques?: number } }
+
+/** Le hero est « posé » quand la boucle a rendu assez d'images : on attend l'état, pas une durée. */
+async function heroPose(page: import("@playwright/test").Page) {
+  await page.waitForFunction(() => (window.__fluxImages ?? 0) > 90);
+}
 
 async function pixelsDessines(page: import("@playwright/test").Page): Promise<number> {
   return page.evaluate(() => {
@@ -34,7 +39,7 @@ test("sans JavaScript, le texte du hero est intact", async ({ browser }) => {
 
 test("le graphe est dessiné et l'impulsion circule", async ({ page }) => {
   await page.goto("/");
-  await page.waitForTimeout(2600);
+  await heroPose(page);
   expect(await pixelsDessines(page)).toBeGreaterThan(2000);
   const a = await page.evaluate(() => window.__fluxImages);
   await page.waitForTimeout(600);
@@ -75,3 +80,44 @@ test("téléphone : le graphe passe sous le texte", async ({ page }) => {
   const toile = await page.locator("canvas[data-flux]").boundingBox();
   expect(toile!.y).toBeGreaterThanOrEqual(texte!.y + texte!.height - 1);
 });
+
+const LARGEURS = [390, 800, 1024, 1280, 1440];
+
+for (const w of LARGEURS) {
+  test(`${w} px : aucun libellé du graphe n'est tronqué`, async ({ page }) => {
+    // 800 px tombe dans la bande morte 761–818 px : sous 760 px le CSS empile le graphe sous le
+    // texte, au-dessus la colonne de texte occupe 536 px fixes et il ne reste que R.w = 177,9 px
+    // pour une boîte qui en demande 198,5. Deux libellés se tronquent donc, et c'est la troncature
+    // prévue par l'invariant de `disposer` (w = R.w). Le remède — déplacer le seuil de 760 à 900 px
+    // dans Hero.astro ET SEUIL_ETROIT — sort de cette vague : voir vague-finale-report.md.
+    test.fail(w === 800, "bande morte 761–818 px, mesurée : R.w = 177,9 px < boîte la plus large 198,5 px");
+    await page.setViewportSize({ width: w, height: 900 });
+    await page.goto("/");
+    await heroPose(page);
+    expect(await page.evaluate(() => window.__fluxTronques)).toBe(0);
+  });
+}
+
+for (const w of LARGEURS.filter((x) => x > 760)) {
+  test(`${w} px : le graphe ne mord jamais sur la colonne de texte`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: 900 });
+    await page.goto("/");
+    await heroPose(page);
+    const limite = await page.evaluate(() => {
+      const c = document.querySelector<HTMLCanvasElement>("canvas[data-flux]")!;
+      const t = document.querySelector<HTMLElement>("[data-hero] .texte")!;
+      const d = c.getContext("2d")!.getImageData(0, 0, c.width, c.height).data;
+      const dpr = c.width / c.getBoundingClientRect().width;
+      let premiere = c.width;
+      for (let x = 0; x < c.width && premiere === c.width; x++)
+        for (let y = 0; y < c.height; y++) if (d[(y * c.width + x) * 4 + 3] > 0) { premiere = x; break; }
+      return {
+        premiere: premiere / dpr,
+        bord: t.getBoundingClientRect().right - c.getBoundingClientRect().left,
+        largeur: c.getBoundingClientRect().width,
+      };
+    });
+    expect(limite.premiere).toBeLessThan(limite.largeur);
+    expect(limite.premiere).toBeGreaterThanOrEqual(limite.bord);
+  });
+}

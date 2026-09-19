@@ -13,7 +13,9 @@ try {
   const page = await navigateur.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 });
   await page.goto(URL);
   await page.evaluate(() => { document.querySelector("[data-hero]").style.minHeight = "630px"; });
-  await page.waitForTimeout(2600);
+  // On attend l'état, pas une durée : à 2 600 ms d'horloge la boucle n'avait pas fini de faire
+  // apparaître le dernier nœud ni sa flèche, et l'image partait avec une boîte à moitié pâle.
+  await page.waitForFunction(() => (window.__fluxImages ?? 0) > 150);
   await page.screenshot({ path: "public/og.png", clip: { x: 0, y: 0, width: 1200, height: 630 } });
   await navigateur.close();
   console.log("public/og.png écrit");

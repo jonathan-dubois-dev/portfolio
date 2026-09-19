@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
 
-const PAGES = ["/", "/realisations/pack-btp/", "/realisations/hub-sante/", "/realisations/studio-moonkura/"];
+declare global { interface Window { __fluxImages?: number } }
+
+const PAGES =["/", "/realisations/pack-btp/", "/realisations/hub-sante/", "/realisations/studio-moonkura/"];
 
 for (const u of PAGES) {
   test(`téléphone 390 px : ${u} ne défile pas horizontalement`, async ({ page }) => {
@@ -39,7 +41,7 @@ test("le lien d'évitement mène au contenu", async ({ page }) => {
 test("bureau : le graphe ne mord jamais sur la colonne de texte", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
-  await page.waitForTimeout(2600);
+  await page.waitForFunction(() => (window.__fluxImages ?? 0) > 90);
   const limite = await page.evaluate(() => {
     const c = document.querySelector<HTMLCanvasElement>("canvas[data-flux]")!;
     const t = document.querySelector<HTMLElement>("[data-hero] .texte")!;

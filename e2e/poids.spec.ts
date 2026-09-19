@@ -14,11 +14,9 @@ test("première vue de l'accueil < 1 Mo, aucune requête tierce", async ({ page 
   });
   expect(tiers).toEqual([]);
   expect(total).toBeLessThan(1_000_000);
-  // Plex Mono 500 n'est pas employé sur l'accueil hors canvas, mais Chromium le télécharge
-  // quand même à la première vue (constaté à l'exécution) : seuil relevé à 5 comme prévu par la tâche
-  // (fix round 1 : la fusion des blocs IBM Plex Sans 400/600 ramène le compte mesuré à 4, mais le
-  // seuil reste à 5 pour ne pas re-casser le test si Chromium change à nouveau de comportement).
-  expect(polices).toBeLessThanOrEqual(5);
+  // Quatre fichiers woff2 sont réellement chargés à la première vue depuis la fusion des blocs
+  // IBM Plex Sans 400/600. Le seuil colle à la mesure : un cinquième fichier serait une régression.
+  expect(polices).toBeLessThanOrEqual(4);
 });
 
 test("le contenu n'emploie aucun caractère hors de la plage latin des polices", async ({ page }) => {
