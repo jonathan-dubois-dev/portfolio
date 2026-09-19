@@ -20,3 +20,11 @@ test("sans JavaScript, le texte du hero est intact", async ({ browser }) => {
   await expect(page.locator("[data-hero] a.bouton")).toHaveCount(2);
   await ctx.close();
 });
+
+test("téléphone : le graphe passe sous le texte", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  const texte = await page.locator("[data-hero] .texte").boundingBox();
+  const toile = await page.locator("canvas[data-flux]").boundingBox();
+  expect(toile!.y).toBeGreaterThanOrEqual(texte!.y + texte!.height - 1);
+});
