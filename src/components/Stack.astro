@@ -1,0 +1,11 @@
+---
+import { stack } from "../data/stack";
+---
+<section class="section" id="stack">
+  <h2>Stack</h2>
+  <ul class="mono">{stack.map((s) => <li>{s}</li>)}</ul>
+</section>
+<style>
+  ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.5rem .6rem}
+  li{border:1px solid var(--trait-fort);border-radius:999px;padding:.35rem .8rem;font-size:.8rem}
+</style>

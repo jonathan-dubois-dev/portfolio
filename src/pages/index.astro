@@ -5,6 +5,9 @@ import Hero from "../components/Hero.astro";
 import Chiffres from "../components/Chiffres.astro";
 import CarteRealisation from "../components/CarteRealisation.astro";
 import Vignettes from "../components/Vignettes.astro";
+import Methode from "../components/Methode.astro";
+import Stack from "../components/Stack.astro";
+import Contact from "../components/Contact.astro";
 import { identite } from "../data/identite";
 
 const realisations = (await getCollection("realisations")).sort((a, b) => a.data.ordre - b.data.ordre);
@@ -20,9 +23,10 @@ const realisations = (await getCollection("realisations")).sort((a, b) => a.data
       </div>
     </section>
     <Vignettes />
-    <section class="section" id="contact"><h2>Contact</h2></section>
+    <Methode />
+    <Stack />
+    <Contact />
   </main>
-  <div style="height:120vh"></div>
   <footer class="pied colonne">{identite.nom} · {identite.ville}</footer>
 </Base>
 <style>
