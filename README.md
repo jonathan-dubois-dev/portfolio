@@ -1,6 +1,6 @@
 # Portfolio de Jonathan Dubois
 
-Site personnel statique — Astro 6, Cloudflare Pages. Spec : `docs/superpowers/specs/2026-09-19-portfolio-design.md`.
+Site personnel statique — Astro 6, Cloudflare Pages. Spec v1 : `docs/superpowers/specs/2026-09-19-portfolio-design.md`. Spec v2 : `docs/superpowers/specs/2026-09-19-portfolio-v2-design.md`.
 
 ## Construire et tester
 
@@ -12,11 +12,11 @@ npm run e2e       # build + Playwright (Chromium, port 4322) : pages, hero, accu
 npm run dev       # http://127.0.0.1:4322/
 ```
 
-Première vue de l'accueil mesurée le 19/09/2026 : 174 180 octets (budget 1 000 000).
+Première vue de l'accueil mesurée le 20/09/2026, vignettes de carte recadrées (voir « Images ») : 245 116 octets (budget 350 000).
 
 ## Tests
 
-Totaux relevés le 20/09/2026 (`npm test` puis `npm run e2e`) : **89 tests vitest** (10 fichiers) et **56 tests e2e Playwright**, tous verts.
+Totaux relevés le 20/09/2026 (`npm test` puis `npm run e2e`) : **103 tests vitest** (10 fichiers) et **58 tests e2e Playwright**, tous verts.
 
 ## Déployer
 
@@ -41,7 +41,7 @@ Après déploiement, vérifier en ligne (pas en local) : l'accueil, `/automatisa
 - Cinq études de cas, dans l'ordre de l'accueil : pack BTP, pack thérapeutes, site sages-femmes, hub santé, Studio Moonkura — `src/content/realisations/*.md` (frontmatter validé par `src/lib/schema-realisation.ts`).
 - Inventaire des automatisations : `src/data/automatisations.ts` — 100 workflows n8n relevés le 19/09/2026 (93 actifs), répartis par métier. Les comptes de l'accueil et de la page `/automatisations/` sont **recalculés depuis ce fichier**, jamais recopiés à la main : `comptes()` et `parMetier()` sont lus par `tests/chiffres.test.ts` et `tests/automatisations.test.ts`, qui échouent si les totaux divergent.
 - Statuts affichés partout (badge sur chaque tuile, chaque étude, chaque ligne d'inventaire) : `usage` (en usage quotidien), `demo` (pack de démonstration, en service) ou `demonstrateur` (démonstrateur, en construction). Le libellé de chaque statut et le fait qu'un métier n'en porte qu'un seul sont définis une fois dans `src/lib/verifier-contenu.ts` (`STATUTS`), rendus par `Badge.astro`.
-- Règle « client » : le mot ne peut s'écrire que comme « client de démonstration » ou dans une tournure « aucun client » / « pas encore de client » — jamais comme s'il désignait une personne réelle. Vérifiée automatiquement par `regleClient()` dans `src/lib/verifier-contenu.ts` (scan de `src/`).
+- Règle « client » : le mot ne peut s'écrire que comme « client de démonstration » ou dans une tournure « aucun client » / « pas encore de client » — jamais comme s'il désignait une personne réelle. Vérifiée automatiquement par `regleClient()` dans `src/lib/verifier-contenu.ts`, et par `motsInterdits()` pour les mots de tiers (`INTERDITS`). Fichiers scannés par `tests/realisations.test.ts` (plus `automatisations.ts` ligne par ligne dans `tests/automatisations.test.ts`) : les cinq études (`src/content/realisations/*.md`), `src/data/identite.ts`, `src/data/chiffres.json`, `src/data/vignettes.ts`, `src/data/stack.ts`, `src/data/automatisations.ts` et `src/scripts/flux-geometrie.ts` (d'où le renommage du nœud de hero « Réponse au client » → « Réponse au demandeur »).
 - Chiffres de l'accueil : `src/data/chiffres.json` — chaque chiffre porte sa source.
 - Identité et contact : `src/data/identite.ts`. Les liens LinkedIn/GitHub s'affichent dès qu'ils sont renseignés (fait le 20/09/2026).
 - Mots interdits (aucun nom de tiers, aucun lieu) : `src/lib/verifier-contenu.ts` (`INTERDITS`, `INTERDITS_HUB`).
@@ -83,9 +83,14 @@ réparties sur quatre paquets :
 
 Aucune n'est atteignable ici : le site est **entièrement prérendu** (aucune route serveur, aucune
 île hydratée — donc ni attribut spread ni directive `transition:*` au moment de l'exécution),
-**aucune image n'est optimisée par Astro** (les seules images sont `public/og.png`, produite par une
-capture Playwright, et les polices), `base` n'est pas configuré, et `esbuild` comme `vitest` ne
-tournent qu'en développement — jamais sur la machine qui sert les pages.
+`base` n'est pas configuré, et `esbuild` comme `vitest` ne tournent qu'en développement — jamais
+sur la machine qui sert les pages. Depuis v2, 21 images *sont* optimisées par Astro (`astro:assets`
++ `sharp`, composants `<Image>` dans `CarteRealisation.astro`, `Galerie.astro`, `Contact.astro`) :
+la faille visée par la CVE sharp/AVIF suppose un flux d'entrée non maîtrisé (image téléversée par
+un tiers, traitée à la volée) ; ici, toutes les sources sont des fichiers locaux versionnés dans
+`src/assets/`, transformées une seule fois **au build**, sur cette machine — jamais à partir d'une
+entrée externe ni sur la machine qui sert les pages. Le risque reste donc faible, mais pour une
+raison différente de celle écrite jusqu'ici.
 
 La montée vers Astro 7 est prévue **sur une branche dédiée**, avec rejeu des deux suites : c'est un
 changement de version majeur (`npm audit fix --force` installerait `astro@7.3.3` et `vitest@5.0.1`)
