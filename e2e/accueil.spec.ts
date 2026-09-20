@@ -32,7 +32,7 @@ test("méthode en quatre lignes, stack, contact avec mailto et disponibilité", 
   await expect(page.locator("#methode li")).toHaveCount(4);
   await expect(page.locator("#stack li")).toHaveCount(10);
   const contact = page.locator("#contact");
-  await expect(contact.locator('a[href^="mailto:"]')).toHaveAttribute("href", "mailto:duboisjonathan@orange.fr");
+  await expect(contact.locator('a[href^="mailto:"]')).toHaveAttribute("href", "mailto:contact@jonathan-dubois.dev");
   await expect(contact).toContainText("Toulouse");
   await expect(contact).toContainText("Disponible en mission ou en poste");
   // Les liens LinkedIn/GitHub n'apparaissent que s'ils sont renseignés.

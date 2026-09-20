@@ -4,8 +4,8 @@ export const identite = {
   ligne: "Je construis des systèmes IA qui tournent en production : agents, workflows, applications, génératif.",
   ville: "Toulouse",
   disponibilite: "Disponible en mission ou en poste",
-  // Adresse provisoire (spec § 2) ; passera sur le domaine perso avec Email Routing.
-  email: "duboisjonathan@orange.fr",
+  // Cloudflare Email Routing (zone jonathan-dubois.dev) → boîte personnelle ; prouvé par un envoi réel le 20/09/2026.
+  email: "contact@jonathan-dubois.dev",
   liens: { linkedin: "https://www.linkedin.com/in/jonathan-dubois-dev", github: "https://github.com/jonathan-dubois-dev" },
   descriptionSite:
     "Ingénieur automatisation IA et creative technologist à Toulouse : agents, workflows n8n, applications sur Cloudflare, génératif. Cinq réalisations en production, testées et pesées.",
