@@ -2,7 +2,15 @@ import { test, expect } from "@playwright/test";
 
 declare global { interface Window { __fluxImages?: number } }
 
-const PAGES =["/", "/realisations/pack-btp/", "/realisations/hub-sante/", "/realisations/studio-moonkura/"];
+const PAGES = [
+  "/",
+  "/realisations/pack-btp/",
+  "/realisations/pack-therapeutes/",
+  "/realisations/site-sages-femmes/",
+  "/realisations/hub-sante/",
+  "/realisations/studio-moonkura/",
+  "/automatisations/",
+];
 
 for (const u of PAGES) {
   test(`téléphone 390 px : ${u} ne défile pas horizontalement`, async ({ page }) => {
@@ -38,16 +46,18 @@ test("le lien d'évitement mène au contenu", async ({ page }) => {
   expect(await page.evaluate(() => document.activeElement?.id)).toBe("contenu");
 });
 
-test("tout lien externe s'ouvre dans un onglet neuf, sans donner la main à la page ouverte", async ({ page }) => {
-  await page.goto("/");
-  const fautifs = await page.evaluate(() =>
-    [...document.querySelectorAll<HTMLAnchorElement>('a[href^="http"]')]
-      .filter((a) => !a.href.startsWith("mailto:") && !a.href.startsWith(location.origin))
-      .filter((a) => a.target !== "_blank" || !a.rel.split(/\s+/).includes("noopener"))
-      .map((a) => `${a.href} (target=${a.target || "∅"} rel=${a.rel || "∅"})`),
-  );
-  expect(fautifs).toEqual([]);
-});
+for (const u of ["/", "/realisations/site-sages-femmes/"]) {
+  test(`tout lien externe s'ouvre dans un onglet neuf, sans donner la main à la page ouverte : ${u}`, async ({ page }) => {
+    await page.goto(u);
+    const fautifs = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLAnchorElement>('a[href^="http"]')]
+        .filter((a) => !a.href.startsWith("mailto:") && !a.href.startsWith(location.origin))
+        .filter((a) => a.target !== "_blank" || !a.rel.split(/\s+/).includes("noopener"))
+        .map((a) => `${a.href} (target=${a.target || "∅"} rel=${a.rel || "∅"})`),
+    );
+    expect(fautifs).toEqual([]);
+  });
+}
 
 test("bureau : le graphe ne mord jamais sur la colonne de texte", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });

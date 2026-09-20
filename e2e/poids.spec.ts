@@ -19,6 +19,17 @@ test("première vue de l'accueil < 1 Mo, aucune requête tierce", async ({ page 
   expect(polices).toBeLessThanOrEqual(4);
 });
 
+test("première vue de /automatisations/ < 1 Mo", async ({ page }) => {
+  await page.goto("/automatisations/");
+  await page.waitForLoadState("networkidle");
+  const total = await page.evaluate(() => {
+    const rs = performance.getEntriesByType("resource") as PerformanceResourceTiming[];
+    const nav = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming;
+    return nav.transferSize + rs.reduce((s, r) => s + r.transferSize, 0);
+  });
+  expect(total).toBeLessThan(1_000_000);
+});
+
 test("le semi-gras est plus large que le regular", async ({ page }) => {
   await page.goto("/");
   const { largeur400, largeur600 } = await page.evaluate(async () => {

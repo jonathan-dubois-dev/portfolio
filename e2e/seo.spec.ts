@@ -2,11 +2,19 @@ import { test, expect } from "@playwright/test";
 
 const SITE = "https://jonathan-dubois.pages.dev";
 
-test("sitemap : l'accueil et les trois réalisations", async ({ request }) => {
+test("sitemap : l'accueil et les cinq réalisations", async ({ request }) => {
   const index = await (await request.get("/sitemap-index.xml")).text();
   const m = /<loc>([^<]+)<\/loc>/.exec(index)!;
   const sitemap = await (await request.get(m[1].replace(SITE, ""))).text();
-  for (const u of ["/", "/realisations/pack-btp/", "/realisations/hub-sante/", "/realisations/studio-moonkura/", "/automatisations/"])
+  for (const u of [
+    "/",
+    "/realisations/pack-btp/",
+    "/realisations/pack-therapeutes/",
+    "/realisations/site-sages-femmes/",
+    "/realisations/hub-sante/",
+    "/realisations/studio-moonkura/",
+    "/automatisations/",
+  ])
     expect(sitemap, u).toContain(`${SITE}${u}`);
 });
 
