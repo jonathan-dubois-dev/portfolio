@@ -3,7 +3,7 @@ titre: "Station audio collaborative en ligne — séparation de pistes par IA, t
 prouve: "Creative technologist et rigueur à la fois : audio temps réel dans le navigateur, GPU local, 1 256 tests et des mutations pour les prouver."
 statut: usage
 statutLigne: "En usage quotidien par les trois membres du groupe, depuis un PC, une tablette et un téléphone."
-ordre: 3
+ordre: 4
 resume: "Trois musiciens qui composent à distance. Un morceau déposé se sépare en quatre pistes, s'étiquette en tonalité, suit une carte de tempo — et se partage sans que les espaces se mélangent."
 contexte: "Un groupe de trois personnes compose à distance et voulait un outil que les services grand public ne réunissent pas : séparer un morceau en pistes, travailler avec un tempo qui change en cours de morceau, cloisonner les espaces de chacun tout en partageant. Il fallait aussi que ça tourne sur un iPad, avec sa mémoire limitée."
 construit:

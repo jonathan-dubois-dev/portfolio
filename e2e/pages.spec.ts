@@ -21,7 +21,7 @@ test("zéro erreur console sur l'accueil", async ({ page }) => {
   expect(erreurs).toEqual([]);
 });
 
-for (const slug of ["pack-btp", "hub-sante", "studio-moonkura"]) {
+for (const slug of ["pack-btp", "pack-therapeutes", "hub-sante", "studio-moonkura"]) {
   test(`/realisations/${slug}/ : titre, « ce que ça prouve », six sections, diagramme`, async ({ page }) => {
     const r = await page.goto(`/realisations/${slug}/`);
     expect(r?.status()).toBe(200);
@@ -35,6 +35,7 @@ for (const slug of ["pack-btp", "hub-sante", "studio-moonkura"]) {
 test("chaque page d'étude porte un badge", async ({ page }) => {
   const attendus: Record<string, string> = {
     "pack-btp": "Pack de démonstration, en service",
+    "pack-therapeutes": "Pack de démonstration, en service",
     "hub-sante": "Démonstrateur, en construction",
     "studio-moonkura": "En usage quotidien",
   };

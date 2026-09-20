@@ -3,7 +3,7 @@ titre: "Plateforme de coordination pour maison de santé — compte-rendu de ré
 prouve: "Une application IA complète, de l'authentification aux automatisations, sous une contrainte réglementaire forte : zéro donnée patient."
 statut: demonstrateur
 statutLigne: "Construit pour un projet réel de maison de santé pluriprofessionnelle ; resté au stade du démonstrateur — les outils déjà en place chez les praticiens couvraient une partie du besoin."
-ordre: 2
+ordre: 3
 resume: "Une quarantaine de praticiens à coordonner — réunions, documents, fournitures, forum — sans jamais toucher une donnée patient. Le compte-rendu de réunion s'écrit tout seul."
 contexte: "Une maison de santé pluriprofessionnelle réunit une quarantaine de praticiens qui doivent se coordonner : réunions, documents partagés, fournitures, annonces, échanges internes. La contrainte qui commande tout : aucune donnée patient, sous aucune forme — sinon l'hébergement doit être certifié HDS. Le logiciel métier garde le patient ; la plateforme ne garde que la vie du centre."
 construit:
