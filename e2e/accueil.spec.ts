@@ -37,6 +37,20 @@ test("méthode en quatre lignes, stack, contact avec mailto et disponibilité", 
   await expect(contact).toContainText("Disponible en mission ou en poste");
   // Les liens LinkedIn/GitHub n'apparaissent que s'ils sont renseignés.
   await expect(contact.locator('a[href=""]')).toHaveCount(0);
+  const portrait = contact.locator('img[alt="Jonathan Dubois"]');
+  await expect(portrait).toHaveCount(1);
+  await expect(portrait).toHaveAttribute("loading", "lazy");
+  expect(await portrait.getAttribute("src")).toMatch(/\.webp/);
+  // Image lazy : hors viewport au chargement, le navigateur ne la charge qu'une fois approchée ;
+  // le chargement est asynchrone après le scroll, d'où le poll plutôt qu'une lecture immédiate.
+  await portrait.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => portrait.evaluate((el) => (el as HTMLImageElement).naturalWidth))
+    .toBeGreaterThan(0);
+  const linkedin = contact.locator('a[href*="linkedin.com/in/jonathan-dubois-dev"]');
+  await expect(linkedin).toHaveCount(1);
+  await expect(linkedin).toHaveAttribute("target", "_blank");
+  await expect(linkedin).toHaveAttribute("rel", "noopener");
 });
 
 test("six tuiles par métier avec leurs comptes, et le lien vers l'inventaire", async ({ page }) => {

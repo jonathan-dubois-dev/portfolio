@@ -26,3 +26,11 @@ describe("les images des études", () => {
     });
   }
 });
+
+describe("le portrait", () => {
+  it("existe en 800 px, sous 150 Ko", () => {
+    const p = join(process.cwd(), "src/assets/portrait.jpg");
+    expect(existsSync(p), p).toBe(true);
+    expect(statSync(p).size).toBeLessThanOrEqual(150_000);
+  });
+});
