@@ -9,5 +9,5 @@ export const identite = {
   // LinkedIn vide tant que le compte n'existe pas : le composant Contact n'affiche que les liens renseignés.
   liens: { linkedin: "", github: "https://github.com/jonathan-dubois-dev" },
   descriptionSite:
-    "Ingénieur automatisation IA et creative technologist à Toulouse : agents, workflows n8n, applications sur Cloudflare, génératif. Trois réalisations en production, testées et pesées.",
+    "Ingénieur automatisation IA et creative technologist à Toulouse : agents, workflows n8n, applications sur Cloudflare, génératif. Cinq réalisations en production, testées et pesées.",
 };

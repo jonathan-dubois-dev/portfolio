@@ -16,8 +16,14 @@ function frontmatter(texte: string): unknown {
 }
 
 describe("les études de cas", () => {
-  it("sont exactement quatre", () => {
-    expect(fichiers.sort()).toEqual(["hub-sante.md", "pack-btp.md", "pack-therapeutes.md", "studio-moonkura.md"]);
+  it("sont exactement cinq", () => {
+    expect(fichiers.sort()).toEqual([
+      "hub-sante.md",
+      "pack-btp.md",
+      "pack-therapeutes.md",
+      "site-sages-femmes.md",
+      "studio-moonkura.md",
+    ]);
   });
 
   for (const f of fichiers) {
@@ -56,9 +62,9 @@ describe("les études de cas", () => {
     }
   });
 
-  it("les ordres sont 1, 2, 3, 4 sans doublon", () => {
+  it("les ordres sont 1, 2, 3, 4, 5 sans doublon", () => {
     const ordres = fichiers.map((f) => (frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { ordre: number }).ordre).sort();
-    expect(ordres).toEqual([1, 2, 3, 4]);
+    expect(ordres).toEqual([1, 2, 3, 4, 5]);
   });
 
   it("le nombre annoncé dans le titre du pack BTP est celui de l'inventaire", () => {
