@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { parse } from "yaml";
 import { schemaRealisation } from "../src/lib/schema-realisation";
 import { INTERDITS, INTERDITS_HUB, motsInterdits, regleClient } from "../src/lib/verifier-contenu";
+import { comptes } from "../src/data/automatisations";
 
 const DOSSIER = join(process.cwd(), "src/content/realisations");
 const fichiers = readdirSync(DOSSIER).filter((f) => f.endsWith(".md"));
@@ -58,6 +59,11 @@ describe("les études de cas", () => {
   it("les ordres sont 1, 2, 3 sans doublon", () => {
     const ordres = fichiers.map((f) => (frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { ordre: number }).ordre).sort();
     expect(ordres).toEqual([1, 2, 3]);
+  });
+
+  it("le nombre annoncé dans le titre du pack BTP est celui de l'inventaire", () => {
+    const fm = frontmatter(readFileSync(join(DOSSIER, "pack-btp.md"), "utf8")) as { titre: string };
+    expect(fm.titre).toContain(`${comptes().parMetier.btp} workflows`);
   });
 });
 

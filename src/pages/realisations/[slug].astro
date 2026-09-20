@@ -32,6 +32,7 @@ const d = r.data;
     <section class="section">
       <h2>Preuves</h2>
       <ul class="puces">{d.preuves.map((p) => <li>{p}</li>)}</ul>
+      {d.metier && <p><a href={`/automatisations/#${d.metier}`}>Voir les workflows de ce pack →</a></p>}
       {d.liens.length > 0 && <p class="liens">{d.liens.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.libelle} ↗</a>)}</p>}
     </section>
     <section class="section">

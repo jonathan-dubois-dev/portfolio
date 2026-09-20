@@ -5,6 +5,8 @@ export const schemaRealisation = z.object({
   /** Une ligne « ce que ça prouve », affichée sous le titre et sur la carte. */
   prouve: z.string().min(20),
   statut: z.enum(["usage", "demo", "demonstrateur"]),
+  /** Métier de l'inventaire lié, s'il existe ; sert à afficher un lien vers `/automatisations/#<metier>`. */
+  metier: z.enum(["btp", "therapeutes", "immo", "sagesfemmes", "hub", "interne"]).optional(),
   /** Phrase de statut honnête, affichée sous le badge. */
   statutLigne: z.string().min(20),
   ordre: z.number().int().min(1),

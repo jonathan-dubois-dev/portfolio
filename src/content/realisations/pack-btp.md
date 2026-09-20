@@ -1,30 +1,32 @@
 ---
-titre: "Agent d'estimation de devis pour artisans — LLM + garde-fous déterministes"
-prouve: "Un LLM en production, encadré par des règles déterministes, testé à chaque modification et corrigé sur incident réel."
+titre: "Le pack BTP : 29 workflows autour d'un artisan"
+prouve: "Un système complet — de la demande à l'avis — avec un LLM encadré, un cockpit, des relances, et des incidents réels corrigés."
 statut: demo
 statutLigne: "Pack complet en service depuis juin 2026 sur un artisan de démonstration : le pipeline tourne pour de vrai, les données sont de démo — aucun client réel à ce jour."
 ordre: 1
-resume: "Un artisan reçoit une demande floue ; en quelques minutes il a une fourchette crédible — ou un refus honnête. Jamais un prix inventé."
-contexte: "Un artisan du bâtiment reçoit des demandes imprécises — « il y a une fuite », « refaire la salle de bain ». Répondre vite avec un ordre de grandeur crédible fait la différence commerciale ; répondre faux la détruit. Il fallait une estimation automatique qui sache aussi dire « je ne peux pas chiffrer ça sans venir voir »."
+resume: "Vingt-neuf workflows qui se tiennent : estimation, visite, devis, chantier, facture, relances, avis. Un artisan de démonstration, un cockpit, un bot Telegram."
+contexte: "Un plombier de démonstration reçoit des demandes imprécises. Le pack couvre tout son cycle sans qu'il touche un logiciel : il valide depuis Telegram, le reste part tout seul — estimation, créneaux de visite, devis, facture, relances, demande d'avis."
+metier: btp
 construit:
-  - "Un webhook reçoit le formulaire de demande : nature des travaux, message libre, coordonnées."
-  - "Le catalogue de prestations de l'artisan (53 briques tarifées) est lu dans Notion, puis compacté pour tenir dans le contexte du modèle."
-  - "Un LLM en sortie JSON, température 0,2, choisit les briques pertinentes, rédige un cadrage et propose une fourchette basse–haute."
-  - "Quatre garde-fous déterministes (G1 à G4) rejouent le calcul : plancher et plafond par type de demande, cohérence fourniture/pose, déplacement obligatoire, correction d'une borne aberrante."
-  - "Si aucun mot-clé technique n'identifie la nature des travaux, le système répond par un repli explicite au lieu d'un chiffre."
-  - "L'artisan reçoit la demande qualifiée dans Notion et une alerte Telegram ; le demandeur reçoit un e-mail nominatif au nom de l'artisan."
-  - "Le prompt est versionné (v1.6) ; une batterie de dix cas — cinq nets, cinq replis — est rejouée après chaque modification, parce qu'un LLM varie d'une exécution à l'autre."
-schema: ["Webhook", "Catalogue Notion", "Compactage", "LLM", "Garde-fous G1–G4", "Notion + Telegram", "E-mail"]
+  - "Estimation IA d'une demande : catalogue de 53 prestations, modèle en sortie JSON, quatre garde-fous déterministes, repli explicite quand la nature des travaux n'est pas reconnaissable."
+  - "Validation par l'artisan depuis Telegram : boutons à retour instantané, routeur de callbacks, e-mail nominatif au demandeur au nom de l'artisan."
+  - "Visite : proposition de créneau, confirmation par le demandeur d'un clic, validation de l'artisan, annulation possible jusqu'au bout — chaque étape trace une activité."
+  - "Devis pré-rempli depuis les briques de l'estimation, catalogue avec autocomplétion, remise, conditions, envoi et acceptation en ligne."
+  - "Acceptation → chantier lancé d'un bouton Telegram ; chantier terminé depuis le cockpit ; facture acompte puis solde, bascule automatique en retard, relances."
+  - "Avis Google demandé au bon moment, réception simulée pour la démo, relances dues chaque semaine sur Telegram."
+  - "Un cockpit (Worker Cloudflare : lecture, écriture, calcul) alimenté chaque matin par un feeder, un briefing matinal Telegram, un agent terrain de 35 nœuds."
+  - "Un prompt versionné et une batterie de dix cas rejouée après chaque modification — parce qu'un modèle varie d'une exécution à l'autre."
+schema: ["Demande", "Estimation IA", "Visite", "Devis", "Chantier", "Facture", "Avis"]
 preuves:
   - "En service depuis juin 2026 sur un client de démonstration (accès sur demande)."
-  - "Batterie de dix cas rejouée après chaque modification du prompt."
-  - "Incident A-007 détecté par un contrôle qualité hebdomadaire automatique, corrigé, puis vérifié contre le code réellement déployé."
+  - "Les 29 workflows sont listés, avec leur déclencheur et leur rôle, dans l'inventaire."
+  - "Incident A-007 détecté par un contrôle qualité hebdomadaire automatique, corrigé, vérifié contre le code déployé."
 incident:
   titre: "A-007 — les fourchettes absurdes"
   constat: "La même demande — un réseau de plomberie cuisine et salle de bain — donnait successivement 130–391 €, 110–181 €, puis un refus. 181 € pour un réseau complet, c'est moins qu'une journée de travail."
   cause: "Le modèle mobilisait les briques en quantité unitaire (une heure, un mètre linéaire) ; le garde-fou G4 prenait cette somme pour un plafond fiable et écrasait dessus la borne haute — pourtant juste — du modèle. Il existait un plancher sur la borne basse, rien de symétrique sur la haute."
   correctif: "Un ratio : si la borne haute du modèle dépasse deux fois la somme catalogue, cette somme est manifestement unitaire et n'est plus un plafond — on bascule en repli explicite. Le bloc corrigé a été extrait du workflow déployé et rejoué tel quel sur quatre exécutions réelles : quatre sur quatre."
-stack: ["n8n", "OpenAI", "Notion", "Telegram", "Cloudflare Pages", "Python"]
+stack: ["n8n", "OpenAI", "Notion", "Telegram", "Cloudflare Pages", "Cloudflare Workers", "Python"]
 liens: []
 images:
   - fichier: "telegram-demande-estimation.webp"

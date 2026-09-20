@@ -10,7 +10,7 @@ test("trois cartes de réalisation, dans l'ordre, qui mènent aux pages", async 
   await page.goto("/");
   const cartes = page.locator("#realisations article[data-carte]");
   await expect(cartes).toHaveCount(3);
-  await expect(cartes.nth(0).locator("h3")).toContainText("Agent d'estimation");
+  await expect(cartes.nth(0).locator("h3")).toContainText("Le pack BTP");
   await expect(cartes.nth(0).locator("[data-badge]")).toHaveText("Pack de démonstration, en service");
   await expect(cartes.nth(1).locator("[data-badge]")).toHaveText("Démonstrateur, en construction");
   await expect(cartes.nth(2).locator("h3")).toContainText("Station audio");
