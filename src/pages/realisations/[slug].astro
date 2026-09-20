@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Schema from "../../components/Schema.astro";
 import Badge from "../../components/Badge.astro";
+import Galerie from "../../components/Galerie.astro";
 import { identite } from "../../data/identite";
 
 export async function getStaticPaths() {
@@ -25,6 +26,7 @@ const d = r.data;
     <section class="section">
       <h2>Ce que j'ai construit</h2>
       <ul class="puces">{d.construit.map((c) => <li>{c}</li>)}</ul>
+      <Galerie slug={r.id} images={d.images} />
       <Schema etapes={d.schema} />
     </section>
     <section class="section">

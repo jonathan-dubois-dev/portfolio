@@ -1,11 +1,15 @@
 ---
+import { Image } from "astro:assets";
 import type { Realisation } from "../lib/schema-realisation";
+import { imageDe } from "../lib/images";
 import Badge from "./Badge.astro";
 interface Props { slug: string; d: Realisation }
 const { slug, d } = Astro.props;
 const url = `/realisations/${slug}/`;
+const vignette = d.images[0];
 ---
 <article class="carte" data-carte>
+  <Image src={imageDe(slug, vignette.fichier)} alt={vignette.alt} width={640} format="webp" loading="lazy" decoding="async" class="vignette" />
   <Badge statut={d.statut} />
   <h3><a href={url}>{d.titre}</a></h3>
   <p class="resume">{d.resume}</p>
@@ -15,6 +19,7 @@ const url = `/realisations/${slug}/`;
 <style>
   /* Le lien du titre est étendu à toute la carte par le pseudo-élément — posé sur l'ANCRE, pas sur la carte. */
   .carte{position:relative;border:1px solid var(--trait-fort);border-radius:6px;padding:1.4rem;display:grid;gap:.8rem;align-content:start}
+  .vignette{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:4px}
   .carte:hover{border-color:var(--encre)}
   h3{font-family:var(--display);font-variation-settings:'wdth' 106;font-weight:700;font-size:1.25rem;line-height:1.2;margin:0;text-wrap:balance}
   h3 a{color:var(--encre);text-decoration:none}

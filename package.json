@@ -11,7 +11,8 @@
     "test": "vitest run",
     "e2e": "astro build && playwright test",
     "og": "node scripts/capturer-og.mjs",
-    "polices": "node scripts/rapatrier-polices.mjs"
+    "polices": "node scripts/rapatrier-polices.mjs",
+    "captures": "node scripts/preparer-captures.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

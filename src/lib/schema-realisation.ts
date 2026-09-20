@@ -23,6 +23,15 @@ export const schemaRealisation = z.object({
   }),
   stack: z.array(z.string()).min(3),
   liens: z.array(z.object({ libelle: z.string(), url: z.string().url() })).default([]),
+  images: z
+    .array(
+      z.object({
+        fichier: z.string().regex(/^[a-z0-9-]+\.(png|webp)$/),
+        alt: z.string().min(10),
+        legende: z.string().min(10),
+      }),
+    )
+    .min(2),
 });
 
 export type Realisation = z.infer<typeof schemaRealisation>;

@@ -27,4 +27,11 @@ incident:
 stack: ["Astro", "Cloudflare Workers", "Cloudflare Pages", "D1", "R2", "Workers AI", "n8n", "vitest", "Playwright"]
 liens:
   - { libelle: "Site public du démonstrateur", url: "https://hub-sante-demo.pages.dev" }
+images:
+  - fichier: "plan-des-etages.png"
+    alt: "Vue « bâtiment » du site public : plan interactif des étages avec l'accès à l'espace de chaque praticien."
+    legende: "L'accueil du site public est le plan du bâtiment lui-même, cliquable étage par étage."
+  - fichier: "equipe-photo.png"
+    alt: "Page équipe du site public avec les cartes et portraits des praticiens de démonstration."
+    legende: "Chaque praticien de démonstration a sa carte avec portrait sur la page équipe du site public."
 ---

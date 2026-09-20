@@ -27,4 +27,11 @@ incident:
 stack: ["Python", "Web Audio API", "canvas", "Demucs / PyTorch", "ffmpeg", "Cloudflare Access", "pytest", "Playwright"]
 liens:
   - { libelle: "Le studio (accès sur invitation)", url: "https://studio.aelto.fr" }
+images:
+  - fichier: "editeur-le-nuage.png"
+    alt: "Éditeur multipiste du studio avec sept pistes (voix, basse, beat, FX, guitare, cuivres) et l'inspecteur ouvert sur un clip de basse."
+    legende: "L'inspecteur d'un clip de basse montre le réglage « Tempo & hauteur » : étirement temporel de 175 à 160 BPM, hauteur préservée."
+  - fichier: "historique-versions.png"
+    alt: "Menu Historique ouvert dans l'éditeur, listant les versions horodatées successives du morceau."
+    legende: "Chaque modification du morceau garde une version horodatée, consultable depuis le menu Historique."
 ---
