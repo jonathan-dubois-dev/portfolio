@@ -6,8 +6,8 @@ export const identite = {
   disponibilite: "Disponible en mission ou en poste",
   // Adresse provisoire (spec § 2) ; passera sur le domaine perso avec Email Routing.
   email: "duboisjonathan@orange.fr",
-  // Vides tant que les comptes n'existent pas : le composant Contact n'affiche que les liens renseignés.
-  liens: { linkedin: "", github: "" },
+  // LinkedIn vide tant que le compte n'existe pas : le composant Contact n'affiche que les liens renseignés.
+  liens: { linkedin: "", github: "https://github.com/jonathan-dubois-dev" },
   descriptionSite:
     "Ingénieur automatisation IA et creative technologist à Toulouse : agents, workflows n8n, applications sur Cloudflare, génératif. Trois réalisations en production, testées et pesées.",
 };

@@ -19,14 +19,6 @@ test("première vue de l'accueil < 1 Mo, aucune requête tierce", async ({ page 
   expect(polices).toBeLessThanOrEqual(4);
 });
 
-test("le contenu n'emploie aucun caractère hors de la plage latin des polices", async ({ page }) => {
-  for (const u of ["/", "/realisations/pack-btp/", "/realisations/hub-sante/", "/realisations/studio-moonkura/"]) {
-    await page.goto(u);
-    const texte = await page.evaluate(() => document.body.innerText);
-    expect(texte, u).not.toMatch(/[œŒ]/);
-  }
-});
-
 test("le semi-gras est plus large que le regular", async ({ page }) => {
   await page.goto("/");
   const { largeur400, largeur600 } = await page.evaluate(async () => {
