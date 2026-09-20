@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const SITE = "https://jonathan-dubois.pages.dev";
+const SITE = "https://jonathan-dubois.dev";
 
 test("sitemap : l'accueil et les cinq réalisations", async ({ request }) => {
   const index = await (await request.get("/sitemap-index.xml")).text();
