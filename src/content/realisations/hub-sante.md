@@ -32,6 +32,6 @@ images:
     alt: "Vue « bâtiment » du site public : plan interactif des étages avec l'accès à l'espace de chaque praticien."
     legende: "L'accueil du site public est le plan du bâtiment lui-même, cliquable étage par étage."
   - fichier: "equipe-photo.png"
-    alt: "Page équipe du site public avec les cartes et portraits des praticiens de démonstration."
-    legende: "Chaque praticien de démonstration a sa carte avec portrait sur la page équipe du site public."
+    alt: "Page équipe du site public : photo de groupe des praticiens de démonstration devant le bâtiment, avec un texte de présentation de la maison de santé."
+    legende: "L'équipe présentée ici est un jeu de données de seed, aucun patient : praticiens et photo de démonstration pour le prototype."
 ---

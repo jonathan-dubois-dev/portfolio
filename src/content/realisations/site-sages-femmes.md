@@ -29,7 +29,7 @@ liens:
   - { libelle: "Le site public", url: "https://a-chaque-etape.fr" }
 images:
   - { fichier: "accueil.png", alt: "Page d'accueil du site du cabinet : photo plein cadre, titre, boutons de rendez-vous.", legende: "L'accueil — une ressource, pas une plaquette." }
-  - { fichier: "contractions.png", alt: "Le compteur de contractions : chronomètre, historique, repère pour contacter la maternité.", legende: "Le compteur de contractions, utilisable hors-ligne, sans compte." }
-  - { fichier: "assistante.png", alt: "L'assistante IA ouverte, répondant à une question sur les horaires depuis les données du site.", legende: "L'assistante répond depuis une base de connaissances générée — jamais écrite à la main." }
+  - { fichier: "contractions.png", alt: "Le compteur de contractions : minuteur à zéro, bouton « Démarrer une contraction », et le rappel que l'outil est indicatif, sans remplacer un avis médical.", legende: "Le compteur de contractions, utilisable hors-ligne, sans compte." }
+  - { fichier: "assistante.png", alt: "L'assistante IA « Plume » ouverte dans son état d'accueil, avec des suggestions de sujets sous forme de puces (Prendre rendez-vous, Suivi de grossesse, Gynécologie…).", legende: "Dès l'ouverture, Plume propose des sujets à choisir ; ses réponses viennent d'une base de connaissances générée depuis les données du site, jamais écrite à la main." }
   - { fichier: "vrai-faux.png", alt: "Cartes Vrai/Faux retournables, avec la source de chaque réponse.", legende: "Vrai ou faux : 21 fiches, chacune sourcée." }
 ---
