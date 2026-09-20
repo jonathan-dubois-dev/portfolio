@@ -1,15 +1,15 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
-import { parse } from "yaml";
+import { frontmatter } from "./lib/frontmatter";
 
 const DOSSIER = join(process.cwd(), "src/content/realisations");
 const ASSETS = join(process.cwd(), "src/assets/realisations");
-const frontmatter = (t: string) => parse(/^---\r?\n([\s\S]*?)\r?\n---/.exec(t)![1]) as { images: { fichier: string; alt: string; legende: string }[] };
+type ImagesFrontmatter = { images: { fichier: string; alt: string; legende: string }[] };
 
 describe("les images des études", () => {
   for (const f of readdirSync(DOSSIER).filter((n) => n.endsWith(".md"))) {
-    const slug = f.replace(/\.md$/, ""), fm = frontmatter(readFileSync(join(DOSSIER, f), "utf8"));
+    const slug = f.replace(/\.md$/, ""), fm = frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as ImagesFrontmatter;
     it(`${slug} : au moins deux images, chacune présente, ≤ 400 Ko, avec alt et légende`, () => {
       expect(fm.images.length).toBeGreaterThanOrEqual(2);
       for (const im of fm.images) {

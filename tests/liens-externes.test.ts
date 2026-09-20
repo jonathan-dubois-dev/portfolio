@@ -1,18 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { parse } from "yaml";
 import { vignettes } from "../src/data/vignettes";
 import { LIENS_SUR_INVITATION } from "../src/data/liens-sur-invitation";
 import { identite } from "../src/data/identite";
+import { frontmatter } from "./lib/frontmatter";
 
 const DOSSIER = join(process.cwd(), "src/content/realisations");
-
-function frontmatter(texte: string): unknown {
-  const m = /^---\r?\n([\s\S]*?)\r?\n---/.exec(texte);
-  if (!m) throw new Error("frontmatter absent");
-  return parse(m[1]);
-}
 
 /** Toutes les URL publiées : les `liens` des cinq études de cas, les `url` des vignettes — avec le texte qui les annonce. */
 const urls: { url: string; origine: string; texte: string }[] = [];

@@ -1,19 +1,25 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { parse } from "yaml";
 import { schemaRealisation } from "../src/lib/schema-realisation";
 import { INTERDITS, INTERDITS_HUB, motsInterdits, regleClient } from "../src/lib/verifier-contenu";
 import { comptes } from "../src/data/automatisations";
+import { identite } from "../src/data/identite";
+import { frontmatter } from "./lib/frontmatter";
 
 const DOSSIER = join(process.cwd(), "src/content/realisations");
 const fichiers = readdirSync(DOSSIER).filter((f) => f.endsWith(".md"));
 
-function frontmatter(texte: string): unknown {
-  const m = /^---\r?\n([\s\S]*?)\r?\n---/.exec(texte);
-  if (!m) throw new Error("frontmatter absent");
-  return parse(m[1]);
-}
+/** Le scan de `src/` promis par le README : les cinq études, plus les données et le hero qui
+ *  peuvent porter un mot interdit ou un « client » mal tourné (spec § 6, brief I2). */
+const FICHIERS_DONNEES_SCANNES = [
+  "src/data/identite.ts",
+  "src/data/chiffres.json",
+  "src/data/vignettes.ts",
+  "src/data/stack.ts",
+  "src/data/automatisations.ts",
+  "src/scripts/flux-geometrie.ts",
+].map((chemin) => ({ chemin, texte: readFileSync(join(process.cwd(), chemin), "utf8") }));
 
 describe("les études de cas", () => {
   it("sont exactement cinq", () => {
@@ -56,8 +62,9 @@ describe("les études de cas", () => {
     expect(statut("studio-moonkura.md")).toBe("usage");
     expect(statut("pack-btp.md")).toBe("demo");
   });
-  it("la règle « client » tient sur BTP, hub et l'inventaire", () => {
-    for (const f of ["pack-btp.md", "hub-sante.md"]) {
+
+  it("la règle « client » tient sur les cinq études", () => {
+    for (const f of fichiers) {
       expect(regleClient(readFileSync(join(DOSSIER, f), "utf8")), f).toEqual([]);
     }
   });
@@ -76,10 +83,32 @@ describe("les études de cas", () => {
     const fm = frontmatter(readFileSync(join(DOSSIER, "pack-therapeutes.md"), "utf8")) as { titre: string };
     expect(fm.titre).toContain(`${comptes().parMetier.therapeutes} workflows`);
   });
+
+  it("le nombre de workflows sages-femmes annoncé dans les preuves est celui de l'inventaire", () => {
+    const fm = frontmatter(readFileSync(join(DOSSIER, "site-sages-femmes.md"), "utf8")) as { preuves: string[] };
+    expect(fm.preuves.join(" ")).toContain(`${comptes().parMetier.sagesfemmes} workflows n8n`);
+  });
 });
 
 describe("motsInterdits", () => {
   it("est insensible à la casse et rend les mots trouvés", () => {
     expect(motsInterdits("Une réunion à REVEL avec le client.", ["Revel", "client", "Teulat"])).toEqual(["Revel", "client"]);
   });
+});
+
+describe("la description du site est honnête", () => {
+  it("ne prétend jamais qu'un pack de démonstration est « en production »", () => {
+    expect(identite.descriptionSite).not.toMatch(/en production/i);
+  });
+});
+
+describe("la règle « client » et les mots interdits couvrent aussi les données et le hero", () => {
+  for (const { chemin, texte } of FICHIERS_DONNEES_SCANNES) {
+    it(`${chemin} ne contient aucun mot interdit`, () => {
+      expect(motsInterdits(texte, INTERDITS), chemin).toEqual([]);
+    });
+    it(`${chemin} respecte la règle client`, () => {
+      expect(regleClient(texte), chemin).toEqual([]);
+    });
+  }
 });

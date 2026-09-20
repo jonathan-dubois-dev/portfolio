@@ -1,10 +1,10 @@
 ---
 import Base from "../layouts/Base.astro";
 import Badge from "../components/Badge.astro";
-import { automatisations, METIERS, parMetier, comptes, type Metier } from "../data/automatisations";
+import { automatisations, METIERS, parMetier, comptes, metiersOrdonnes } from "../data/automatisations";
 import { identite } from "../data/identite";
 const g = parMetier(), c = comptes();
-const metiers = (Object.keys(METIERS) as Metier[]).sort((a, b) => METIERS[a].ordre - METIERS[b].ordre);
+const metiers = metiersOrdonnes();
 ---
 <Base title={`Ce qui tourne — ${identite.nom}`} description={`${c.total} workflows n8n construits, ${c.actifs} actifs, classés par métier avec leur statut réel.`}>
   <header class="colonne entete">

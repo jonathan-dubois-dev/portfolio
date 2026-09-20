@@ -32,6 +32,17 @@ for (const slug of ["pack-btp", "pack-therapeutes", "site-sages-femmes", "hub-sa
   });
 }
 
+test("seuls les packs BTP et thérapeutes renvoient vers leur bloc de l'inventaire", async ({ page }) => {
+  await page.goto("/realisations/pack-btp/");
+  await expect(page.locator('a[href="/automatisations/#btp"]')).toHaveCount(1);
+  await page.goto("/realisations/pack-therapeutes/");
+  await expect(page.locator('a[href="/automatisations/#therapeutes"]')).toHaveCount(1);
+  for (const slug of ["hub-sante", "site-sages-femmes", "studio-moonkura"]) {
+    await page.goto(`/realisations/${slug}/`);
+    await expect(page.locator('a[href^="/automatisations/#"]')).toHaveCount(0);
+  }
+});
+
 test("chaque page d'étude porte un badge", async ({ page }) => {
   const attendus: Record<string, string> = {
     "pack-btp": "Pack de démonstration, en service",

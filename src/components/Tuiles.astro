@@ -1,7 +1,7 @@
 ---
-import { METIERS, parMetier, comptes, type Metier } from "../data/automatisations";
+import { METIERS, parMetier, comptes, metiersOrdonnes } from "../data/automatisations";
 const g = parMetier(), c = comptes();
-const metiers = (Object.keys(METIERS) as Metier[]).sort((a, b) => METIERS[a].ordre - METIERS[b].ordre);
+const metiers = metiersOrdonnes();
 ---
 <section class="section" id="tourne">
   <h2>Ce qui tourne</h2>

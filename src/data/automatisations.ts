@@ -135,6 +135,11 @@ export function parMetier(): Record<Metier, Automatisation[]> {
   return g;
 }
 
+/** Les métiers dans l'ordre d'affichage (spec § 2) : `METIERS[m].ordre` croissant. */
+export function metiersOrdonnes(): Metier[] {
+  return (Object.keys(METIERS) as Metier[]).sort((a, b) => METIERS[a].ordre - METIERS[b].ordre);
+}
+
 export function comptes() {
   const g = parMetier();
   return {

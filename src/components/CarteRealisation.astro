@@ -9,7 +9,18 @@ const url = `/realisations/${slug}/`;
 const vignette = d.images[0];
 ---
 <article class="carte" data-carte>
-  <Image src={imageDe(slug, vignette.fichier)} alt={vignette.alt} width={640} format="webp" loading="lazy" decoding="async" class="vignette" />
+  <Image
+    src={imageDe(slug, vignette.fichier)}
+    alt=""
+    width={640}
+    height={400}
+    fit="cover"
+    position="top"
+    format="webp"
+    loading="lazy"
+    decoding="async"
+    class="vignette"
+  />
   <Badge statut={d.statut} />
   <h3><a href={url}>{d.titre}</a></h3>
   <p class="resume">{d.resume}</p>

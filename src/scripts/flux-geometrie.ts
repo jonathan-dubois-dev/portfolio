@@ -11,7 +11,7 @@ export const NOEUDS: string[] = [
   "LLM · T = 0,2",
   "Garde-fous G1–G4",
   "Notion · Telegram",
-  "Réponse au client",
+  "Réponse au demandeur",
 ];
 export const ARETES: [number, number][] = [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [4, 6]];
 /** Les deux chemins que l'impulsion alterne. */

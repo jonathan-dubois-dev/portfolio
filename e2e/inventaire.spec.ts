@@ -9,6 +9,11 @@ test("/automatisations/ : six métiers, cent lignes, un badge par bloc", async (
   await expect(page.locator("#btp [data-ligne]")).toHaveCount(29);
 });
 
+test("le marqueur « — inactif » est présent sur les sept lignes inactives, et sur elles seules", async ({ page }) => {
+  await page.goto("/automatisations/");
+  await expect(page.locator("[data-ligne] .inactif")).toHaveCount(7);
+});
+
 test("téléphone : l'inventaire ne défile pas horizontalement", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/automatisations/");
