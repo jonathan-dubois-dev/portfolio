@@ -2,7 +2,7 @@
 titre: "Un site de cabinet qui est une plateforme : une centaine de pages, 13 outils, une assistante IA"
 prouve: "Un produit complet en usage quotidien par un cabinet, où chaque brique — outils hors-ligne, assistante, modération, PWA — est réelle et testée."
 statut: usage
-statutLigne: "En ligne et en usage quotidien par un cabinet de sages-femmes depuis juin 2026 ; construit comme la vitrine de ce que je sais faire pour un praticien."
+statutLigne: "En production et en usage quotidien par un cabinet de sages-femmes depuis juin 2026 ; construit comme la vitrine de ce que je sais faire pour un praticien."
 ordre: 3
 resume: "Les sites de cabinet sont des plaquettes. Celui-ci a treize outils qui marchent hors-ligne, une assistante qui répond depuis les données du site, des avis modérés, quatre lettres automatisées."
 contexte: "Un cabinet de sages-femmes voulait plus qu'une plaquette : une ressource pour les patientes, entre deux consultations. Contrainte : aucune donnée de santé stockée, une déontologie stricte sur les avis, un site qui tienne sur un téléphone en 4G."

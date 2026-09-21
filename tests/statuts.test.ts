@@ -1,12 +1,13 @@
 import { describe, it, expect } from "vitest";
-import { STATUTS, PERSONAS, INTERDITS, regleClient } from "../src/lib/verifier-contenu";
+import { STATUTS, PERSONAS, INTERDITS, regleClient, regleProduction } from "../src/lib/verifier-contenu";
 
 describe("statuts", () => {
-  it("a exactement trois libellés, dans les mots de la spec", () => {
+  it("a exactement quatre libellés, dans les mots de la spec", () => {
     expect(STATUTS).toEqual({
       usage: "En usage quotidien",
       demo: "Pack de démonstration, en service",
       demonstrateur: "Démonstrateur, en construction",
+      arrete: "Arrêté",
     });
   });
   it("interdit aussi « compagne » et « Maison Aube »", () => {
@@ -15,6 +16,22 @@ describe("statuts", () => {
   });
   it("PERSONAS nomme les personas de démonstration", () => {
     expect(PERSONAS).toEqual(["Marc", "Camille"]);
+  });
+});
+
+describe("regleProduction", () => {
+  it("trouve « en production » et « en prod » quelle que soit la casse", () => {
+    expect(regleProduction("Mis EN PRODUCTION hier, en prod depuis.")).toEqual(["Mis EN PRODUCTION hier", "en prod depuis"]);
+  });
+  it("ne signale rien sans le mot", () => {
+    expect(regleProduction("Un produit, une productivité, un producteur.")).toEqual([]);
+  });
+});
+
+describe("STATUTS", () => {
+  it("compte quatre statuts, dont « Arrêté »", () => {
+    expect(Object.keys(STATUTS)).toEqual(["usage", "demo", "demonstrateur", "arrete"]);
+    expect(STATUTS.arrete).toBe("Arrêté");
   });
 });
 

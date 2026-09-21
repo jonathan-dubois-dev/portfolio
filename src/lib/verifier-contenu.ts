@@ -12,12 +12,13 @@ export const INTERDITS: string[] = ["Revel", "Dauzats", "Virginie", "Teulat", "m
 /** En plus, dans l'étude du hub : rien n'est signé. */
 export const INTERDITS_HUB: string[] = ["signé", "signée"];
 
-export type Statut = "usage" | "demo" | "demonstrateur";
-/** Les trois statuts affichés partout (spec v2 § 2). Définis ici, rendus par Badge.astro. */
+export type Statut = "usage" | "demo" | "demonstrateur" | "arrete";
+/** Les quatre statuts affichés partout (spec v3 § 2). `arrete` est réservé aux cartes « Aussi construit ». */
 export const STATUTS: Record<Statut, string> = {
   usage: "En usage quotidien",
   demo: "Pack de démonstration, en service",
   demonstrateur: "Démonstrateur, en construction",
+  arrete: "Arrêté",
 };
 /** Personas de démonstration : jamais nommées dans l'inventaire. */
 export const PERSONAS: string[] = ["Marc", "Camille"];
@@ -34,6 +35,12 @@ export function regleClient(texte: string): string[] {
     fautes.push(m[0].trim().replace(/[.,;:!?…»)]+$/, ""));
   }
   return fautes;
+}
+
+/** Fragments qui disent « en production » / « en prod » — admis seulement dans les études en usage (spec v3 § 2). */
+export function regleProduction(texte: string): string[] {
+  const re = /(\S+\s+)?\ben prod(?:uction)?\b(\s+\S+)?/giu;
+  return [...texte.matchAll(re)].map((m) => m[0].trim().replace(/[.,;:!?…»)]+$/, ""));
 }
 
 /** Les mots de `interdits` présents dans `texte`, sans tenir compte de la casse, dans l'ordre de la liste. */

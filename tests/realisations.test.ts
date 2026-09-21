@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { schemaRealisation } from "../src/lib/schema-realisation";
-import { INTERDITS, INTERDITS_HUB, motsInterdits, regleClient } from "../src/lib/verifier-contenu";
+import { INTERDITS, INTERDITS_HUB, motsInterdits, regleClient, regleProduction } from "../src/lib/verifier-contenu";
 import { comptes } from "../src/data/automatisations";
 import { identite } from "../src/data/identite";
 import { frontmatter } from "./lib/frontmatter";
@@ -69,6 +69,20 @@ describe("les études de cas", () => {
     }
   });
 
+  it("« production » n'apparaît que dans les études en usage", () => {
+    for (const f of fichiers) {
+      const texte = readFileSync(join(DOSSIER, f), "utf8");
+      const fm = frontmatter(texte) as { statut: string };
+      if (fm.statut !== "usage") expect(regleProduction(texte), f).toEqual([]);
+    }
+  });
+  it("le studio et le site sages-femmes se disent en production", () => {
+    for (const f of ["studio-moonkura.md", "site-sages-femmes.md"]) {
+      const fm = frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { statutLigne: string };
+      expect(fm.statutLigne, f).toMatch(/en production/i);
+    }
+  });
+
   it("les ordres sont 1, 2, 3, 4, 5 sans doublon", () => {
     const ordres = fichiers.map((f) => (frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { ordre: number }).ordre).sort();
     expect(ordres).toEqual([1, 2, 3, 4, 5]);
@@ -98,7 +112,7 @@ describe("motsInterdits", () => {
 
 describe("la description du site est honnête", () => {
   it("ne prétend jamais qu'un pack de démonstration est « en production »", () => {
-    expect(identite.descriptionSite).not.toMatch(/en production/i);
+    expect(regleProduction(identite.descriptionSite)).toEqual([]);
   });
 });
 

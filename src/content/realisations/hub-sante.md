@@ -18,10 +18,10 @@ schema: ["Enregistrement", "Whisper (Workers AI)", "Llama 3.3", "Détecteur pati
 preuves:
   - "177 tests unitaires et 56 tests navigateur sur le hub ; 61 et 70 sur le site public."
   - "Transcription vérifiée en conditions réelles sur Workers AI : treize secondes pour un enregistrement d'une minute, brouillon structuré, aucun texte dans les journaux."
-  - "Sauvegarde R2 et relais mail vérifiés en production : courriel d'invitation réellement reçu."
+  - "Sauvegarde R2 et relais mail vérifiés une fois déployés : courriel d'invitation réellement reçu."
 incident:
   titre: "Connexion en erreur 500 dès le premier déploiement"
-  constat: "Le hub fonctionnait parfaitement en local ; en production, chaque tentative de connexion répondait 500. Rien dans les journaux applicatifs."
+  constat: "Le hub fonctionnait parfaitement en local ; une fois déployé, chaque tentative de connexion répondait 500. Rien dans les journaux applicatifs."
   cause: "Le hachage des mots de passe utilisait PBKDF2 à 210 000 itérations. Le moteur WebCrypto de Cloudflare Workers plafonne à 100 000 : au-delà, l'appel lève une exception — invisible en local, où le moteur Node n'a pas cette limite."
   correctif: "Itérations ramenées sous le plafond, base distante rechargée, redéploiement — et une règle ajoutée à la liste de contrôle : tester la connexion réelle après chaque déploiement, jamais seulement en local."
 stack: ["Astro", "Cloudflare Workers", "Cloudflare Pages", "D1", "R2", "Workers AI", "n8n", "vitest", "Playwright"]
