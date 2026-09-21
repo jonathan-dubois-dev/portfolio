@@ -14,10 +14,10 @@ test("une page d'étude rend ses figures en WebP, lazy, avec alt et légende", a
   await expect(figs.first().locator("figcaption")).not.toBeEmpty();
 });
 
-test("les cinq cartes de l'accueil portent une vignette recadrée, décorative", async ({ page }) => {
+test("les sept cartes de l'accueil portent une vignette recadrée, décorative", async ({ page }) => {
   await page.goto("/");
   const vignettes = page.locator("#realisations article[data-carte] img");
-  await expect(vignettes).toHaveCount(5);
+  await expect(vignettes).toHaveCount(7);
   await expect(vignettes.first()).toHaveAttribute("loading", "lazy");
   // Décorative : le titre de la carte porte déjà le sens (M14) ; alt vide, pas d'assertion de longueur.
   await expect(vignettes.first()).toHaveAttribute("alt", "");

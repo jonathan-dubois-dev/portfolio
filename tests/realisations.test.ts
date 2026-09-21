@@ -10,7 +10,7 @@ import { frontmatter } from "./lib/frontmatter";
 const DOSSIER = join(process.cwd(), "src/content/realisations");
 const fichiers = readdirSync(DOSSIER).filter((f) => f.endsWith(".md"));
 
-/** Le scan de `src/` promis par le README : les cinq études, plus les données et le hero qui
+/** Le scan de `src/` promis par le README : les sept études, plus les données et le hero qui
  *  peuvent porter un mot interdit ou un « client » mal tourné (spec § 6, brief I2). */
 const FICHIERS_DONNEES_SCANNES = [
   "src/data/identite.ts",
@@ -21,8 +21,10 @@ const FICHIERS_DONNEES_SCANNES = [
 ].map((chemin) => ({ chemin, texte: readFileSync(join(process.cwd(), chemin), "utf8") }));
 
 describe("les études de cas", () => {
-  it("sont exactement cinq", () => {
+  it("sont exactement sept", () => {
     expect(fichiers.sort()).toEqual([
+      "atelier.md",
+      "editeur-video.md",
       "hub-sante.md",
       "pack-btp.md",
       "pack-therapeutes.md",
@@ -62,7 +64,7 @@ describe("les études de cas", () => {
     expect(statut("pack-btp.md")).toBe("demo");
   });
 
-  it("la règle « client » tient sur les cinq études", () => {
+  it("la règle « client » tient sur les sept études", () => {
     for (const f of fichiers) {
       expect(regleClient(readFileSync(join(DOSSIER, f), "utf8")), f).toEqual([]);
     }
@@ -82,9 +84,20 @@ describe("les études de cas", () => {
     }
   });
 
-  it("les ordres sont 1, 2, 3, 4, 5 sans doublon", () => {
+  it("les ordres sont 1, 2, 3, 4, 5, 6, 7 sans doublon", () => {
     const ordres = fichiers.map((f) => (frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { ordre: number }).ordre).sort();
-    expect(ordres).toEqual([1, 2, 3, 4, 5]);
+    expect(ordres).toEqual([1, 2, 3, 4, 5, 6, 7]);
+  });
+
+  it("l'ordre de l'accueil est celui de la spec v3", () => {
+    const ordre = (f: string) => (frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { ordre: number }).ordre;
+    expect(["pack-btp.md", "pack-therapeutes.md", "site-sages-femmes.md", "studio-moonkura.md", "editeur-video.md", "atelier.md", "hub-sante.md"].map(ordre)).toEqual([1, 2, 3, 4, 5, 6, 7]);
+  });
+
+  it("l'Atelier annonce ses 141 tests et l'éditeur vidéo dit n'en avoir aucun", () => {
+    const preuves = (f: string) => (frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { preuves: string[] }).preuves.join(" ");
+    expect(preuves("atelier.md")).toContain("141 tests");
+    expect(preuves("editeur-video.md")).toMatch(/aucune suite de tests/i);
   });
 
   it("le nombre annoncé dans le titre du pack BTP est celui de l'inventaire", () => {

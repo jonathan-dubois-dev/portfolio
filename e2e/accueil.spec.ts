@@ -6,18 +6,21 @@ test("trois chiffres, chacun avec sa valeur et son libellé", async ({ page }) =
   await expect(page.locator("#chiffres [data-chiffre] strong").first()).not.toBeEmpty();
 });
 
-test("cinq cartes de réalisation, dans l'ordre, qui mènent aux pages", async ({ page }) => {
+test("sept cartes de réalisation, dans l'ordre, qui mènent aux pages", async ({ page }) => {
   await page.goto("/");
   const cartes = page.locator("#realisations article[data-carte]");
-  await expect(cartes).toHaveCount(5);
+  await expect(cartes).toHaveCount(7);
   await expect(cartes.nth(0).locator("h3")).toContainText("Le pack BTP");
   await expect(cartes.nth(0).locator("[data-badge]")).toHaveText("Pack de démonstration, en service");
   await expect(cartes.nth(1).locator("h3")).toContainText("Le pack thérapeutes");
   await expect(cartes.nth(1).locator("[data-badge]")).toHaveText("Pack de démonstration, en service");
   await expect(cartes.nth(2).locator("h3")).toContainText("plateforme");
   await expect(cartes.nth(2).locator("[data-badge]")).toHaveText("En usage quotidien");
-  await expect(cartes.nth(3).locator("[data-badge]")).toHaveText("Démonstrateur, en construction");
-  await expect(cartes.nth(4).locator("h3")).toContainText("Station audio");
+  await expect(cartes.nth(3).locator("h3")).toContainText("Station audio");
+  await expect(cartes.nth(3).locator("[data-badge]")).toHaveText("En usage quotidien");
+  await expect(cartes.nth(4).locator("h3")).toContainText("montage");
+  await expect(cartes.nth(5).locator("h3")).toContainText(/atelier/i);
+  await expect(cartes.nth(6).locator("[data-badge]")).toHaveText("Démonstrateur, en construction");
   await cartes.nth(0).locator("a").first().click();
   await expect(page).toHaveURL(/\/realisations\/pack-btp\/$/);
 });

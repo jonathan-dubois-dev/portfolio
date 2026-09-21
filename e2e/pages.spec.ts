@@ -21,7 +21,7 @@ test("zéro erreur console sur l'accueil", async ({ page }) => {
   expect(erreurs).toEqual([]);
 });
 
-for (const slug of ["pack-btp", "pack-therapeutes", "site-sages-femmes", "hub-sante", "studio-moonkura"]) {
+for (const slug of ["pack-btp", "pack-therapeutes", "site-sages-femmes", "hub-sante", "studio-moonkura", "editeur-video", "atelier"]) {
   test(`/realisations/${slug}/ : titre, « ce que ça prouve », six sections, diagramme`, async ({ page }) => {
     const r = await page.goto(`/realisations/${slug}/`);
     expect(r?.status()).toBe(200);
@@ -37,10 +37,17 @@ test("seuls les packs BTP et thérapeutes renvoient vers leur bloc de l'inventai
   await expect(page.locator('a[href="/automatisations/#btp"]')).toHaveCount(1);
   await page.goto("/realisations/pack-therapeutes/");
   await expect(page.locator('a[href="/automatisations/#therapeutes"]')).toHaveCount(1);
-  for (const slug of ["hub-sante", "site-sages-femmes", "studio-moonkura"]) {
+  for (const slug of ["hub-sante", "site-sages-femmes", "studio-moonkura", "editeur-video", "atelier"]) {
     await page.goto(`/realisations/${slug}/`);
     await expect(page.locator('a[href^="/automatisations/#"]')).toHaveCount(0);
   }
+});
+
+test("l'Atelier publie son lien annoté « accès sur invitation »", async ({ page }) => {
+  await page.goto("/realisations/atelier/");
+  const a = page.locator('a[href^="https://atelier.aelto.fr"]');
+  await expect(a).toHaveCount(1);
+  await expect(a).toContainText("accès sur invitation");
 });
 
 test("chaque page d'étude porte un badge", async ({ page }) => {
@@ -50,6 +57,8 @@ test("chaque page d'étude porte un badge", async ({ page }) => {
     "site-sages-femmes": "En usage quotidien",
     "hub-sante": "Démonstrateur, en construction",
     "studio-moonkura": "En usage quotidien",
+    "editeur-video": "En usage quotidien",
+    atelier: "En usage quotidien",
   };
   for (const [slug, texte] of Object.entries(attendus)) {
     await page.goto(`/realisations/${slug}/`);

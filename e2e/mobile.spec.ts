@@ -9,6 +9,8 @@ const PAGES = [
   "/realisations/site-sages-femmes/",
   "/realisations/hub-sante/",
   "/realisations/studio-moonkura/",
+  "/realisations/editeur-video/",
+  "/realisations/atelier/",
   "/automatisations/",
 ];
 
