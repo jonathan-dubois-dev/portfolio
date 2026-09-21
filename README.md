@@ -1,6 +1,6 @@
 # Portfolio de Jonathan Dubois
 
-Site personnel statique — Astro 6, Cloudflare Pages. Spec v1 : `docs/superpowers/specs/2026-09-19-portfolio-design.md`. Spec v2 : `docs/superpowers/specs/2026-09-19-portfolio-v2-design.md`.
+Site personnel statique — Astro 6, Cloudflare Pages. Spec v1 : `docs/superpowers/specs/2026-09-19-portfolio-design.md`. Spec v2 : `docs/superpowers/specs/2026-09-19-portfolio-v2-design.md`. Spec v3 : `docs/superpowers/specs/2026-09-21-portfolio-v3-design.md`.
 
 ## Construire et tester
 
@@ -16,7 +16,7 @@ Première vue de l'accueil mesurée le 20/09/2026, vignettes de carte recadrées
 
 ## Tests
 
-Totaux relevés le 20/09/2026 (`npm test` puis `npm run e2e`) : **103 tests vitest** (10 fichiers) et **58 tests e2e Playwright**, tous verts.
+Totaux relevés le 21/09/2026 (`npm test` puis `npm run e2e`) : **144 tests vitest** (11 fichiers) et **62 tests e2e Playwright**, tous verts.
 
 ## Déployer
 
@@ -34,24 +34,26 @@ NODE_OPTIONS=--use-system-ca npx wrangler pages deploy dist --project-name=jonat
 
 **`--branch=main` est obligatoire** : sans lui, Pages fait une prévisualisation à URL aléatoire, pas la production.
 
-Après déploiement, vérifier en ligne (pas en local) : l'accueil, `/automatisations/`, les cinq études, `/sitemap-index.xml`, `/robots.txt` et `/og.png` en 200 sur les deux hôtes (`jonathan-dubois.pages.dev` et `jonathan-dubois.dev`), zéro erreur console.
+Après déploiement, vérifier en ligne (pas en local) : l'accueil, `/automatisations/`, les sept études, `/sitemap-index.xml`, `/robots.txt` et `/og.png` en 200 sur les deux hôtes (`jonathan-dubois.pages.dev` et `jonathan-dubois.dev`), zéro erreur console.
 
 ## Contenu
 
-- Cinq études de cas, dans l'ordre de l'accueil : pack BTP, pack thérapeutes, site sages-femmes, hub santé, Studio Moonkura — `src/content/realisations/*.md` (frontmatter validé par `src/lib/schema-realisation.ts`).
+- Sept études de cas, dans l'ordre de l'accueil (ce qui tourne pour de vrai d'abord, les démonstrateurs à la fin) : pack BTP, pack thérapeutes, site sages-femmes, Studio Moonkura, éditeur de montage vidéo, L'Atelier, hub santé — `src/content/realisations/*.md` (frontmatter validé par `src/lib/schema-realisation.ts`).
+- Section « Aussi construit » (sept cartes, sans page de détail) : démo agence immobilière, suppression de filigrane vidéo, console de pilotage, agent superviseur, bibliothèque d'effets 3D, Troisième Étage, pubs animées 3D — collection `src/content/aussi/*.md` (frontmatter validé par `src/lib/schema-aussi.ts`), assets dans `src/assets/aussi/<slug>/`, rendue par `AussiConstruit.astro` / `CarteAussi.astro` (ancre `#aussi`). Remplace l'ancienne section à deux vignettes : `src/data/vignettes.ts` et `Vignettes.astro` ont disparu.
 - Inventaire des automatisations : `src/data/automatisations.ts` — 100 workflows n8n relevés le 19/09/2026 (93 actifs), répartis par métier. Les comptes de l'accueil et de la page `/automatisations/` sont **recalculés depuis ce fichier**, jamais recopiés à la main : `comptes()` et `parMetier()` sont lus par `tests/chiffres.test.ts` et `tests/automatisations.test.ts`, qui échouent si les totaux divergent.
-- Statuts affichés partout (badge sur chaque tuile, chaque étude, chaque ligne d'inventaire) : `usage` (en usage quotidien), `demo` (pack de démonstration, en service) ou `demonstrateur` (démonstrateur, en construction). Le libellé de chaque statut et le fait qu'un métier n'en porte qu'un seul sont définis une fois dans `src/lib/verifier-contenu.ts` (`STATUTS`), rendus par `Badge.astro`.
-- Règle « client » : le mot ne peut s'écrire que comme « client de démonstration » ou dans une tournure « aucun client » / « pas encore de client » — jamais comme s'il désignait une personne réelle. Vérifiée automatiquement par `regleClient()` dans `src/lib/verifier-contenu.ts`, et par `motsInterdits()` pour les mots de tiers (`INTERDITS`). Fichiers scannés par `tests/realisations.test.ts` (plus `automatisations.ts` ligne par ligne dans `tests/automatisations.test.ts`) : les cinq études (`src/content/realisations/*.md`), `src/data/identite.ts`, `src/data/chiffres.json`, `src/data/vignettes.ts`, `src/data/stack.ts`, `src/data/automatisations.ts` et `src/scripts/flux-geometrie.ts` (d'où le renommage du nœud de hero « Réponse au client » → « Réponse au demandeur »).
-- Chiffres de l'accueil : `src/data/chiffres.json` — chaque chiffre porte sa source.
+- Statuts affichés partout (badge sur chaque tuile, chaque étude, chaque carte, chaque ligne d'inventaire) : `usage` (en usage quotidien), `demo` (pack de démonstration, en service), `demonstrateur` (démonstrateur, en construction) ou, depuis v3, `arrete` (« Arrêté », réservé aux cartes « Aussi construit » — la démo immo et le watermark remover). Le libellé de chaque statut et le fait qu'un métier n'en porte qu'un seul sont définis une fois dans `src/lib/verifier-contenu.ts` (`STATUTS`), rendus par `Badge.astro`.
+- Règle « production » : le mot (« en production », « en prod ») n'est admis que dans les études au statut `usage` (Studio Moonkura, sages-femmes) — jamais dans les packs, le hub, `identite.descriptionSite`, ni aucune des sept cartes « Aussi construit ». Vérifiée par `regleProduction()` dans `src/lib/verifier-contenu.ts`, testée par `tests/statuts.test.ts` et `tests/realisations.test.ts` (études) et `tests/aussi.test.ts` (cartes, sans exception).
+- Règle « client » : le mot ne peut s'écrire que comme « client de démonstration » ou dans une tournure « aucun client » / « pas encore de client » — jamais comme s'il désignait une personne réelle. Vérifiée automatiquement par `regleClient()` dans `src/lib/verifier-contenu.ts`, et par `motsInterdits()` pour les mots de tiers (`INTERDITS`). Fichiers scannés par `tests/realisations.test.ts` et `tests/aussi.test.ts` (plus `automatisations.ts` ligne par ligne dans `tests/automatisations.test.ts`) : les sept études (`src/content/realisations/*.md`), les sept cartes (`src/content/aussi/*.md`), `src/data/identite.ts`, `src/data/chiffres.json`, `src/data/stack.ts`, `src/data/automatisations.ts` et `src/scripts/flux-geometrie.ts` (d'où le renommage du nœud de hero « Réponse au client » → « Réponse au demandeur »).
+- Chiffres de l'accueil : `src/data/chiffres.json` — chaque chiffre porte sa source. Depuis v3 : « 9 applications en ligne » (aelto.fr, demo.aelto.fr, studio.aelto.fr, atelier.aelto.fr, les deux hôtes du hub santé, a-chaque-etape.fr, jonathan-dubois.dev et lab-effets.expertia059.workers.dev — la console de pilotage et l'agent superviseur restent hors compte, privés) et « 2 000+ tests automatisés » (somme détaillée dans la source, dont les 141 tests de L'Atelier).
 - Identité et contact : `src/data/identite.ts`. Les liens LinkedIn/GitHub s'affichent dès qu'ils sont renseignés (fait le 20/09/2026).
 - Mots interdits (aucun nom de tiers, aucun lieu) : `src/lib/verifier-contenu.ts` (`INTERDITS`, `INTERDITS_HUB`).
 
 ## Images
 
-- Les captures d'écran brutes vivent dans `captures-brutes/<slug>/` — dossier **ignoré par git** (`.gitignore`), jamais commité.
-- `npm run captures` (`scripts/preparer-captures.mjs`) les redimensionne à 1 600 px de large, tente un PNG ≤ 400 Ko puis, si le poids dépasse, bascule en WebP (qualité 82), et écrit le résultat dans `src/assets/realisations/<slug>/`. C'est ce dossier, versionné, que les études référencent via `astro:assets` (chargement paresseux, `<Image>` optimisée).
-- Chaque image du frontmatter porte un `alt` et une `légende` d'au moins dix caractères ; `tests/images.test.ts` vérifie la présence du fichier, son poids (≤ 400 Ko) et l'absence de fichier orphelin dans `src/assets/realisations/`.
-- Règle de confidentialité, valable pour toute capture : **aucun nom réel, aucune ville, aucune adresse e-mail ni numéro de téléphone** ne doit apparaître à l'écran. Seules des personæ de démonstration (« Marc », « Camille » — `PERSONAS` dans `src/lib/verifier-contenu.ts`) sont visibles dans les vignettes.
+- Les captures d'écran brutes vivent dans `captures-brutes/<slug>/` (études) et, depuis v3, `captures-brutes/aussi/<slug>/` (cartes) — deux dossiers **ignorés par git** (`.gitignore`), jamais commités.
+- `npm run captures` (`scripts/preparer-captures.mjs`) traite les deux dossiers sources : redimensionne à 1 600 px de large, tente un PNG ≤ 400 Ko puis, si le poids dépasse, bascule en WebP (qualité 82), et écrit le résultat dans `src/assets/realisations/<slug>/` ou `src/assets/aussi/<slug>/`. Ce sont ces dossiers, versionnés, que les études et les cartes référencent via `astro:assets` (chargement paresseux, `<Image>` optimisée) ; les vignettes de carte sont recadrées 640 × 400 en `quality={62}` (`CarteAussi.astro`) pour tenir le budget de poids de l'accueil.
+- Chaque image du frontmatter porte un `alt` (et, pour les études, une `légende`) d'au moins dix caractères ; `tests/images.test.ts` vérifie la présence du fichier et son poids (≤ 400 Ko) pour les études, `tests/aussi.test.ts` fait de même pour les cartes, et l'absence de fichier ou de dossier orphelin est vérifiée dans les deux dossiers d'assets.
+- Règle de confidentialité, valable pour toute capture, y compris celles de Jonathan pour l'éditeur vidéo, L'Atelier et les cartes : **aucun nom réel, aucune ville, aucune adresse e-mail ni numéro de téléphone** ne doit apparaître à l'écran — relecture pixel par pixel avant commit (noms de prospects du superviseur masqués). Seules des personæ de démonstration (« Marc », « Camille » — `PERSONAS` dans `src/lib/verifier-contenu.ts`) sont visibles dans les vignettes.
 
 ## Domaine
 
@@ -96,11 +98,8 @@ La montée vers Astro 7 est prévue **sur une branche dédiée**, avec rejeu des
 changement de version majeur (`npm audit fix --force` installerait `astro@7.3.3` et `vitest@5.0.1`)
 qui n'a pas sa place dans une vague de correction.
 
-## Reste à faire par Jonathan (spec § 10)
+## Reste à faire par Jonathan
 
-- Photo : faite (`src/assets/portrait.jpg`). LinkedIn et GitHub : faits, liens en place dans `src/data/identite.ts`.
-- Domaine perso : `jonathan-dubois.dev` acheté et rattaché au projet Pages (20/09/2026). Email Routing : `contact@jonathan-dubois.dev` → boîte Gmail (Orange refuse les relais Cloudflare : « 550 5.1.0 Émetteur bloqué… Abusix/SpamHaus »), prouvé par un envoi réel le 20/09 ; `identite.email` basculée. Obfuscation d'e-mail Cloudflare désactivée sur la zone (le mailto reste un lien propre).
-- Dépôt public : `https://github.com/jonathan-dubois-dev/portfolio` (poussé le 21/09/2026 ; commits signés de l'adresse anonyme GitHub du compte).
 - Revérifier « 53 prestations » et « T = 0,2 » dans le prompt du workflow BTP `VPE9l7koecmNMvms`.
 - Recompter le pytest du studio (1 256 cité dans `src/data/chiffres.json` vient du journal du dépôt, pas d'une exécution relancée le 19/09).
 - Montée Astro 7 (voir « Sécurité des dépendances » ci-dessus) : sur une branche dédiée, avec rejeu de `npm test` et `npm run e2e`.
