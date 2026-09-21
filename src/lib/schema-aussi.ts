@@ -11,7 +11,7 @@ export const schemaAussi = z.object({
     fichier: z.string().regex(/^[a-z0-9-]+\.(png|webp)$/),
     // Documente la capture pour la relecture ; jamais rendu (la vignette est décorative, alt="") — ne pas “réparer”
     alt: z.string().min(10),
-    position: z.enum(["top", "center"]).default("top"),
+    position: z.enum(["top", "center", "bottom"]).default("top"),
   }),
 });
 export type Aussi = z.infer<typeof schemaAussi>;
