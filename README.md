@@ -12,7 +12,7 @@ npm run e2e       # build + Playwright (Chromium, port 4322) : pages, hero, accu
 npm run dev       # http://127.0.0.1:4322/
 ```
 
-Première vue de l'accueil (`networkidle`) mesurée le 21/09/2026, vignettes de carte recadrées (voir « Images ») : 161 647 octets (budget 350 000). Garde complémentaire, plus stricte : les 15 vignettes de l'accueil (sept études, sept cartes, portrait), toutes chargées : 164 098 octets (budget 200 000).
+Première vue de l'accueil (`networkidle`) mesurée le 21/09/2026, vignettes de carte recadrées (voir « Images ») : 161 647 octets (budget 350 000). Garde complémentaire, plus stricte : les 15 vignettes de l'accueil (sept études, sept cartes, portrait), toutes chargées : 164 098 octets (budget 180 000).
 
 ## Tests
 

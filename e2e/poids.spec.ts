@@ -26,13 +26,13 @@ test("première vue de /automatisations/ < 1 Mo", async ({ page }) => {
   expect(total).toBeLessThan(1_000_000);
 });
 
-test("les vignettes de l'accueil, toutes chargées, tiennent sous 200 Ko", async ({ page, request }) => {
+test("les vignettes de l'accueil, toutes chargées, tiennent sous 180 Ko", async ({ page, request }) => {
   await page.goto("/");
   const srcs = await page.locator("img[src^='/_astro/']").evaluateAll((els) => els.map((i) => i.getAttribute("src")!));
   expect(srcs.length).toBe(15); // 7 études + 7 cartes + portrait
   let total = 0;
   for (const s of srcs) total += (await (await request.get(s)).body()).length;
-  expect(total).toBeLessThan(200_000); // mesuré 164 098 le 21/09/2026
+  expect(total).toBeLessThan(180_000); // mesuré 164 098 le 21/09/2026 ; la mutation quality={62} retirée donne 192 886, désormais rouge
 });
 
 test("le semi-gras est plus large que le regular", async ({ page }) => {
