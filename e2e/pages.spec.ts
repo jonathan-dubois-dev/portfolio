@@ -32,6 +32,13 @@ for (const slug of ["pack-btp", "pack-therapeutes", "site-sages-femmes", "hub-sa
   });
 }
 
+for (const slug of ["editeur-video", "atelier"]) {
+  test(`/realisations/${slug}/ : la galerie compte au moins trois figures`, async ({ page }) => {
+    await page.goto(`/realisations/${slug}/`);
+    await expect(page.locator("figure[data-figure]")).toHaveCount(3);
+  });
+}
+
 test("seuls les packs BTP et thérapeutes renvoient vers leur bloc de l'inventaire", async ({ page }) => {
   await page.goto("/realisations/pack-btp/");
   await expect(page.locator('a[href="/automatisations/#btp"]')).toHaveCount(1);

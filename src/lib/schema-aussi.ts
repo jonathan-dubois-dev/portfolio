@@ -7,6 +7,11 @@ export const schemaAussi = z.object({
   statut: z.enum(["usage", "demo", "demonstrateur", "arrete"]),
   ordre: z.number().int().min(1).max(7),
   lien: z.object({ libelle: z.string().min(3), url: z.string().min(1) }).optional(),
-  image: z.object({ fichier: z.string().regex(/^[a-z0-9-]+\.(png|webp)$/), alt: z.string().min(10) }),
+  image: z.object({
+    fichier: z.string().regex(/^[a-z0-9-]+\.(png|webp)$/),
+    // Documente la capture pour la relecture ; jamais rendu (la vignette est décorative, alt="") — ne pas “réparer”
+    alt: z.string().min(10),
+    position: z.enum(["top", "center"]).default("top"),
+  }),
 });
 export type Aussi = z.infer<typeof schemaAussi>;

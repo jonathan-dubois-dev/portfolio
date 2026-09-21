@@ -28,6 +28,9 @@ describe("les jetons du site", () => {
   it("le vert du badge « en usage » passe AA sur le fond (≥ 4,5)", () => {
     expect(contraste("#1f7a4f", JETONS.fond)).toBeGreaterThanOrEqual(4.5);
   });
+  it("le badge « Arrêté » (encre sur trait) passe AA (≥ 4,5)", () => {
+    expect(contraste(JETONS.encre, JETONS.trait)).toBeGreaterThanOrEqual(4.5);
+  });
   it("global.css porte exactement les mêmes valeurs", () => {
     const css = readFileSync("src/styles/global.css", "utf8");
     for (const [nom, hex] of Object.entries(JETONS)) expect(css, nom).toContain(hex);

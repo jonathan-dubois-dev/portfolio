@@ -6,8 +6,12 @@ import { join, parse } from "node:path";
 
 const LARGEUR = 1600, MAX = 400_000;
 
-async function traiter(src, dst, ignores) {
-  if (!existsSync(src)) { console.error(`${src}/ absent`); process.exit(2); }
+async function traiter(src, dst, ignores, requis = true) {
+  if (!existsSync(src)) {
+    if (!requis) return 0;
+    console.error(`${src}/ absent`);
+    process.exit(2);
+  }
   let n = 0;
   for (const slug of readdirSync(src).filter((d) => !ignores.includes(d) && statSync(join(src, d)).isDirectory())) {
     mkdirSync(join(dst, slug), { recursive: true });
@@ -24,5 +28,5 @@ async function traiter(src, dst, ignores) {
 }
 
 const n1 = await traiter("captures-brutes", "src/assets/realisations", ["telegram", "aussi"]);
-const n2 = await traiter("captures-brutes/aussi", "src/assets/aussi", []);
+const n2 = await traiter("captures-brutes/aussi", "src/assets/aussi", [], false);
 console.log(`${n1 + n2} capture(s) préparée(s) dans src/assets/realisations/ et src/assets/aussi/`);

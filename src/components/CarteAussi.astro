@@ -8,7 +8,7 @@ const { slug, d } = Astro.props;
 const externe = d.lien && /^https?:/.test(d.lien.url);
 ---
 <article class="carte" data-aussi>
-  <Image src={imageAussi(slug, d.image.fichier)} alt="" width={640} height={400} fit="cover" position="top" format="webp" quality={62} loading="lazy" decoding="async" class="vignette" />
+  <Image src={imageAussi(slug, d.image.fichier)} alt="" width={640} height={400} fit="cover" position={d.image.position} format="webp" quality={62} loading="lazy" decoding="async" class="vignette" />
   <Badge statut={d.statut} />
   <h3>{d.titre}</h3>
   <p>{d.phrase}</p>
