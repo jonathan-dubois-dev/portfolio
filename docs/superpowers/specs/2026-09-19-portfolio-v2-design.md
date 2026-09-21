@@ -32,8 +32,9 @@ Le schéma `statut` de la collection passe à `z.enum(["usage", "demo", "demonst
 (l'ancien `production` disparaît). Le badge est rendu **pour tous**, pas
 seulement le hub. Une phrase de statut (`statutLigne`) devient obligatoire.
 
-Mots interdits : liste v1 + **`compagne`** + **`Maison Aube`** (nom provisoire du
-site sages-femmes). Dans les fichiers BTP, thérapeutes, immo et hub : `client`
+Mots interdits : liste v1 + deux termes de plus (le lien personnel avec le cabinet
+de sages-femmes, et l'ancien nom de travail de son site) — la liste vit dans
+`src/lib/verifier-contenu.ts`. Dans les fichiers BTP, thérapeutes, immo et hub : `client`
 ne peut apparaître que dans « client de démonstration » ou « aucun client » —
 testé par une règle : toute occurrence de `client` doit être suivie de
 « de démonstration » ou précédée de « aucun » / « pas encore de ».
