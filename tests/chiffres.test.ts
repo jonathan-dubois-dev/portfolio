@@ -19,8 +19,14 @@ describe("les chiffres de l'accueil", () => {
     expect(chiffres[0].valeur).toBe(`${c.total} · ${c.actifs} actifs`);
     expect(chiffres[0].libelle).toBe("workflows n8n construits");
   });
-  it("le chiffre des applications liste huit noms", () => {
-    expect(chiffres[2].valeur).toBe("8");
-    expect(chiffres[2].source.split("·").length).toBe(8);
+  it("le chiffre des applications est le nombre de noms de sa source", () => {
+    expect(chiffres[2].valeur).toBe(String(chiffres[2].source.split("·").length));
+    expect(chiffres[2].source).toContain("lab-effets.expertia059.workers.dev");
+  });
+  it("le chiffre des tests est la somme écrite dans sa source, arrondie vers le bas", () => {
+    const nombres = [...chiffres[1].source.matchAll(/(\d[\d ]*\d|\d) (?:vitest|e2e|pytest)/g)].map((m) => Number(m[1].replace(/ /g, "")));
+    const somme = nombres.reduce((s, n) => s + n, 0);
+    expect(chiffres[1].source).toContain(`somme ${somme.toLocaleString("fr-FR")}`);
+    expect(chiffres[1].valeur).toBe(`${Math.floor(somme / 1000)} 000+`);
   });
 });

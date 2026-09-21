@@ -18,7 +18,7 @@ const realisations = (await getCollection("realisations")).sort((a, b) => a.data
   <main id="contenu" class="colonne" tabindex="-1">
     <Chiffres />
     <section class="section" id="realisations">
-      <h2>Cinq réalisations</h2>
+      <h2>Sept réalisations</h2>
       <div class="cartes">
         {realisations.map((r) => <CarteRealisation slug={r.id} d={r.data} />)}
       </div>

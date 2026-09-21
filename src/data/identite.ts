@@ -8,5 +8,5 @@ export const identite = {
   email: "contact@jonathan-dubois.dev",
   liens: { linkedin: "https://www.linkedin.com/in/jonathan-dubois-dev", github: "https://github.com/jonathan-dubois-dev" },
   descriptionSite:
-    "Ingénieur automatisation IA et creative technologist à Toulouse : agents, workflows n8n, applications sur Cloudflare, génératif. Cinq réalisations documentées, testées et pesées.",
+    "Ingénieur automatisation IA et creative technologist à Toulouse : agents, workflows n8n, applications sur Cloudflare, génératif. Sept réalisations documentées, testées et pesées.",
 };
