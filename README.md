@@ -100,7 +100,7 @@ qui n'a pas sa place dans une vague de correction.
 
 - Photo : faite (`src/assets/portrait.jpg`). LinkedIn et GitHub : faits, liens en place dans `src/data/identite.ts`.
 - Domaine perso : `jonathan-dubois.dev` acheté et rattaché au projet Pages (20/09/2026). Email Routing : `contact@jonathan-dubois.dev` → boîte Gmail (Orange refuse les relais Cloudflare : « 550 5.1.0 Émetteur bloqué… Abusix/SpamHaus »), prouvé par un envoi réel le 20/09 ; `identite.email` basculée. Obfuscation d'e-mail Cloudflare désactivée sur la zone (le mailto reste un lien propre).
-- Compte GitHub puis `git remote add origin … && git push -u origin main` (le dépôt n'a toujours aucun distant).
+- Dépôt public : `https://github.com/jonathan-dubois-dev/portfolio` (poussé le 21/09/2026 ; commits signés de l'adresse anonyme GitHub du compte).
 - Revérifier « 53 prestations » et « T = 0,2 » dans le prompt du workflow BTP `VPE9l7koecmNMvms`.
 - Recompter le pytest du studio (1 256 cité dans `src/data/chiffres.json` vient du journal du dépôt, pas d'une exécution relancée le 19/09).
 - Montée Astro 7 (voir « Sécurité des dépendances » ci-dessus) : sur une branche dédiée, avec rejeu de `npm test` et `npm run e2e`.
