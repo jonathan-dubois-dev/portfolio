@@ -1,0 +1,25 @@
+---
+import { Image } from "astro:assets";
+import type { Aussi } from "../lib/schema-aussi";
+import { imageAussi } from "../lib/images";
+import Badge from "./Badge.astro";
+interface Props { slug: string; d: Aussi }
+const { slug, d } = Astro.props;
+const externe = d.lien && /^https?:/.test(d.lien.url);
+---
+<article class="carte" data-aussi>
+  <Image src={imageAussi(slug, d.image.fichier)} alt="" width={640} height={400} fit="cover" position="top" format="webp" quality={62} loading="lazy" decoding="async" class="vignette" />
+  <Badge statut={d.statut} />
+  <h3>{d.titre}</h3>
+  <p>{d.phrase}</p>
+  {d.lien && (externe
+    ? <a class="lien" href={d.lien.url} target="_blank" rel="noopener">{d.lien.libelle} ↗</a>
+    : <a class="lien" href={d.lien.url}>{d.lien.libelle} →</a>)}
+</article>
+<style>
+  .carte{border:1px solid var(--trait);border-radius:6px;padding:1.2rem;display:grid;gap:.7rem;align-content:start}
+  .vignette{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:4px}
+  h3{font-family:var(--display);font-variation-settings:'wdth' 106;font-weight:700;font-size:1.1rem;line-height:1.2;margin:0;text-wrap:balance}
+  p{margin:0;font-size:.92rem;color:var(--doux)}
+  .lien{font-size:.9rem;color:var(--encre);text-decoration:none;border-bottom:1px solid var(--accent);width:max-content}
+</style>

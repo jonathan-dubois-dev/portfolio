@@ -15,7 +15,6 @@ const fichiers = readdirSync(DOSSIER).filter((f) => f.endsWith(".md"));
 const FICHIERS_DONNEES_SCANNES = [
   "src/data/identite.ts",
   "src/data/chiffres.json",
-  "src/data/vignettes.ts",
   "src/data/stack.ts",
   "src/data/automatisations.ts",
   "src/scripts/flux-geometrie.ts",

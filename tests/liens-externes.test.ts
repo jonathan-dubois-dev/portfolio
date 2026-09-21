@@ -1,20 +1,23 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { vignettes } from "../src/data/vignettes";
 import { LIENS_SUR_INVITATION } from "../src/data/liens-sur-invitation";
 import { identite } from "../src/data/identite";
 import { frontmatter } from "./lib/frontmatter";
 
 const DOSSIER = join(process.cwd(), "src/content/realisations");
+const DOSSIER_AUSSI = join(process.cwd(), "src/content/aussi");
 
-/** Toutes les URL publiées : les `liens` des cinq études de cas, les `url` des vignettes — avec le texte qui les annonce. */
+/** Toutes les URL publiées : les `liens` des cinq études de cas, les `lien` des cartes « Aussi construit » — avec le texte qui les annonce. */
 const urls: { url: string; origine: string; texte: string }[] = [];
 for (const f of readdirSync(DOSSIER).filter((n) => n.endsWith(".md"))) {
   const fm = frontmatter(readFileSync(join(DOSSIER, f), "utf8")) as { liens?: { url: string; libelle: string }[] };
   for (const l of fm.liens ?? []) urls.push({ url: l.url, origine: f, texte: l.libelle });
 }
-for (const v of vignettes) if (v.url) urls.push({ url: v.url, origine: "vignettes.ts", texte: v.titre });
+for (const f of readdirSync(DOSSIER_AUSSI).filter((n) => n.endsWith(".md"))) {
+  const fm = frontmatter(readFileSync(join(DOSSIER_AUSSI, f), "utf8")) as { lien?: { url: string; libelle: string } };
+  if (fm.lien && /^https?:/.test(fm.lien.url)) urls.push({ url: fm.lien.url, origine: `aussi/${f}`, texte: fm.lien.libelle });
+}
 for (const url of Object.values(identite.liens)) if (url) urls.push({ url, origine: "identite.ts", texte: url });
 
 const originesSurInvitation = new Set(LIENS_SUR_INVITATION.map((u) => new URL(u).origin));

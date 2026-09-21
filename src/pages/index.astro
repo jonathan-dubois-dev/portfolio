@@ -5,7 +5,7 @@ import Hero from "../components/Hero.astro";
 import Chiffres from "../components/Chiffres.astro";
 import CarteRealisation from "../components/CarteRealisation.astro";
 import Tuiles from "../components/Tuiles.astro";
-import Vignettes from "../components/Vignettes.astro";
+import AussiConstruit from "../components/AussiConstruit.astro";
 import Methode from "../components/Methode.astro";
 import Stack from "../components/Stack.astro";
 import Contact from "../components/Contact.astro";
@@ -24,7 +24,7 @@ const realisations = (await getCollection("realisations")).sort((a, b) => a.data
       </div>
     </section>
     <Tuiles />
-    <Vignettes />
+    <AussiConstruit />
     <Methode />
     <Stack />
     <Contact />

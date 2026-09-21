@@ -1,0 +1,14 @@
+---
+import { getCollection } from "astro:content";
+import CarteAussi from "./CarteAussi.astro";
+const cartes = (await getCollection("aussi")).sort((a, b) => a.data.ordre - b.data.ordre);
+---
+<section class="section" id="aussi">
+  <h2>Aussi construit</h2>
+  <p class="intro">Ce qui n'a pas sa page mais a tourné — avec son statut vrai.</p>
+  <div class="grille">{cartes.map((c) => <CarteAussi slug={c.id} d={c.data} />)}</div>
+</section>
+<style>
+  .intro{margin:0 0 1.4rem;color:var(--doux)}
+  .grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1.2rem}
+</style>

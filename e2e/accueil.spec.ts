@@ -22,9 +22,20 @@ test("cinq cartes de réalisation, dans l'ordre, qui mènent aux pages", async (
   await expect(page).toHaveURL(/\/realisations\/pack-btp\/$/);
 });
 
-test("deux vignettes", async ({ page }) => {
+test("sept cartes « Aussi construit », illustrées, deux arrêtées, trois liens externes", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("#aussi [data-vignette]")).toHaveCount(2);
+  const cartes = page.locator("#aussi article[data-aussi]");
+  await expect(cartes).toHaveCount(7);
+  await expect(page.locator("#aussi h2")).toHaveText("Aussi construit");
+  await expect(page.locator("#aussi [data-vignette]")).toHaveCount(0);
+  await expect(page.locator("#aussi [data-badge][data-statut='arrete']")).toHaveCount(2);
+  await expect(page.locator("#aussi a[href^='http'][target='_blank'][rel='noopener']")).toHaveCount(3);
+  await expect(cartes.nth(0).locator("a[href='/automatisations/#immo']")).toHaveCount(1);
+  const img = cartes.nth(0).locator("img");
+  await expect(img).toHaveAttribute("loading", "lazy");
+  await expect(img).toHaveAttribute("alt", "");
+  await img.scrollIntoViewIfNeeded();
+  await expect.poll(() => img.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
 });
 
 test("méthode en quatre lignes, stack, contact avec mailto et disponibilité", async ({ page }) => {
@@ -60,8 +71,4 @@ test("six tuiles par métier avec leurs comptes, et le lien vers l'inventaire", 
   await expect(tuiles.nth(0)).toContainText("29");
   await expect(tuiles.nth(0).locator("a")).toHaveAttribute("href", "/automatisations/#btp");
   await expect(page.locator("#tourne a[href='/automatisations/']")).toHaveText(/Voir les 100/);
-});
-test("l'atelier est annoté « accès sur invitation »", async ({ page }) => {
-  await page.goto("/");
-  await expect(page.locator("#aussi [data-vignette]").nth(0)).toContainText("accès sur invitation");
 });
