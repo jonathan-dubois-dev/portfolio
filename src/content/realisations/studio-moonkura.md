@@ -1,6 +1,6 @@
 ---
 titre: "Station audio collaborative en ligne — séparation de pistes par IA, tempo variable"
-prouve: "Creative technologist et rigueur à la fois : audio temps réel dans le navigateur, GPU local, 1 256 tests et des mutations pour les prouver."
+prouve: "Creative technologist et rigueur à la fois : audio temps réel dans le navigateur, GPU local, 1 406 tests et des mutations pour les prouver."
 statut: usage
 statutLigne: "En production : utilisé au quotidien par deux groupes de musique, depuis un PC, une tablette et un téléphone."
 ordre: 4
@@ -13,7 +13,7 @@ construit:
   - "L'étiquetage automatique de la tonalité de chaque piste à sa naissance (basse Am, voix Am…), jamais sur la batterie."
   - "Une carte de tempo et de signature : le son suit la carte par étirement temporel à hauteur préservée, jointures sans accroc (0,00 ms mesuré)."
   - "Des espaces cloisonnés structurellement — la racine des fichiers est recalculée depuis l'espace résolu du demandeur, aucun refus n'est écrit à la main — et un partage par niveau."
-  - "1 256 tests Python et 3 270 sous-tests, une centaine de scénarios navigateur, et des mutations pour vérifier que chaque test rougit quand on retire ce qu'il protège."
+  - "1 406 tests Python, une centaine de scénarios navigateur, et des mutations pour vérifier que chaque test rougit quand on retire ce qu'il protège."
 schema: ["Dépôt du morceau", "Demucs sur GPU", "Quatre pistes nommées", "Carte de tempo", "Lecture par tranches", "Partage d'espace"]
 preuves:
   - "En ligne et utilisé par trois personnes, depuis un PC, une tablette et un téléphone."

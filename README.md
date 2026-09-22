@@ -100,7 +100,5 @@ qui n'a pas sa place dans une vague de correction.
 
 ## Reste à faire par Jonathan
 
-- Revérifier « 53 prestations » et « T = 0,2 » dans le prompt du workflow BTP `VPE9l7koecmNMvms`.
-- Recompter le pytest du studio (1 256 cité dans `src/data/chiffres.json` vient du journal du dépôt, pas d'une exécution relancée le 19/09).
 - Montée Astro 7 (voir « Sécurité des dépendances » ci-dessus) : sur une branche dédiée, avec rejeu de `npm test` et `npm run e2e`.
 - Extrait audio Moonkura pour l'étude Studio Moonkura (ou assumer qu'il n'y en aura aucun).

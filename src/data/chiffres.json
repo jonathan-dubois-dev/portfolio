@@ -7,7 +7,7 @@
   {
     "valeur": "2 000+",
     "libelle": "tests automatisés",
-    "source": "suites relancées le 19/09/2026 : hub 177 vitest + 56 e2e, vitrine 61 vitest + 70 e2e, moteur de séparation 97 pytest, Troisième Étage 93 vitest + 116 e2e ; studio 1 256 pytest (journal du dépôt) ; L'Atelier 141 vitest (relancés le 21/09/2026) — somme 2 067"
+    "source": "suites relancées le 19/09/2026 : hub 177 vitest + 56 e2e, vitrine 61 vitest + 70 e2e, moteur de séparation 97 pytest, Troisième Étage 93 vitest + 116 e2e ; studio 1 406 pytest (collecte relancée le 22/09/2026) ; L'Atelier 141 vitest (relancés le 21/09/2026) — somme 2 217"
   },
   {
     "valeur": "9",

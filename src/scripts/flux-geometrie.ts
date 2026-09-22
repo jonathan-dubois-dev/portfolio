@@ -6,7 +6,7 @@ export type Region = { x: number; y: number; w: number; h: number };
  *  elles ne sont plus écrites à la main : un libellé n'a qu'un libellé. */
 export const NOEUDS: string[] = [
   "Webhook /btp-estimation",
-  "Notion · 53 prestations",
+  "Notion · 55 prestations",
   "Compactage",
   "LLM · T = 0,2",
   "Garde-fous G1–G4",

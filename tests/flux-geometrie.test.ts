@@ -7,7 +7,7 @@ const LARGEURS = [150, 200, 80, 90, 120, 110, 120];
 describe("le graphe", () => {
   it("porte les sept briques réelles de l'estimateur, dans l'ordre, et rien d'autre", () => {
     expect(NOEUDS).toEqual([
-      "Webhook /btp-estimation", "Notion · 53 prestations", "Compactage", "LLM · T = 0,2",
+      "Webhook /btp-estimation", "Notion · 55 prestations", "Compactage", "LLM · T = 0,2",
       "Garde-fous G1–G4", "Notion · Telegram", "Réponse au demandeur",
     ]);
   });

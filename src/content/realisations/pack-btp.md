@@ -8,7 +8,7 @@ resume: "Vingt-neuf workflows qui se tiennent : estimation, visite, devis, chant
 contexte: "Un plombier de démonstration reçoit des demandes imprécises. Le pack couvre tout son cycle sans qu'il touche un logiciel : il valide depuis Telegram, le reste part tout seul — estimation, créneaux de visite, devis, facture, relances, demande d'avis."
 metier: btp
 construit:
-  - "Estimation IA d'une demande : catalogue de 53 prestations, modèle en sortie JSON, quatre garde-fous déterministes, repli explicite quand la nature des travaux n'est pas reconnaissable."
+  - "Estimation IA d'une demande : catalogue de 55 prestations, modèle en sortie JSON, quatre garde-fous déterministes, repli explicite quand la nature des travaux n'est pas reconnaissable."
   - "Validation par l'artisan depuis Telegram : boutons à retour instantané, routeur de callbacks, e-mail nominatif au demandeur au nom de l'artisan."
   - "Visite : proposition de créneau, confirmation par le demandeur d'un clic, validation de l'artisan, annulation possible jusqu'au bout — chaque étape trace une activité."
   - "Devis pré-rempli depuis les briques de l'estimation, catalogue avec autocomplétion, remise, conditions, envoi et acceptation en ligne."
